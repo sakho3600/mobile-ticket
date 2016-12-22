@@ -1,0 +1,14 @@
+{
+ "apigw_ip_port" : {
+     "value" : "192.168.0.1:9090",
+     "description" : "API Gateway - host address"
+      },
+ "local_webserver_port" : {
+     "value" : "80",
+     "description" : "Local webserver port"
+     },
+ "auth_token" : {
+     "value" : "nosecrets", 
+     "description" : "Mobile API user - authentication token"
+     }
+}

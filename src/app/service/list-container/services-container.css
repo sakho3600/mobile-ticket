@@ -1,0 +1,18 @@
+.service-list-container {
+  margin-bottom: 2em;
+}
+
+.btn-text {
+  width: 80%;
+  vertical-align: super;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qm-footer {
+  padding: 1em;
+  margin-bottom: 2px;
+}
+

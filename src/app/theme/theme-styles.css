@@ -1,0 +1,31 @@
+/* Start customizing your app */
+
+/* Edit to change font color */
+.custom.text-color{
+  color: #FFFFFF !important;
+}
+
+/* Edit to change accent color of buttons */
+.custom.accent-bg-color {
+  background: #A9023A !important;
+}
+
+/* Edit to change accent color of tick mark */
+.custom.accent-tick-color.tick {
+  stroke: #A9023A !important;
+}
+
+/* Edit to change app background */
+.custom.bg-image {
+  background: url('../../app/resources/background.png') !important;
+}
+
+/* Edit to change app logo */
+.custom.logo-image {
+  content: url('../../app/resources/qmLogo.png') !important;
+}
+
+/* Edit to change logo background */
+.custom.logo-bg-color {
+  background: transparent !important;
+}

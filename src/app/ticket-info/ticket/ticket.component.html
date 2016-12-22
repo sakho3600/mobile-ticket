@@ -1,0 +1,7 @@
+<div class="sub-heading-text-1 ticket_branch custom text-color">{{ branchEntity.name }}</div>
+<div *ngIf="!isTicketEndedOrDeleted" class="ticket_container ticket_info">
+    <div class="ticket_nmbr">{{ticketEntity.ticketNumber}}</div>
+    <div class="sub-heading-text-2" style="color: black; font-size: 1.2em">{{ serviceEntity.name }}</div>
+</div>
+<div *ngIf="isTicketEndedOrDeleted" class="center-text sub-heading-text-3" style="margin-top: 1.2em;">{{ ticketRemovedHeading }}
+</div>

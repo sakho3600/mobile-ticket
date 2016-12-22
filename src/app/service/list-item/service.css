@@ -1,0 +1,87 @@
+.service-btn {
+  max-width: 350px;
+  color: black;
+  line-height: 4em;
+  margin: 5px auto;
+
+  background: url('app/resources/serviceBtn.png');
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+  position: relative;
+}
+
+.service-btn:hover {
+  background: url('app/resources/serviceBtn_active.png');
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.service-btn:active, .service-btn-active {
+  background: url('app/resources/serviceBtn_active.png');
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.btn-text {
+  width: 80%;
+  vertical-align: super;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.waiting-text {
+  font-family: "Helvetica";
+  font-weight: 300;
+}
+
+svg.tick {
+  width: 23px;
+  vertical-align: sub;
+}
+
+.tick-container {
+  position: absolute;
+  left: 0;
+  margin-left: 23px;
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 350px) {
+  .service-btn {
+    font-size: 12px !important;
+  }
+
+  svg.tick {
+    width: 20px !important;
+    vertical-align: sub;
+  }
+
+  .tick-container {
+    position: absolute;
+    left: 0;
+    margin-left: 18px !important;
+  }
+}
+
+@media only screen and (max-width: 210px) {
+  .tick-container {
+    margin-left: 8px !important;
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  .service-btn {
+    font-size: 10px !important;
+  }
+
+  svg.tick {
+    width: 16px !important;
+    vertical-align: sub;
+  }
+}

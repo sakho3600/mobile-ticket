@@ -1,0 +1,41 @@
+<div class="row" [hidden]="isVisitCall">
+  <div class="col-xs-1 col-xxs"></div>
+  <div class="col-xs-10 col-xxs">
+    <div>
+      <app-queue-container (onVisitStatusUpdate)='onVisitStatusUpdate($event)'></app-queue-container>
+    </div>
+  </div>
+  <div class="col-xs-1 col-xxs"></div>
+</div>
+<div [hidden]="!isVisitCall" class="row">
+  <div class="col-xs-1 col-xxs"></div>
+  <div class="col-xs-10 col-xxs">
+    <div class="center-text sub-heading-text-2 custom text-color">
+      <div [innerHTML]="visitCallMsg"></div>
+    </div>
+  </div>
+  <div class="col-xs-1 col-xxs"></div>
+</div>
+<div class="row">
+  <div class="col-xs-1 col-xxs"></div>
+  <div class="col-xs-10 col-xxs">
+    <div>
+      <app-ticket [isTicketEndedOrDeleted]="isTicketEndedOrDeleted"></app-ticket>
+    </div>
+  </div>
+  <div class="col-xs-1 col-xxs"></div>
+</div>
+<footer class="footer navbar-fixed-bottom qm-footer">
+  <div [hidden]="isVisitCall" class="container">
+    <div class="row">
+      <div class="col-xs-1 col-xxs"></div>
+      <div class="col-xs-10 col-xxs">
+        <div class="list_container">
+            <app-visit-cancel [isTicketEndedOrDeleted]="isTicketEndedOrDeleted"></app-visit-cancel>
+        </div>
+      </div>
+      <div class="col-xs-1 col-xxs"></div>
+    </div>
+  </div>
+</footer>
+

@@ -1,0 +1,7 @@
+<div class="list-container">
+   <app-service [name]="service.name" [customersWaiting]="service.customersWaiting" [entity]="service" [selected]="service.selected"
+    (onSelection)='resetSelections($event)' *ngFor="let service of (services | sort : 'name')"></app-service>
+</div>
+<div class="list-shadow" >
+
+</div>

@@ -1,0 +1,58 @@
+@font-face {font-family: "Nanami-Rounded-Light";
+  src: url("app/resources/Nanami-Rounded-Light.otf");
+}
+
+@font-face {font-family: "Nanami-Rounded-Medium";
+  src: url("app/resources/Nanami-Rounded-Medium.otf");
+}
+
+.caption {
+  text-align: center;
+  font-size: 2em;
+  color: #FFFFFF;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.logo-margin {
+  margin:  36px 0 10px 0;
+}
+
+.logo-container{
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.bg {
+  background: url('app/resources/background.png');
+  background-size: cover !important;
+  background-position: center center !important;
+  min-height: 100vh;
+}
+
+.full-with{
+  width: 100%;
+}
+
+.logo{
+  width: 150px;
+  margin: 0 auto;
+  content: url('app/resources/qmLogo.png');
+}
+
+.frame {
+  height: 6em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+

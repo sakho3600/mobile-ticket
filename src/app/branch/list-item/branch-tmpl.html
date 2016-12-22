@@ -1,0 +1,9 @@
+<div class="branch-btn bg common-btn center-text">
+  <div class="btn-text" (click)='selectBranch(entity)'>
+    {{ name }}
+  </div>
+  <div class="more-info">
+    <span *ngIf="address" class="branch-btn-text"> {{ address }} </span>
+    <span [class.branch-addr-padding]="address" class="branch-addr" > {{ " ( " + distance + " ) " }}</span>
+  </div>
+</div>

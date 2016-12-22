@@ -1,0 +1,16 @@
+<div
+  [ngClass]="{'service-btn': !selected, 'service-btn-active': selected, 'service-btn': true, 'common-btn' : true, 'center-text' : true}"
+  (click)='onSelectService(entity)'>
+  <div class="btn-text row common-btn">
+    <span class="tick-container" id="selection" *ngIf="selected">
+      <svg class="custom accent-tick-color tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44.69 46.89"><defs><style>.cls-1 {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 8px;
+      }</style></defs><title>Asset 27</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polyline
+        class="cls-1" points="4 29.48 18.36 42.89 40.69 4"/></g></g></svg>
+    </span>
+    <div id="service_name"><span>{{ name }}</span><span class="waiting-text">&nbsp;(</span> {{ customersWaiting }} <span>)</span></div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+{
+ "branch_radius" : {
+     "value" : "2147483647",
+     "description" : "Radius to include branches within (in meters)"
+      },
+ "version" : {
+     "value" : "1.0.0.2",
+     "description" : "MobileTicket version"
+     }
+}

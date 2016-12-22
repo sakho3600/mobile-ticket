@@ -1,0 +1,35 @@
+.ticket_container{
+    background: url('app/resources/Ticket.png');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: contain;
+    height: 120px;
+}
+
+.ticket_info{
+    text-align: center;
+    font-weight: bold;
+}
+
+.ticket_branch{
+    text-align: center;
+    padding-bottom: 1em;
+    padding-top: 1em;
+    font-size: 1.2em !important;
+}
+
+.ticket_nmbr {
+    line-height: 40px;
+    font-size: 2.5em;
+    padding-top: 0.8em;
+}
+
+.ticket-text {
+  width: 80%;
+  vertical-align: super;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
