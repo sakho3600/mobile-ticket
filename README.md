@@ -1,6 +1,6 @@
 # QMATIC Mobile Ticket
-Qmatic mobile ticket solution is intended to issue e-tickets to the customers who are villing to go through the queue management solution by QMATIC. 
-This is a web appllication that has been developed using Angular2 and the development environment of the project uses Angular-cli tools 
+Qmatic mobile ticket solution is intended to issue e-tickets to the customers who are willing to go through the queue management solution by QMATIC. 
+This is a web application that has been developed using Angular2 and the development environment of the project uses Angular-cli tools 
 (https://github.com/angular/angular-cli).
 ## Prerequisites
 Angular-cli tools requires Node 4 or higher, together with NPM 3 or higher.
@@ -22,12 +22,12 @@ Clone the Mobile Ticket Solution
 ```
 git clone https://github.com/mticketobile/mobileticket.git
 ```
-We recomment the visual code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
+We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
 
-## Proxy to Backend
+## Proxy to Back end
 
-Mobile Ticket solution is intended to work with QMATIC API Gateway service which provides anoynimous access to Orchestra REST API. The Mobile Ticket solution
-is required to be hosted seperatly and all the REST API calls are proxied to avoid cross domain access violations. 
+Mobile Ticket solution is intended to work with QMATIC API Gateway service which provides anonymous access to Orchestra REST API. The Mobile Ticket solution
+is required to be hosted separately and all the REST API calls are proxied to avoid cross domain access violations. 
 The current implementation is indented to be hosted on node.js and proxing is provided via express-http-proxy (https://www.npmjs.com/package/express-http-proxy).
 
 ###### Configuring the Proxy for Development Environment
@@ -68,7 +68,7 @@ ng serve --proxy-config proxy.conf.json
 ```
 ###### Configuring the Proxy for Production Environment
 
-Once the solution is built the output folder structure contains the config file called proxy-config.json. Set the IP and port of QMATIC API Gateway service
+Once the solution is built the output folder structure contains the configuration file called proxy-config.json. Set the IP and port of QMATIC API Gateway service
 to "value" in "apigw_ip_port".
 
 ```js
@@ -97,13 +97,13 @@ npm test
 ng test
 ```
 For visual code IDE open up a console window inside the IDE and run either npm start or ng test, this will run all 
-the unit tests and from there onwards the unit test will be auto run on the console window whenevr the changes are saved.
+the unit tests and from there onwards the unit test will be auto run on the console window whenever the changes are saved.
 In general these commands can be run on any console window (bash, windows cli etc) 
 
 ## Mobileticket.js library
 
 Mobileticket.js library facilitates the communication functionality. This contains an API that covers all the Mobile Ticket related
-REST API calls to QMATIC API Gateway service. This library file is fully indipendent and can be hosted seperatly.
+REST API calls to QMATIC API Gateway service. This library file is fully independent and can be hosted separately.
 
 ###### MobileTicketAPI
 
@@ -117,7 +117,7 @@ Fetch branch information for the provided branchId
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 ```js
 MobileTicketAPI.getBranchInformation(branchId, onSuccess, onError)
 
@@ -178,7 +178,7 @@ Fetch Queue information for the provided queueId
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 ```js
 MobileTicketAPI.getQueueInformation(queueId, onSuccess, onError)
 
@@ -194,17 +194,17 @@ MobileTicketAPI.getQueueInformation(queueId, onSuccess, onError)
 ```
 
 
-Fetch a list branches that matach the distance from current location criteria
+Fetch a list branches that match the distance from current location criteria
 
 latitude - Latitude of current location
 
 longitude - Longitude of current location
 
-radius - The radius of the circular area within which the braches are expected to be available
+radius - The radius of the circular area within which the branches are expected to be available
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 ```js
 MobileTicketAPI.getBranchesNearBy(latitude, longitude, radius, onSuccess, onError)
 
@@ -247,7 +247,7 @@ Fetch all the branches that are available
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 ```js
 MobileTicketAPI.getAllBranches(onSuccess, onError)
 
@@ -305,7 +305,7 @@ NOTE: Branch selection will be cached inside the library, so here it gives the s
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 ```js
 MobileTicketAPI.getServices(onSuccess, onError) 
 
@@ -340,7 +340,7 @@ NOTE: Branch selection and service selection will be cached inside the library
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 ```js
 MobileTicketAPI.createVisit(onSuccess, onError)
 
@@ -361,7 +361,7 @@ Fetch the visit status of a created visit.
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 
 ```js
 MobileTicketAPI.getVisitStatus(onSuccess, onError)
@@ -379,7 +379,7 @@ Fetch the queue status of a created visit.
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 
 ```js
 MobileTicketAPI.getQueueStatus(onSuccess, onError) 
@@ -392,7 +392,7 @@ Cancel the current visit.
 
 onSccuess - Success callback
 
-onError - Srror callback
+onError - Error callback
 ```js
 MobileTicketAPI.cancelVisit(onSuccess, onError)
 
@@ -431,7 +431,7 @@ MobileTicketAPI.getCurrentVisitEvent()
 ##Creating a Build
 BEFORE YOU BUILD : Run setup_grunt.sp to install required npm grunt modules for the build process
 
-Run grunt help to list build commnds
+Run grunt help to list build commands
 ```
 grunt help
 Running "help" task
@@ -444,7 +444,7 @@ Following flags are supported
          build_production - Build project files and copy them to 'dist' folder
 
          build_development - Build project files and copy them to 'dist' folder
-without minification
+without minification.
 
 
 Done, without errors.
