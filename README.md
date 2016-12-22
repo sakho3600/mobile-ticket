@@ -10,6 +10,7 @@ Angular-cli tools requires Node 4 or higher, together with NPM 3 or higher.
 - [Running Unit Tests] ()
 - [Mobileticket.js library] ()
 - [Creating a Build] ()
+- [Branding & Customization] ()
 
 ## Installation
 BEFORE YOU INSTALL: please read the [prerequisites] ()
@@ -459,7 +460,26 @@ For development build version
 grunt build_development
 ```
 
+##Branding & Customization
 
+Customiztions can be done on the fly, after building your application ([Creating a Build] ()).
+
+In your build, open and edit src/app/theme/theme-styles.css file.
+
+Css selector                                  |   Css property | Description   | Example(Default Styles)
+------------                                  |   ------------ | ------------- | -------------
+```custom.text-color            ```           |     color      | Edit to change font color |  #FFFFFF !important;
+```custom.accent-bg-color       ```           |   background   | Edit to change accent color of buttons |  #A9023A !important;
+```custom.accent-tick-color.tick```           |     stroke     | Edit to change accent color of tick mark |  #A9023A !important;
+```custom.bg-image              ```           |   background   | Edit to change app background |  url('../../app/resources/background.png') !important;
+```custom.logo-image            ```           |    content     | Edit to change app logo  |  url('../../app/resources/qmLogo.png') !important;
+```custom.logo-bg-color         ```           |   background   | Edit to change app logo  |  transparent !important;
+
+Note:
+
+* If you're specifying styles in this stylesheet, it will override the default styles.
+* If you want to add a new logo or background Image, make sure to include the images in the src/app/resources folder and refer it from the theme-styles sheet as shown in the above table.
+* If you don't want to customize your application, remove this file from the build. In this case the application will load with the default styles.
 
 
 
