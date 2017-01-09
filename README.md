@@ -21,7 +21,7 @@ npm install -g angular-cli
 ```
 Clone the Mobile Ticket Solution
 ```
-git clone https://github.com/qmatic/mobileticket.git
+git clone https://github.com/qmatic/mobile-ticket.git
 ```
 We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
 
