@@ -1,3 +1,38 @@
-.sub-heading-margin-bottom{
+.sub-heading-margin-bottom {
   margin-bottom: 1.5em;
+}
+
+.queue-container {
+  min-width: 70%;
+  max-width: 98%;
+  margin: 0 auto;
+  display: table;
+}
+
+.queue-heading {
+  color: white;
+  font-size: calc(15px + 1vw);
+  color: #FFFFFF;
+  font-family: Nanami-Rounded-Light;
+  position: relative;
+  bottom: 8px;
+}
+
+.queue-heading-alignment{
+  text-align: left;
+}
+
+.queue-end {
+font-size: 1.2em;
+  margin-top: 2em;
+}
+
+.queue-body {
+  padding-top: 5vw;
+  display: table-row;
+  text-align: right;
+}
+
+.app-queue-item{
+  font-size: 0em;
 }

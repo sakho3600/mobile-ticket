@@ -1,12 +1,23 @@
-<div [hidden]="!showBranchList" class="list-container" >
+<div [hidden]="!showBranchList || showLoader || networkError" class="list-container" >
    <branch [name]="branch.name" [address]="branch.address" [distance]="branch.distance" [entity]="branch" [id]="branch.id" *ngFor="let branch of branches"></branch>
 </div>
 
-<div [hidden]="showBranchList" class="row list-container sub-heading-text-1-margin">
+<div [hidden]="showBranchList || showLoader || networkError" class="row list-container sub-heading-text-1-margin">
   <div class="col-xs-1 col-xxs"></div>
   <div class="col-xs-10 col-xxs">
     <div class="center-text sub-heading-text-3 custom text-color">
-      Sorry, there are no available branches close by. <a id="link-to-reload" (click)='reloadData()'>Try again</a> at a different location.
+      {{ 'branch.noBranches' | translate }} <a id="link-to-reload" (click)='reloadData()'>{{ 'branch.tryAgain' | translate }} </a> {{ 'branch.diffLocation' | translate }}
+     </div>
+  </div>
+  <div class="col-xs-1 col-xxs"></div>
+</div>
+
+<div [hidden]="!showLoader || !networkError" class="row list-container sub-heading-text-1-margin">
+  <div class="col-xs-1 col-xxs"></div>
+  <div class="col-xs-10 col-xxs">
+    <div class="center-text sub-heading-text-3 custom textd-color">
+      <div><img [src]="loaderResource" class="loader"></div>
+      <div>{{ 'branch.loading' | translate }}</div>
     </div>
   </div>
   <div class="col-xs-1 col-xxs"></div>

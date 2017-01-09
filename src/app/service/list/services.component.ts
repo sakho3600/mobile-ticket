@@ -1,6 +1,7 @@
-import { Component, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
 import { ServiceService } from '../service.service';
 import { ServiceEntity } from '../../entities/service.entity';
+import { RetryService } from '../../shared/retry.service';
 
 declare var MobileTicketAPI: any;
 
@@ -9,23 +10,77 @@ declare var MobileTicketAPI: any;
   templateUrl: './services-tmpl.html',
   styleUrls: ['./services.css', '../../shared/css/common-styles.css']
 })
-export class ServicesComponent {
+export class ServicesComponent implements OnInit {
   public services: Array<ServiceEntity>;
-  constructor(private serviceService: ServiceService) {
-    serviceService.getServices((serviceList: Array<ServiceEntity>) => {
-      if (serviceList.length == 1) {
-        MobileTicketAPI.setServiceSelection(serviceList[0]);
+  public showListShadow: boolean;
+  @Output() onServiceListHeightUpdate: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onServiceSelection: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onShowHideServiceFetchError = new EventEmitter<boolean>();
+
+  constructor(private serviceService: ServiceService, private retryService: RetryService) {
+    this.onShowHideServiceFetchError.emit(false);
+    serviceService.getServices((serviceList: Array<ServiceEntity>, error: boolean) => {
+      if (error) {
+        this.onShowHideServiceFetchError.emit(true);
+        retryService.retry(() => {
+          serviceService.getServices((serviceList: Array<ServiceEntity>, error: boolean) => {
+            if (!error) {              
+              this.onServicesReceived(serviceList, serviceService)
+              retryService.abortRetry();
+            }
+          });
+        });
+      } else {
+        this.onServicesReceived(serviceList, serviceService);
       }
-      this.services = serviceList;
-      serviceService.setServiceInformation(this.services);
     });
   }
 
+  private onServicesReceived(serviceList, serviceService): void {
+    this.onShowHideServiceFetchError.emit(false);
+    if (serviceList.length === 1) {
+      MobileTicketAPI.setServiceSelection(serviceList[0]);
+    }
+    this.services = serviceList;
+    serviceService.setServiceInformation(this.services);
+  }
+
+  ngOnInit() {
+    window.addEventListener('orientationchange', this.setListShadow, true);
+    window.addEventListener('resize', this.setListShadow, true);
+    window.addEventListener('scroll', this.setListShadow, true);
+    this.initListShadow();
+  }
+
   resetSelections(selectedService: ServiceEntity) {
+    this.onServiceSelection.emit(selectedService.id);
     for (let i = 0; i < this.services.length; ++i) {
-      if (selectedService.id != this.services[i].id) {
+      if (selectedService.id !== this.services[i].id) {
         this.services[i].selected = false;
       }
     }
   }
+
+  setListShadow = () => {
+    this.processListShadow();
+  }
+
+  initListShadow = () => {
+    setTimeout(() => {
+      this.processListShadow();
+    }, 200);
+  }
+
+  processListShadow() {
+    if ((document.getElementsByClassName('table-child-list')[0].clientHeight +
+      document.getElementsByClassName('table-child-list')[0].scrollTop
+      >= document.getElementsByClassName('table-child-list')[0].scrollHeight - 5)) {
+      this.showListShadow = false;
+    }
+    else {
+      this.showListShadow = true;
+    }
+    this.onServiceListHeightUpdate.emit(this.showListShadow);
+  }
+
 }

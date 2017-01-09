@@ -1,30 +1,9 @@
 .list-container {
   margin-top: 1em;
-  height: calc(100vh - 244px);
-  overflow: scroll;
-}
-
-.list-shadow {
-  position: relative;
-  bottom: 9px;
-  height: 10px;
-  box-shadow: inset 0px -3px 4px rgba(0, 0, 0, 1);
-  opacity: 0.7;
-  max-width: 350px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* Hide scroll bar */
 
 ::-webkit-scrollbar {
   display: none;
-}
-
-/* Media Queries */
-
-@media only screen and (max-width: 280px) {
-  .list-container {
-    height: calc(100vh - 244px);
-  }
 }

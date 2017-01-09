@@ -69,7 +69,7 @@ ng serve --proxy-config proxy.conf.json
 ```
 ###### Configuring the Proxy for Production Environment
 
-Once the solution is built the output folder structure contains the configuration file called proxy-config.json. Set the IP and port of QMATIC API Gateway service
+Once the solution is built the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
 to "value" in "apigw_ip_port".
 
 ```js
@@ -85,9 +85,30 @@ to "value" in "apigw_ip_port".
  "auth_token" : {
      "value" : "nosecrets", 
      "description" : "Mobile API user - authentication token"
-     }
+     },
+ "local_webserver_ssl_port": {
+        "value": "8443",
+        "description": "Local webserver HTTPS port"
+    },
+ "support_ssl": {
+        "value": "false",
+        "description": "Flag indicating server supports SSL.Should have a valid public key and certificate in 'sslcert' folder "
+    }
 }
 ```
+###### Configuring the Proxy for Production Environment with HTTPS
+
+Fist it is required to install openssl and once the solution is built the output folder structure will contain a folder by the name 'sslcert' which contains 
+a bash script by the name create_cert.sh. After the installation of openssl make sure you create an environment variable by the name OPENSSL_CONF and put the
+path to the openssl config file (e.g. C:\OpenSSL\bin\openssl.cnf ). Then by running the create_cert.sh file on shell you will be able to create a self signed certificate and a public key.
+Next it is required you to edit the proxy-config.json and enable ssl by setting the value of 'support_ssl' to true.Now by running 'node server.js' will run 
+another server instance on port 8443 that is accessible via https in addition to the instance that is accessible via http. The port for HTTPS is specified
+in local_webserver_ssl_port value and can be changed.
+
+NOTE: Any valid certificate and a public key from a valid certificate authority should work and it is required that the certificate bear the name 'server.crt'
+      and the public key bear the name 'server.key'. The MobileTicket solution should run on HTTPS in order to get location awareness in the case of branch listing.
+      Otherwise it will list all the branches instead of nearby branches.
+
 ## Running Unit Tests
 
 ```
@@ -339,11 +360,13 @@ Creates a ticket for a selected service at the selected branch
 
 NOTE: Branch selection and service selection will be cached inside the library
 
+clientId - clientId assigned by Google Analytics
+
 onSccuess - Success callback
 
 onError - Error callback
 ```js
-MobileTicketAPI.createVisit(onSuccess, onError)
+MobileTicketAPI.createVisit(clientId, onSuccess, onError)
 
 //-----OUTPUT------
 
@@ -429,6 +452,18 @@ MobileTicketAPI.getCurrentVisit()
 ```js
 MobileTicketAPI.getCurrentVisitEvent()
 ```
+NOTE: It is required to change the auth token specified in the MobileTicket.js with the one you have generated. This is necessary only for the development,
+      but for deployment auth token is read from the config file.
+
+```js
+  $.ajaxSetup({
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.setRequestHeader("auth-token", "d0516eee-a32d-11e5-bf7f-feff819cdc9f"); // Replace with your auth token
+    }
+  });
+```
+      
 ##Creating a Build
 BEFORE YOU BUILD : Run setup_grunt.sp to install required npm grunt modules for the build process
 

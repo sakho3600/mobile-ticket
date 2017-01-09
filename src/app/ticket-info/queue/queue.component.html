@@ -1,21 +1,24 @@
-
-
-    <div *ngIf="!isTicketEndedOrDeleted">
-
-      <div class="sub-heading-text-2 sub-heading-margin-bottom custom text-color">
-        <div> {{ queueHeading }}</div>
-      </div>
-
-      <div class="text-center">
-        <app-queue-item [queueName]="queueItem.queueName" [visitPosition]="queueItem.visitPosition"
-                       [waitingVisits]="queueItem.waitingVisits"
-                       [index]="queueItem.index" *ngFor="let queueItem of queueItems"></app-queue-item>
-      </div>
-
-    </div>
-
-
-    <div [innerHTML]="ticketEndHeading" *ngIf="isTicketEndedOrDeleted" class="center-text sub-heading-text-2 custom text-color" style="font-size: 1.2em;
-    margin-top: 2em;">
-    </div>
+<div class="text-center queue-container" *ngIf="!isTicketEndedOrDeleted">
+  <div [ngClass] = "{'queue-heading-alignment-rtl' : isRtl, 'queue-heading-alignment' : true, 'queue-heading' : true, 'custom' : true, 'text-color' : true}">
+    {{ 'ticketInfo.queueHeading' | translate }}
+  </div>
+  <div [ngClass] = "{'queue-heading-alignment-rtl' : isRtl, 'queue-heading-alignment' : true, 'queue-heading' : true, 
+  'custom' : true, 'text-color' : true}"  [hidden]="!showNetWorkError">
+     <app-network-message></app-network-message>
+  </div>
+  <div class="queue-body" [ngClass]="{'queue-body-rtl' : isRtl}" [hidden]="showNetWorkError" >
+  <app-queue-item [queueName]="queueItem.queueName" [visitPosition]="queueItem.visitPosition"
+                  [waitingVisits]="queueItem.waitingVisits"
+                  [upper]="queueItem.upperBound"
+                  [lower]="queueItem.lowerBound"
+                  [prevUpperBound]="queueItem.prevUpperBound"
+                  [prevLowerBound]="queueItem.prevLowerBound"
+                  [prevWaitingVisits]="queueItem.prevWaitingVisits"
+                  [prevVisitPosition]="queueItem.prevVisitPosition"
+                  [index]="queueItem.index" *ngFor="let queueItem of queueItems" class="app-queue-item"></app-queue-item>
+  </div>
+</div>
+<div [innerHTML]="'ticketInfo.ticketEndHeading' | translate" *ngIf="isTicketEndedOrDeleted"
+     class="center-text sub-heading-text-2 custom text-color queue-end">
+</div>
 

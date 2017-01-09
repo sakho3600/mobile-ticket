@@ -1,48 +1,36 @@
-<div class="row sub-heading-text-1-margin">
-  <div class="col-xs-1 col-xxs"></div>
-  <div class="col-xs-10 col-xxs">
-    <div class="center-text sub-heading-text-1 custom text-color">
-      <div>{{ subHeadingOne }}</div>
+<div class="table-container">
+  <div class="text-center table-child-heading-1">
+    <span class="center-text sub-heading-text-1 custom text-color">
+          <span>{{ 'service.subHeadingOne' | translate }}</span>
+    </span>
+  </div>
+
+  <div class="text-center table-child-heading-2">
+    <span class="center-text sub-heading-text-2 service-limit-label custom text-color">
+      <span>{{ subHeadingTwo }}</span>
+    </span>
+  </div>
+  <div class="text-center table-child-heading-2" [hidden]="!showNetWorkError">
+    <span class="center-text sub-heading-text-2 service-limit-label custom text-color">
+       <app-network-message></app-network-message>
+    </span>
+  </div>
+  <div class="table-child-list">
+    <app-services (onServiceSelection)='saveSelectedService($event)' (onServiceListHeightUpdate)='onServiceListHeightUpdate($event)'
+     (onShowHideServiceFetchError)="showHideNetworkError($event);"></app-services>
+  </div>
+  <div class="table-child-shadow">
+    <div class ="list-shadow" *ngIf="showListShadow">
     </div>
   </div>
-  <div class="col-xs-1 col-xxs"></div>
-</div>
 
-<div class="row">
-  <div class="col-xs-1 col-xxs"></div>
-  <div class="col-xs-10 col-xxs">
-    <div class="center-text sub-heading-text-2 custom text-color">
-      <div>{{ subHeadingTwo }}</div>
-    </div>
-  </div>
-  <div class="col-xs-1 col-xxs"></div>
-</div>
-
-<div class="row service-list-container">
-  <div class="col-xs-1 col-xxs"></div>
-  <div class="col-xs-10 col-xxs">
-    <div>
-      <app-services></app-services>
-    </div>
-  </div>
-  <div class="col-xs-1 col-xxs"></div>
-</div>
-
-<footer class="footer navbar-fixed-bottom qm-footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-1 col-xxs"></div>
-      <div class="col-xs-10 col-xxs">
-        <div class="list_container">
-          <div class="center-text">
-            <div class="accent-btn custom accent-bg-color" (click)='onTakeTicket()'>
-              Get in Line
-            </div>
-          </div>
+  <div class="table-child-footer"  [hidden]="showNetWorkError">
+    <footer class="qm-footer">
+      <div class="center-text">
+        <div class="accent-btn custom accent-bg-color" (click)='onTakeTicket()'>
+          {{ 'service.accentBtnText' | translate }}
         </div>
       </div>
-      <div class="col-xs-1 col-xxs"></div>
-    </div>
+    </footer>
   </div>
-</footer>
-
+</div>

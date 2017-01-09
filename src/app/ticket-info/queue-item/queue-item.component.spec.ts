@@ -62,5 +62,29 @@ describe('QueueItemComponent', () => {
     expect(value).toMatch('3rd');
   }));
 
+   it('Should return true if index = visitPosition', async(() => {
+    let itemComponent = fixture.debugElement.componentInstance;
+    itemComponent.index = 5;
+    itemComponent.visitPosition = 5;
+    let value = itemComponent.hilightSelctedPosition();
+    expect(value).toEqual(true);
+  }));
+
+  it('Should return false if index != visitPosition', async(() => {
+    let itemComponent = fixture.debugElement.componentInstance;
+    itemComponent.index = 6;
+    itemComponent.visitPosition = 5;
+    let value = itemComponent.hilightSelctedPosition();
+    expect(value).toEqual(false);
+  }));
+
+  it('Should return 7th if current position is 7 in the queue', async(() => {
+    let itemComponent = fixture.debugElement.componentInstance;
+    itemComponent.index = 7;
+    itemComponent.visitPosition = 7;
+    let value = itemComponent.getQueueIndex();
+    expect(value).toEqual('7th');
+  }));
+
 
 });

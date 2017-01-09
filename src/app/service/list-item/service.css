@@ -1,14 +1,22 @@
 .service-btn {
-  max-width: 350px;
   color: black;
-  line-height: 4em;
-  margin: 5px auto;
+  margin: 0 auto;
+  height: calc(14vw + 8px) !important;
+  max-width: calc(76vw + 54px);
+  max-height: 12em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
 
   background: url('app/resources/serviceBtn.png');
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
-  position: relative;
+  background-size: contain;
 }
 
 .service-btn:hover {
@@ -16,6 +24,7 @@
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
+  background-size: contain;
 }
 
 .service-btn:active, .service-btn-active {
@@ -23,12 +32,19 @@
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
+  background-size: contain;
 }
 
-.btn-text {
+.service_name{
+  display: inline-flex;
+}
+
+div.btn-text {
+  font-size: calc(3vw + 9px);
+  font-weight: 100;
   width: 80%;
   vertical-align: super;
-  margin: 0 auto;
+  margin: 0 auto !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -40,38 +56,43 @@
 }
 
 svg.tick {
-  width: 23px;
-  vertical-align: sub;
+  width: 5vw;
 }
 
 .tick-container {
   position: absolute;
   left: 0;
-  margin-left: 23px;
+  margin-left: 1em;
 }
 
 /* Media Queries */
 
-@media only screen and (max-width: 350px) {
-  .service-btn {
-    font-size: 12px !important;
+@media only screen and (min-width: 1200px) {
+  .service-btn  {
+    width: 800px !important;
+    max-width: 800px !important;
+  }
+
+  svg.tick{
+    left: -0.5em;
+    position: relative;
   }
 
   svg.tick {
-    width: 20px !important;
-    vertical-align: sub;
-  }
-
-  .tick-container {
-    position: absolute;
-    left: 0;
-    margin-left: 18px !important;
+    width: 2.5vw;
   }
 }
 
-@media only screen and (max-width: 210px) {
-  .tick-container {
-    margin-left: 8px !important;
+@media only screen and (min-width: 900px) {
+  .service-btn  {
+    width: 700px !important;
+    max-width: 800px !important;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .service-btn {
+    font-size: 12px !important;
   }
 }
 
@@ -79,9 +100,24 @@ svg.tick {
   .service-btn {
     font-size: 10px !important;
   }
+}
+
+@media (min-width: 900px) {
+  div.btn-text {
+    font-size: calc(2vw + 9px);
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  div.btn-text {
+    font-size: 31.5px !important;
+  }
 
   svg.tick {
-    width: 16px !important;
-    vertical-align: sub;
+    width: 37.5px !important;
+  }
+
+  .tick-container {
+    margin-left: 1.8em;
   }
 }

@@ -1,0 +1,31 @@
+{
+  "branch": {
+    "defaultTitle": "Mobile Ticket",
+    "loading": "Loading...",
+    "noBranches": "Sorry, there are no available branches close by.",
+    "tryAgain": "Try again",
+    "diffLocation": "at a different location.",
+    "subHeadingOne": "Welcome to Qmatic!",
+    "subHeadingTwo": "Do you want to get in line for one of our services? Start by selecting location."
+  },
+  "service": {
+    "subHeadingOne": "Welcome to Qmatic!",
+    "accentBtnText": "Get in line",
+    "selectService": "Please select a service at Qmatic",
+    "defaultTitle": "Mobile Ticket",
+    "waiting": "Waiting"
+  },
+  "ticketInfo": {
+    "leaveVisitConfirmMsg": "Would you like to leave the line",
+    "btnTitleLeaveLine": "Leave the line",
+    "defaultTitle": "Mobile Ticket",
+    "titleYourTurn": "It's your turn!",
+    "ticketReady": "is ready to serve you <br> at",
+    "titleInLine": "in line",
+    "btnTitleNewTicket": "Get new ticket",
+    "ticketRemovedHeading": "Your ticket has been removed",
+    "yourPosition": "You",
+    "queueHeading": "Your place in line:",
+    "ticketEndHeading": "Thank you for visiting us! <br> Welcome back!"
+  }
+}

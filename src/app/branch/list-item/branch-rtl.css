@@ -1,0 +1,7 @@
+.branch-btn-rtl {
+  background: url(app/resources/branchBtn-rtl.png) !important;
+  background-repeat: no-repeat !important;
+  background-position-x: center !important;
+  background-position-y: center !important;
+  background-size: contain !important;
+}

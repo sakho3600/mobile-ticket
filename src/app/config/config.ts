@@ -1,12 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Locale } from '../locale/locale';
 
 @Injectable()
 export class Config {
     private config: Object = null;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private locale: Locale) {
+        locale.setLocale();
     }
     load() {
         return new Promise((resolve, reject) => {
@@ -24,5 +26,4 @@ export class Config {
     public getConfig(key: any) {
         return this.config[key].value;
     }
-
 }

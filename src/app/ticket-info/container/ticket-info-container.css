@@ -1,3 +1,31 @@
 .ticket_info_container{
-    background: transparent;    
+    background: transparent;
+}
+
+.ticket_branch{
+  position: relative;
+  top: 6px;
+}
+
+.ticket-container-center{
+  float: none !important;
+}
+
+@media (orientation : landscape) {
+  .ticket-container{
+    width: 50%;
+    float: left;
+    margin: 0 auto;
+  }
+  .button-container{
+    width: 50%;
+    float: left;
+    margin: 12vw auto 0 auto;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .button-container{
+    margin-top: 8vw;
+  }
 }

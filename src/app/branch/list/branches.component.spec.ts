@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { BranchService } from '../branch.service'
 import { QmRouterModule, RoutingComponents } from "../../router-module";
 import { BranchServiceMok } from '../branch.service.mok'
+import { RetryService } from '../../shared/retry.service';
 
 
 describe('BranchesComponent', () => {
@@ -19,7 +20,8 @@ describe('BranchesComponent', () => {
       ],
       providers: [
         { provide: Router, useClass: QmRouterModule },
-        { provide: BranchService, useClass: BranchServiceMok}
+        { provide: BranchService, useClass: BranchServiceMok},
+        RetryService
       ]
     });
   });
@@ -49,6 +51,13 @@ describe('BranchesComponent', () => {
     let branchComponent = fixture.debugElement.componentInstance;
     let value = branchComponent.isBranchesAvailable([]);
     expect(value).toEqual(false);
+  }));
+
+  it('Should be true if loading text is Loading...', async(() => {
+    let fixture = TestBed.createComponent(BranchesComponent);
+    let branchComponent = fixture.debugElement.componentInstance;
+    let value = branchComponent.loadingText;
+    expect(value).toEqual("Loading...");
   }));
 
   // the line corresponds to 'noBranchesAvailableLabel' is commented in qm.branches-component, so following test is commented

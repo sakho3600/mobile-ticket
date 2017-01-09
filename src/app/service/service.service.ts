@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ServiceEntity } from '../entities/service.entity';
 import 'rxjs/add/operator/map';
+import { TranslateService } from 'ng2-translate';
 
 declare var MobileTicketAPI: any;
 
 @Injectable()
 export class ServiceService {
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   public convertToServiceEntities(serviceList): Array<ServiceEntity> {
     let entities: Array<ServiceEntity> = [];
@@ -30,21 +31,22 @@ export class ServiceService {
     MobileTicketAPI.getServices(
       (serviceList: any) => {
         let serviceEntities = this.convertToServiceEntities(serviceList);
-        callback(serviceEntities);
+        callback(serviceEntities, false);
       },
       () => {
-
+        callback(null, true);
       });
   }
 
   setServiceInformation(serviceList: Array<ServiceEntity>): void {
-    for (var i = 0; i < serviceList.length; i++) {
+    this.translate.get('service.waiting').subscribe((res: string) => {
+      for (var i = 0; i < serviceList.length; i++) {
       let serviceId = serviceList[i].id;
       MobileTicketAPI.getQueueInformation(serviceId,
         (serviceInfo) => {
           for (var i = 0; i < serviceList.length; i++) {
             if (serviceInfo.id === serviceList[i].id) {
-              serviceList[i].customersWaiting = serviceInfo.customersWaiting + " waiting";
+              serviceList[i].customersWaiting = serviceInfo.customersWaiting + " " + res;
             }
           }
         },
@@ -52,6 +54,8 @@ export class ServiceService {
 
         });
     }
+    });
+    
   }
- 
+
 }

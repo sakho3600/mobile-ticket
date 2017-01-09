@@ -1,11 +1,16 @@
 .branch-btn {
-  max-width: 350px;
   color: black;
-  padding: 1em 0.7em 0.7em 0.7em;
   margin: 0 auto;
-  height: 4.5em;
+  height: calc(14vw + 8px) !important;
+  max-height: 12em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 
-  background: url('app/resources/branchBtn.png');
+  background: url(app/resources/branchBtn.png);
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
@@ -20,16 +25,10 @@
   opacity: 0.8;
 }
 
-.branch-addr-padding {
-  padding-right: 20%;
-
-}
-.branch-addr {
-  margin:auto; 
-  width: 40%; 
-}
 
 .btn-text {
+  font-size: calc(3vw + 9px);
+  font-weight: 100;
   width: 80%;
   vertical-align: super;
   margin: 0 auto;
@@ -40,38 +39,102 @@
 
 .branch-btn-text {
   overflow: hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  width:80%;
-  display:inline-block;
-  padding-left:10%
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: right;
+  width: 40%;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1em;
 }
 
 .more-info {
-  font-size: 12px;
-  display:flex
+  font-size: calc(1vw + 12px);
+}
+
+.align-content {
+  width: 100%;
+  line-height: calc(1vw + 11px);
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 66%;
+}
+
+.left {
+  order: 1;
+  text-align: center;
+}
+
+.margin-center{
+ margin: 0 auto;
+}
+
+.right {
+  order: 2;
+  /*width: 125px;
+  margin: 0 auto;*/
+  text-align: center;
 }
 
 /* Media Queries */
 
-@media only screen and (max-width: 350px) {
-  .branch-btn {
-    padding: 0.7em 0.7em 0.7em 0.7em;
-    font-size: 12px !important;
-  }
-
-  .more-info {
-    font-size: 11px !important;
+@media (min-width: 600px) {
+  .branch-btn-text{
+    width: 48%;
   }
 }
 
-@media only screen and (max-width: 280px) {
-  .branch-btn {
-    padding: 1em 0.7em 0.7em 0.7em;
-    font-size: 10px !important;
+@media (min-width: 1200px) {
+  .branch-btn-text{
+    width: 35%;
+  }
+}
+
+@media (min-width: 1000px) {
+  .btn-text {
+    font-size: 47px;
   }
 
   .more-info {
-    font-size: 9px !important;
+    font-size: 24px;
+  }
+
+  .branch-btn-text{
+    width: 40%;
   }
 }
+
+@media (min-width: 970px) {
+  .left {
+    order: 1;
+    flex-grow: 1;
+  }
+
+  .right {
+    order: 2;
+    /*width: 150px;
+    margin: 0 auto;*/
+    text-align: center;
+  }
+
+  .branch-btn-text{
+    width: 43%;
+  }
+}
+
+@media (max-width: 430px) {
+  .container {
+    width: 85%;
+  }
+}
+
+@media (min-width: 1010px) {
+  .branch-btn-text {
+    max-width: 400px !important;
+  }
+}
+
+

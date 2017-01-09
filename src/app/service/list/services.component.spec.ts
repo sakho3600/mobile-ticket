@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { ServicesComponent } from './services.component';
 import { ServiceComponent } from '../list-item/service.component';
 import { ServiceService } from '../service.service';
@@ -10,6 +10,7 @@ import { ServiceServiceMok } from '../service.service.mok'
 import { SortPipe } from '../../util/sort.pipe'
 
 describe('ServicesComponent', () => {
+   let fixture: ComponentFixture<ServicesComponent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -23,7 +24,7 @@ describe('ServicesComponent', () => {
   });
 
   it('Should create the ServicesComponent', async(() => {
-    let fixture = TestBed.createComponent(ServicesComponent);
+    fixture = TestBed.createComponent(ServicesComponent);
     let app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));

@@ -1,9 +1,14 @@
-<div class="branch-btn bg common-btn center-text">
-  <div class="btn-text" (click)='selectBranch(entity)'>
+<div [ngClass]="{'branch-btn-rtl': isRtl, 'branch-btn': true, 'center-text' : true, 'common-btn': true, 'bg' : true, 'branch-btn' : true}" (click)='selectBranch(entity)'>
+  <span class="align-content">
+  <span class="btn-text">
     {{ name }}
-  </div>
+  </span>
   <div class="more-info">
-    <span *ngIf="address" class="branch-btn-text"> {{ address }} </span>
-    <span [class.branch-addr-padding]="address" class="branch-addr" > {{ " ( " + distance + " ) " }}</span>
+    <div class="text-center margin-center">
+      <span *ngIf="address" class="branch-btn-text left"> {{ address }} </span>
+      <span [class.branch-addr-padding]="address" class="branch-addr right"> {{ " ( " + distance + " ) " }}</span>
+    </div>
   </div>
+  </span>
 </div>
+

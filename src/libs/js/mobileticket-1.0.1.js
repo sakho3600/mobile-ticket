@@ -2574,10 +2574,14 @@ var MobileTicketAPI = (function () {
   var ENTRY_POINT = "entrypoint";
   var self = this;
 
+  $(document).ajaxError(function( event, request, settings ) {
+        console.log(JSON.stringify(settings));
+  });
+
   $.ajaxSetup({
     beforeSend: function (xhr) {
       xhr.setRequestHeader("Accept", "application/json");
-      xhr.setRequestHeader("auth-token", "d0516eee-a32d-11e5-bf7f-feff819cdc9f");
+      xhr.setRequestHeader("auth-token", "d0516eee-a32d-11e5-bf7f-feff819cdc9f"); //Change the api token with your one
     }
   });
 
@@ -2757,15 +2761,25 @@ var MobileTicketAPI = (function () {
         onError(null, null, e.message);
       }
     },
-    createVisit: function (onSuccess, onError) {
+    createVisit: function (clientId, onSuccess, onError) {
       try {
         var branch = getSelectedBranch();
         var service = getSelectedService();
         var CREATE_TICKET_REST_API = MOBILE_TICKET + "/" + SERVICES + "/" + service.id + "/" + BRANCHES + "/" + branch.id + "/" + TICKET + "/" + ISSUE;
         $.ajax({
           type: "POST",
+          contentType: 'application/json',
+          data: JSON.stringify({
+             "parameters": {
+  	            "gaClientID": clientId 
+              }
+          }),
           dataType: "json",
-          url: CREATE_TICKET_REST_API
+          url: CREATE_TICKET_REST_API,
+          error: function (xhr, status, errorMsg) {
+            onError(xhr, status, errorMsg);
+          }
+
         })
           .done(function (data) {
             if (data != undefined) {

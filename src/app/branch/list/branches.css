@@ -1,7 +1,9 @@
+
+
 .list-container {
   margin-top: 1em;
-  height: calc(100vh - 218px);
-  overflow: scroll;
+  /*height: calc(100vh - 218px);
+  overflow: scroll;*/
 }
 
 .list-shadow {

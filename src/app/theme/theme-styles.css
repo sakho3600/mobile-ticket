@@ -7,7 +7,7 @@
 
 /* Edit to change accent color of buttons */
 .custom.accent-bg-color {
-  background: #A9023A !important;
+  background: rgba(157, 0, 58, 0.9) !important
 }
 
 /* Edit to change accent color of tick mark */

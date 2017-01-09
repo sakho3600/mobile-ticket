@@ -1,0 +1,30 @@
+{
+  "branch": {
+    "defaultTitle": "Mobile Ticket",
+    "loading": "جار التحميل...",
+    "noBranches": "آسف، لا توجد فروع المتاحة وثيق من قبل.",
+    "tryAgain": "حاول ثانية",
+    "diffLocation": "في موقع مختلف.",
+    "subHeadingOne": "مرحبا بكم في Qmatic!",
+    "subHeadingTwo": "هل ترغب في الحصول على خط واحد من خدماتنا؟ ابدأ بتحديد الموقع."
+  },
+  "service": {
+    "subHeadingOne": "مرحبا بكم في Qmatic!",
+    "accentBtnText": "قف في الخط",
+    "selectService": "الرجاء اختيار الخدمة في Qmatic",
+    "waiting": "انتظار"
+  },
+  "ticketInfo": {
+    "leaveVisitConfirmMsg": "هل ترغب في مغادرة خط",
+    "btnTitleLeaveLine": "ترك الخط",
+    "defaultTitle": "Mobile Ticket",
+    "titleYourTurn": "انه دورك!",
+    "ticketReady": "هو على استعداد لخدمتك <BR> في",
+    "titleInLine": "في النسق",
+    "btnTitleNewTicket": "الحصول على تذكرة جديدة",
+    "ticketRemovedHeading": "تمت إزالة تذكرتك",
+    "yourPosition": "أنت",
+    "queueHeading": "مكانك في السطر:",
+    "ticketEndHeading": "شكرا لزيارتكم لنا! <BR> أهلا بكم من جديد!"
+  }
+}

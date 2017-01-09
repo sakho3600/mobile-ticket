@@ -1,10 +1,71 @@
 /* Media Queries */
+.loader{
+  width: 15vw;
+  max-width: 9em;
+  margin: 0.25em;
+  animation-name: rotate;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotate {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
 
 @media (max-width: 480px) {
   .col-xxs {
-    display:block;
-    float:none;
+    display: block;
+    float: none;
     width: 100%
+  }
+}
+
+@media only screen and (orientation: landscape) {
+  .accent-btn-side {
+    max-width: calc(50vw - 3em) !important;
+    margin: auto;
+    line-height: calc(1vw + 60px);
+    background: rgba(157, 0, 58, 0.58);
+    border-radius: 250px;
+    color: #FFFFFF;
+    font-size: calc(1vw + 18px);
+    font-family: Nanami-Rounded-Medium;
+    font-weight: 100;
+  }
+
+  .accent-btn-side:active {
+    opacity: 1;
+    -webkit-box-shadow: inset 0 0 5px #000;
+    -moz-box-shadow: inset 0 0 5px #000;
+    box-shadow: inset 0 0 5px #000;
+  }
+}
+
+@media (min-width: 850px) {
+  .accent-btn {
+    font-size: calc(2vw + 7px) !important;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .accent-btn {
+    font-size: calc(1vw + 18px) !important;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .accent-btn {
+    width: calc(800px - 3em);
+    max-width: calc(800px - 3em);
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .accent-btn {
+    width: calc(700px - 3em);
+    max-width: calc(800px - 3em);
   }
 }
 
@@ -15,57 +76,65 @@
 }
 
 .sub-heading-text-1 {
-  font-size: 1em;
+  font-size: calc(13px + 2vw);
   color: #FFFFFF;
   font-family: Nanami-Rounded-Medium;
 }
 
 .sub-heading-text-2 {
-  font-size: 0.9em;
+  font-size: calc(15px + 1vw);
   color: #FFFFFF;
   font-family: Nanami-Rounded-Light;
+  width: 75%;
+  margin: 0 auto;
 }
 
-.qm-footer {
-  padding: 1em;
-  margin-bottom: 2px;
+div.row {
+  padding: 0 !important;
+  margin: 0 auto !important;
 }
-
 
 .sub-heading-text-3 {
-  font-size: 0.9em;
+  font-size: calc(16px + 0.8vw);
   color: #FFFFFF;
   font-family: "Helvetica";
   font-style: oblique;
   font-weight: 100;
 }
 
-.common-btn{
+.common-btn {
   font-family: "Helvetica";
   color: #303030;
-  font-size: 1em;
+  font-size: 12px;
 }
 
-.common-btn{
+.common-btn {
   stroke: #9c003a;
 }
 
-.accent-btn {
-  max-width: 205px;
-  margin: 0 auto 5px auto;
-  line-height: 2.9em;
-  background: #9d003a;
-  border-radius: 250px;
-  color: #FFFFFF;
-  font-size: 18px;
-  font-family: Nanami-Rounded-Medium;
-}
-
 .accent-btn:hover {
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .accent-btn:active {
-  border: 2px solid #9d003a;
-  opacity: 0.8;
+  opacity: 1;
+  -webkit-box-shadow: inset 0 0 5px #000;
+  -moz-box-shadow: inset 0 0 5px #000;
+  box-shadow: inset 0 0 5px #000;
+}
+
+.accent-btn {
+  max-width: calc(76vw + 54px - 3em);
+  margin: auto;
+  line-height: calc(1vw + 60px);
+  background: rgba(157, 0, 58, 0.58);
+  border-radius: 250px;
+  color: #FFFFFF;
+  font-size: calc(2vw + 18px);
+  font-family: Nanami-Rounded-Medium;
+  font-weight: 100;
+}
+
+::-webkit-scrollbar {
+  display:none;
 }

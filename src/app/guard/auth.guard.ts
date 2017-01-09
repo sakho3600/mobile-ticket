@@ -5,20 +5,20 @@ declare var MobileTicketAPI: any;
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    
+
 
     constructor(private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : Promise<boolean>{
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         return new Promise((resolve, reject) => {
             var visitInfo = MobileTicketAPI.getCurrentVisit();
-            if(visitInfo){
+            if (visitInfo) {
                 MobileTicketAPI.getVisitStatus(
                     (visitObj: any) => {
-                        if(visitObj.status == "VISIT_CALL" || visitObj.visitPosition != -1){
+                        if (visitObj.status == "VISIT_CALL" || visitObj.visitPosition != -1) {
                             resolve(true);
                         }
-                        else{
+                        else {
                             this.router.navigate(['/branches']);
                             resolve(false);
                         }
@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
                     }
                 );
             }
-            else{
+            else {
                 this.router.navigate(['/branches']);
                 resolve(false);
             }

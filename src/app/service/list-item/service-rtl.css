@@ -1,0 +1,13 @@
+.tick-container-rtl {
+  right: 0 !important;
+  left: inherit !important;
+  margin-right: 1em !important;
+  margin-left: inherit !important;
+}
+
+@media (min-width: 1200px) {
+  svg.tick-rtl{
+    right: 0.5em !important;
+    left: inherit !important;
+  }
+}

@@ -39,20 +39,65 @@
 }
 
 .logo{
-  width: 150px;
+  width: 32vw;
+  max-width: 24em;
   margin: 0 auto;
   content: url('app/resources/qmLogo.png');
 }
 
 .frame {
-  height: 6em;
+  height: 13vw;
   text-align: center;
-  margin-bottom: 1em;
+  margin-bottom: 6px;
+  max-height: 10em;
 }
 
 .helper {
   display: inline-block;
   height: 100%;
   vertical-align: middle;
+}
+
+.extra-margin{
+  height: 0.5em;
+}
+
+.container-fit-height{
+  height: calc(100vh - 13vw) !important;
+}
+
+/* Media Queries */
+
+@media (max-width: 800px) and (orientation: portrait)  {
+  .frame{
+    padding-top: 2em !important;
+    padding-bottom: 4em !important;
+  }
+
+  .logo{
+    width: 13em !important;
+  }
+
+  .container-fit-height{
+    height: calc(100vh - 8vw - 5em) !important;
+  }
+}
+
+
+@media (max-height: 500px) and (orientation: landscape)  {
+  .frame{
+    padding-bottom: 0 !important;
+    padding-top: 1em !important;
+    height: 8vw;
+  }
+
+  .container-fit-height{
+    height: calc(100vh - 1vw) !important;
+  }
+
+  .logo{
+    position: relative;
+    width: 25vw;
+  }
 }
 

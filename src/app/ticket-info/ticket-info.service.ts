@@ -71,7 +71,8 @@ export class TicketInfoService {
     }
   }
 
-  populateQueue(queueItem: QueueEntity): Array<QueueEntity> {
+  populateQueue(queueItem: QueueEntity, prevWaitingVisits: number, 
+  prevVisitPosition: number, prevUpperBound: number, prevLowerBound: number): Array<QueueEntity> {
     let entities: Array<QueueEntity> = [];
     let arrayQueueItem: QueueEntity;
     let upperBound = this.getQueueUpperBound(queueItem.waitingVisits, queueItem.visitPosition);
@@ -82,10 +83,17 @@ export class TicketInfoService {
       arrayQueueItem.status = queueItem.status;
       arrayQueueItem.visitPosition = queueItem.visitPosition;
       arrayQueueItem.waitingVisits = queueItem.waitingVisits;
+      arrayQueueItem.upperBound = upperBound;
+      arrayQueueItem.lowerBound = lowerBound;
+      arrayQueueItem.prevWaitingVisits = prevWaitingVisits;
+      arrayQueueItem.prevVisitPosition = prevVisitPosition;
+      arrayQueueItem.prevUpperBound = prevUpperBound;
+      arrayQueueItem.prevLowerBound = prevLowerBound;
       arrayQueueItem.index = i;
 
       entities.push(arrayQueueItem);
     }
     return entities;
   }
+
 }
