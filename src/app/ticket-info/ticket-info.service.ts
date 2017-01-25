@@ -15,6 +15,7 @@ export class TicketInfoService {
     queueEntity.status = queueObj.status;
     queueEntity.visitPosition = queueObj.visitPosition;
     queueEntity.waitingVisits = queueObj.waitingVisits;
+    queueEntity.queueId = queueObj.queueId;
     return queueEntity;
   }
   getVisitStatus(success, err): any {
@@ -37,6 +38,14 @@ export class TicketInfoService {
         err(xhr, status, msg);
       }
     );
+  }
+
+  getBranchInformation(branchId, onBranchResponse): void {
+    MobileTicketAPI.getBranchInformation(branchId, (branchInfo) => {
+        onBranchResponse(branchInfo, false);
+      }, () => {
+        onBranchResponse(null, true);
+      });
   }
 
   getQueueUpperBound(queueSize, queuePosition): number {

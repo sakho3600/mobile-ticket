@@ -5,6 +5,10 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { RetryService } from '../../shared/retry.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BranchEntity } from '../../entities/branch.entity';
+import { TranslateService } from 'ng2-translate';
+import { VisitState } from '../../util/visit.state';
 
 declare var MobileTicketAPI: any;
 
@@ -13,7 +17,7 @@ declare var MobileTicketAPI: any;
   templateUrl: './queue.component.html',
   styleUrls: ['./queue.component.css', './queue.component-rtl.css', '../../shared/css/common-styles.css']
 })
-export class QueueComponent implements OnInit {
+export class QueueComponent implements OnInit, OnDestroy {
 
   public visitPosition: number;
   public prevWaitingVisits: number;
@@ -22,11 +26,13 @@ export class QueueComponent implements OnInit {
   public branchId: number;
   public visitId: number;
   public queueId: number;
+  public checksum: number;
   public upperBound: number;
   public lowerBound: number;
   public queueLength: Array<number> = [];
   public timer;
   public subscription: Subscription;
+  public routerSubscription: Subscription;
   public prevVisitPosition: number;
   public prevUpperBound: number;
   public prevLowerBound: number;
@@ -36,22 +42,76 @@ export class QueueComponent implements OnInit {
   public ticketEndHeading: string;
   public isRtl: boolean;
   private showNetWorkError: boolean;
+  private queueIdPrev: number = -1;
+  private visitState: VisitState;
+  public prevVisitState: string;
 
+  @Output() onUrlAccessedTicket: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onTciketNmbrChange = new EventEmitter();
+  @Output() onServiceNameUpdate: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onBranchUpdate = new EventEmitter();
   @Output() onVisitStatusUpdate: EventEmitter<QueueEntity> = new EventEmitter<QueueEntity>();
+  @Output() onNetworkErr: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
-  constructor(private ticketService: TicketInfoService, private retryService: RetryService) {
+  constructor(private ticketService: TicketInfoService, private retryService: RetryService,
+    private activatedRoute: ActivatedRoute,
+    public router: Router, private translate: TranslateService) {
     this.visitPosition = 0;
     this.isTicketEndedOrDeleted = false;
-    this.branchId = MobileTicketAPI.getSelectedBranch().id;
-    this.visitId = MobileTicketAPI.getCurrentVisit().visitId;
-    this.queueId = MobileTicketAPI.getCurrentVisit().queueId;
-    MobileTicketAPI.setVisit(this.branchId, this.queueId, this.visitId);
-    this.initPollTimer(this.visitPosition, ticketService);
+    this.visitState = new VisitState();
+
+    // subscribe to router event branchId=1&visitId=1&checksum=423434;
+    this.routerSubscription = this.activatedRoute.queryParams.subscribe(
+      (queryParams: any) => {
+        let branchId = queryParams['branch'];
+        let visitId = queryParams['visit'];
+        let checksum = queryParams['checksum'];
+        if (branchId && visitId && checksum) {
+          ticketService.getBranchInformation(branchId, (branch: BranchEntity, error: boolean) => {
+            if (error) {
+              this.router.navigate(['no_visit']);
+            } else {
+              this.onBranchFetchSuccess(branch);
+              MobileTicketAPI.setVisit(branchId, 0, visitId, checksum);
+              this.ticketService.pollVisitStatus((queueInfo: QueueEntity) => {
+                MobileTicketAPI.setServiceSelection({ name: MobileTicketAPI.getCurrentVisitStatus().currentServiceName });
+                this.onUrlAccessedTicket.emit(true);
+                this.onBranchUpdate.emit();
+                this.onTciketNmbrChange.emit();
+                this.onServiceNameUpdate.emit(MobileTicketAPI.getCurrentVisitStatus().currentServiceName);
+                this.initPollTimer(this.visitPosition, ticketService);
+              },
+                (xhr, status, msg) => {
+                  if (xhr.status === 404 || xhr.status === 401) {
+                    this.router.navigate(['no_visit']);
+                  }
+                }
+              );
+            }
+          });
+        }
+        else {
+          this.branchId = MobileTicketAPI.getSelectedBranch().id;
+          this.visitId = MobileTicketAPI.getCurrentVisit().visitId;
+          this.queueId = MobileTicketAPI.getCurrentVisit().queueId;
+          this.checksum = MobileTicketAPI.getCurrentVisit().checksum;
+          // MobileTicketAPI.setVisit(this.branchId, this.queueId, this.visitId);
+          this.initPollTimer(this.visitPosition, ticketService);
+        }
+      });
   }
 
   ngOnInit() {
     this.setRtlStyles();
+  }
+
+  private onBranchFetchSuccess(branch) {
+    MobileTicketAPI.setBranchSelection(branch);
+  }
+
+  private detectTransfer(currentQueueId: number) {
+    return (this.queueIdPrev != -1 && (this.queueIdPrev != currentQueueId));
   }
 
   public initPollTimer(visitPosition, ticketService: TicketInfoService) {
@@ -65,11 +125,17 @@ export class QueueComponent implements OnInit {
 
   }
 
-  public queuePoll(visitPosition, ticketService: TicketInfoService, onRetry : boolean) {    
+  public queuePoll(visitPosition, ticketService: TicketInfoService, onRetry: boolean) {
     ticketService.pollVisitStatus((queueInfo: QueueEntity) => {
       this.doSubscribeForPolling();
       this.onQueuePollSuccess(queueInfo, ticketService);
       this.retryService.abortRetry();
+      this.queueId = queueInfo.queueId;
+      if (this.detectTransfer(this.queueId) == true) {
+        MobileTicketAPI.setServiceSelection({ name: MobileTicketAPI.getCurrentVisitStatus().currentServiceName });
+        this.onBranchUpdate.emit();
+      }
+      this.queueIdPrev = this.queueId;
     },
       (xhr, status, msg) => {
         this.doUnsubscribeForPolling();
@@ -78,12 +144,20 @@ export class QueueComponent implements OnInit {
           this.retryService.retry(() => {
             this.queuePoll(visitPosition, ticketService, true);
           })
-        } else if(xhr.status == 404){
-          let queueInfo: QueueEntity = new QueueEntity();
-          queueInfo.status = '';
-          queueInfo.visitPosition = -1;
-          this.isTicketEndedOrDeleted = true;
-          this.onVisitStatusUpdate.emit(queueInfo);
+        } else if (xhr.status == 404) {
+          /**
+           * this is to try if initial polling failed
+           */
+          if(!this.prevVisitState) {
+            this.queuePoll(visitPosition, ticketService, false);
+          }
+          else {
+            let queueInfo: QueueEntity = new QueueEntity();
+            queueInfo.status = '';
+            queueInfo.visitPosition = null;
+            this.isTicketEndedOrDeleted = true;
+            this.onVisitStatusUpdate.emit(queueInfo);
+          }
         }
       }
     );
@@ -99,18 +173,15 @@ export class QueueComponent implements OnInit {
     this.prevLowerBound = ticketService.getQueueLowerBound(this.prevWaitingVisits, this.prevVisitPosition, this.prevUpperBound);
 
     this.onVisitStatusUpdate.emit(queueInfo);
-    if (this.visitPosition !== -1) {
+    this.prevVisitState = queueInfo.status;
+    if (queueInfo.status === 'IN_QUEUE' || queueInfo.status === 'CALLED') {
       this.queueItems = ticketService.populateQueue(queueInfo, this.prevWaitingVisits,
         this.prevVisitPosition, this.prevUpperBound, this.prevLowerBound);
       this.updatePollTimer(this.visitPosition, ticketService);
     }
-    else if (queueInfo.status !== 'VISIT_CALL' && queueInfo.status !==
-      'VISIT_CONFIRM'
-      && queueInfo.status !== 'ADD_DELIVERED_SERVICE' && queueInfo.status !==
-
-      'SET_OUTCOME') {
-      this.isTicketEndedOrDeleted = true;
+    else if (this.prevVisitState !== 'CALLED') {
       this.doUnsubscribeForPolling();
+      this.router.navigate(['branches']);
     }
 
   }
@@ -132,6 +203,7 @@ export class QueueComponent implements OnInit {
 
   ngOnDestroy() {
     this.doUnsubscribeForPolling();
+    this.routerSubscription.unsubscribe();
   }
 
   public doUnsubscribeForPolling() {
@@ -140,8 +212,8 @@ export class QueueComponent implements OnInit {
     }
   }
 
-  public doSubscribeForPolling(){
-    if (this.subscription !== undefined && this.subscription.closed === false) {
+  public doSubscribeForPolling() {
+    if (this.subscription.closed === true) {
       this.subscription = this.timer.subscribe(visitPosition => this.queuePoll(visitPosition, this.ticketService, false));
     }
   }
@@ -156,5 +228,6 @@ export class QueueComponent implements OnInit {
 
   showHideNetworkError(value: boolean) {
     this.showNetWorkError = value;
+    this.onNetworkErr.emit(this.showNetWorkError);
   }
 }

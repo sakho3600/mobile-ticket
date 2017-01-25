@@ -1,8 +1,11 @@
-<div class="col center-text queue-itm" [ngClass]="{selected:hilightSelctedPosition(), other:!hilightSelctedPosition(), animselected:animatePosition()}">
-  <div class="box  ellipsis  reverse-ellipsis content-container-one">
-    <div class="ellipsis__content">{{ getQueueIndex() }}</div>
-  </div>
-  <div *ngIf="hilightSelctedPosition()" class="content-container-two">
-    <div class="ellipsis__content">{{ 'ticketInfo.yourPosition' | translate }}</div>
+<div class="col center-text queue-itm parent-center"
+     [ngClass]="{selected:hilightSelctedPosition(), other:!hilightSelctedPosition(), animselected:animatePosition()}">
+  <div class="child-center center-content">
+    <div class="box  ellipsis  reverse-ellipsis content-container-one">
+      <div class="ellipsis__content">{{ getQueueIndex() }}</div>
+    </div>
+    <div *ngIf="hilightSelctedPosition()" class="content-container-two">
+      <div class="ellipsis__content">{{ 'ticketInfo.yourPosition' | translate }}</div>
+    </div>
   </div>
 </div>

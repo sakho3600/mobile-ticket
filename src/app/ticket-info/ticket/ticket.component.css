@@ -4,9 +4,16 @@
   background-position-x: center;
   background-position-y: center;
   background-size: contain;
-  height: 50vw;
-  max-height: 388px;
+  /*height: 50vw;*/
+  /*max-height: 388px;*/
+  height: 200px;
+  max-height: 350px;
   margin: 1em auto;
+}
+
+.ticket_nmbr {
+  line-height: 100%;
+  margin-bottom: 10px;
 }
 
 .ticket_info {
@@ -23,47 +30,50 @@
   font-size: 1.2em !important;
 }
 
-.ticket_nmbr {
-  font-size: calc(10px + 10vw) !important;
-}
-
 .ticket-size-1 {
-  font-size: calc(30px + 25vw) !important;
+  font-size: 62px !important;
 }
 
 .ticket-size-2 {
-  font-size: calc(15px + 23vw) !important;
+  font-size: 62px !important;
 }
 
 .ticket-size-3 {
-  font-size: calc(12px + 15vw) !important;
+  font-size: 62px !important;
 }
 
 .ticket-size-4 {
-  font-size: calc(12px + 12vw) !important;
+  font-size: 57px !important;
 }
 
 .ticket-size-5 {
-  font-size: calc(12px + 8vw) !important;
+  font-size: 39px !important;
 }
 
 .ticket-size-6 {
-  font-size: calc(3px + 10vw) !important;
+  font-size: 39px !important;
 }
 
 .ticket-service-name {
   color: black !important;
-  font-size: calc(10px + 3vw) !important;
-  width: 40% !important;
+  font-size: 25px !important;
+  width: 133px !important;
   line-height: 24px;
+  word-break: break-all !important;
+  font-weight: 300 !important;
 }
 
 .ticket-remove-heading {
-  margin-top: 10vw !important;
-  margin-bottom: 10vw !important;
+  margin-top: 2em !important;
+  margin-bottom: 2em !important;
   width: 94%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.expand-view {
+  position: absolute;
+
 }
 
 .ticket-text {
@@ -83,17 +93,16 @@
   visibility: hidden !important;
 }
 
-.v-center{
+.v-center {
   vertical-align: middle;
   display: table-cell;
-  line-height: 10vw;
 }
 
-.inside-margin{
-  height: calc(0.8vw + 5px);
+.inside-margin {
+  height: 0;
 }
 
-@media (orientation: landscape) {
+@media (orientation: landscape) and (max-height: 500px) {
   .ticket_container {
     background: url('app/resources/TicketSmall.png');
     background-repeat: no-repeat;
@@ -106,25 +115,24 @@
   }
 
   .button-container {
-    width: 50%;
+    width: 43%;
     float: left;
     margin-top: 12vw;
   }
 
-  .ticket_nmbr{
+  /*.ticket_nmbr{
     font-size: calc(10px + 5vw) !important;
-  }
-
+  }*/
   .ticket-service-name {
     color: black !important;
     font-size: calc(10px + 2vw) !important;
   }
 
-  .v-center{
+  .v-center {
     line-height: 5vw;
   }
 
-  .ticket-size-1 {
+  /*.ticket-size-1 {
     font-size: calc(20vw - 67px) !important;
   }
 
@@ -146,37 +154,5 @@
 
   .ticket-size-6 {
     font-size: calc(3px + 5vw) !important;
-  }
+  }*/
 }
-
-@media (orientation: landscape) and (min-width: 1000px) {
-
-  .inside-margin{
-    height: 20px;
-  }
-
-  .ticket-size-1 {
-    font-size: calc(20vw - 67px) !important;
-  }
-
-  .ticket-size-2 {
-    font-size: calc(20vw - 67px) !important;
-  }
-
-  .ticket-size-3 {
-    font-size: calc(15vw - 67px) !important;
-  }
-
-  .ticket-size-4 {
-    font-size: calc(3px + 6vw) !important;
-  }
-
-  .ticket-size-5 {
-    font-size: calc(3px + 5vw) !important;
-  }
-
-  .ticket-size-6 {
-    font-size: calc(3px + 4vw) !important;
-  }
-}
-

@@ -2556,6 +2556,7 @@ var MobileTicketAPI = (function () {
   var visitId = undefined;
   var queueId = undefined;
   var branchId = undefined;
+  var checksum = undefined;
   var currentvisitEvent = undefined;
   var currentVisitStatus = undefined;
 
@@ -2567,15 +2568,17 @@ var MobileTicketAPI = (function () {
   var MYVISIT = "MyVisit";
   var POSITION = "Position";
   var QUEUES = "queues";
+  var QUEUE = "queue";
   var VISITS = "visits";
   var REST = "/rest";
   var SERVICE_POINT = "servicepoint";
   var EVENTS = "events";
   var ENTRY_POINT = "entrypoint";
+  var CURRENT_STATUS = "CurrentStatus";
   var self = this;
 
-  $(document).ajaxError(function( event, request, settings ) {
-        console.log(JSON.stringify(settings));
+  $(document).ajaxError(function (event, request, settings) {
+    console.log(JSON.stringify(settings));
   });
 
   $.ajaxSetup({
@@ -2586,13 +2589,14 @@ var MobileTicketAPI = (function () {
   });
 
   function createCookie(name, value, days) {
+    var enc = window.btoa(value);
     if (days) {
       var date = new Date();
       date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
       var expires = "; expires=" + date.toGMTString();
     }
     else var expires = "";
-    document.cookie = name + "=" + value + expires + "; path=/";
+    document.cookie = name + "=" + enc + expires + "; path=/";
   }
 
   function readCookie(name) {
@@ -2601,9 +2605,34 @@ var MobileTicketAPI = (function () {
     for (var i = 0; i < ca.length; i++) {
       var c = ca[i];
       while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      if (c.indexOf(nameEQ) == 0){
+        var val = c.substring(nameEQ.length, c.length);
+        return window.atob(val);
+      }
     }
     return null;
+  }
+
+  function setCookies(){
+      var branch = MobileTicketAPI.selectedBranch;
+      var service = MobileTicketAPI.selectedService;
+      var visit = MobileTicketAPI.visitInformation;
+
+      if(branch != undefined){
+        createCookie('branch', JSON.stringify(branch), 0.5);
+      }
+      if(service != undefined){
+        createCookie('service', JSON.stringify(service), 0.5);
+      }
+      if(visit != undefined){
+        createCookie('visit', JSON.stringify(visit), 0.5);
+      }
+  }
+
+  function deleteAllCookies(){
+      eraseCookie('branch');
+      eraseCookie('service');
+      eraseCookie('visit');
   }
 
   function eraseCookie(name) {
@@ -2611,43 +2640,43 @@ var MobileTicketAPI = (function () {
   }
 
   function getSelectedBranch() {
-    return (this.selectedBranch == undefined) ? JSON.parse(readCookie("branch")) : this.selectedBranch;
+    return (MobileTicketAPI.selectedBranch == undefined) ? JSON.parse(readCookie("branch")) : MobileTicketAPI.selectedBranch;
   }
 
   function getSelectedService() {
-    return (this.selectedService == undefined) ? JSON.parse(readCookie("service")) : this.selectedService;
+    return (MobileTicketAPI.selectedService == undefined) ? JSON.parse(readCookie("service")) : MobileTicketAPI.selectedService;
   }
 
   function getCurrentVisit() {
-    return (this.visitInformation == undefined) ? JSON.parse(readCookie("visit")) : this.visitInformation;
+    return (MobileTicketAPI.visitInformation == undefined) ? JSON.parse(readCookie("visit")) : MobileTicketAPI.visitInformation;
   }
 
-  function processVisitStatus(visits, visitEvents) {
-    var visitIdVal = this.visitId;
+  function processVisitStatus(data) {
     var visitStatus = {};
-    var finalVisitEvent = visitEvents[visitEvents.length - 1];
-    this.currentvisitEvent = finalVisitEvent;
-    visitStatus.status = finalVisitEvent.eventName;
-    visitStatus.queueName = finalVisitEvent.parameterMap.queueName;
-    if (visits.visit === undefined) {
-      visitStatus.waitingVisits = -1;
-      visitStatus.visitPosition = -1;
+    visitStatus.status = data.currentStatus;
+    visitStatus.queueName = data.queueName;
+    visitStatus.waitingVisits = data.queueSize;
+    visitStatus.firstName = data.staffFirstName;
+    visitStatus.visitPosition = data.position;
+    visitStatus.ticketId = data.ticketId;
+    visitStatus.currentServiceName = data.currentServiceName;
+    visitStatus.queueId = data.queueId;
 
-    }
-    else {
-      visitStatus.waitingVisits = visits.visit.queueSize;
-      visitStatus.visitPosition = visits.visit.position;
-    }
-    this.currentVisitStatus = visitStatus;
+    visitStatus.servicePointName = data.servicePointName;
+    MobileTicketAPI.currentVisitStatus = visitStatus;
     return visitStatus;
   }
 
-  function getCurrentVisitEvent(){
-    return this.currentvisitEvent;
+  function getCurrentVisitEvent() {
+    return MobileTicketAPI.currentvisitEvent;
   }
 
-  function getCurrentVisitStatus(){
-    return this.currentVisitStatus;
+  function getCurrentVisitStatus() {
+    return MobileTicketAPI.currentVisitStatus;
+  }
+
+  function resetCurrentVisitStatus() {
+     MobileTicketAPI.currentVisitStatus = {};
   }
 
   return {
@@ -2657,47 +2686,47 @@ var MobileTicketAPI = (function () {
       // eraseCookie("service");
       // eraseCookie("visit");
     },
-    getBranchInformation: function(branchId, onSuccess, onError){
-        try {
-            var BRANCH_INFO_REST_API = REST+"/"+ SERVICE_POINT + "/" + BRANCHES + "/"+branchId;
-            $.ajax({
-              type: "GET",
-              dataType: "json",
-              url: BRANCH_INFO_REST_API,
-              success: function (data) {
-                if (data != undefined) {
-                  onSuccess(data);
-                }
-              },
-              error: function (xhr, status, errorMsg) {
-                onError(xhr, status, errorMsg);
-              }
-            });
-        } catch (e) {
-          onError(null, null, e.message);
-        }
+    getBranchInformation: function (branchId, onSuccess, onError) {
+      try {
+        var BRANCH_INFO_REST_API = REST + "/" + SERVICE_POINT + "/" + BRANCHES + "/" + branchId;
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: BRANCH_INFO_REST_API,
+          success: function (data) {
+            if (data != undefined) {
+              onSuccess(data);
+            }
+          },
+          error: function (xhr, status, errorMsg) {
+            onError(xhr, status, errorMsg);
+          }
+        });
+      } catch (e) {
+        onError(null, null, e.message);
+      }
     },
-	getQueueInformation: function(queueId, onSuccess, onError){
-		try {
-            var branch = getSelectedBranch();
-            var QUEUE_INFO_REST_API = REST+"/"+ ENTRY_POINT + "/" + BRANCHES + "/"+ branch.id +"/"+ QUEUES +"/"+ queueId;
-            $.ajax({
-              type: "GET",
-              dataType: "json",
-              url: QUEUE_INFO_REST_API,
-              success: function (data) {
-                if (data != undefined) {
-                  onSuccess(data);
-                }
-              },
-              error: function (xhr, status, errorMsg) {
-                onError(xhr, status, errorMsg);
-              }
-            });
-        } catch (e) {
-          onError(null, null, e.message);
-        }
-	},
+    getQueueInformation: function (serviceId, onSuccess, onError) {
+      try {
+        var branch = getSelectedBranch();
+        var QUEUE_INFO_REST_API = REST + "/" + ENTRY_POINT + "/" + BRANCHES + "/" + branch.id + "/" + SERVICES + "/" + serviceId + "/" + QUEUE;
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: QUEUE_INFO_REST_API,
+          success: function (data) {
+            if (data != undefined) {
+              onSuccess(data);
+            }
+          },
+          error: function (xhr, status, errorMsg) {
+            onError(xhr, status, errorMsg);
+          }
+        });
+      } catch (e) {
+        onError(null, null, e.message);
+      }
+    },
     getBranchesNearBy: function (latitude, longitude, radius, onSuccess, onError) {
       try {
         var service = getSelectedService();
@@ -2771,7 +2800,7 @@ var MobileTicketAPI = (function () {
           contentType: 'application/json',
           data: JSON.stringify({
              "parameters": {
-  	            "gaClientID": clientId 
+  	            "gaClientID": clientId
               }
           }),
           dataType: "json",
@@ -2783,7 +2812,8 @@ var MobileTicketAPI = (function () {
         })
           .done(function (data) {
             if (data != undefined) {
-              createCookie('visit', JSON.stringify(data), 0.5);
+              MobileTicketAPI.visitInformation = data;
+              setCookies();
               onSuccess(data);
             }
           });
@@ -2798,30 +2828,18 @@ var MobileTicketAPI = (function () {
 
         var visitIdVal = getCurrentVisit().visitId;
         var queueIdVal = getCurrentVisit().queueId;
+        var checksum = getCurrentVisit().checksum;
         var branchIdVal = getSelectedBranch().id;
 
-        var REST2 = MOBILE_TICKET + "/" + MYVISIT + "/" + POSITION + "/" + BRANCHES + "/" + branchIdVal + "/" + QUEUES + "/" + queueIdVal + "/" + VISITS + "?visitId=" + visitIdVal;
+        var VISIT_STATUS_REST = MOBILE_TICKET + "/" + MYVISIT + "/" + CURRENT_STATUS + "/" + BRANCHES + "/" + branchIdVal + "/" + VISITS + "/" + visitIdVal + "?checksum=" + checksum;
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: REST2,
+          url: VISIT_STATUS_REST,
           success: function (visitsData) {
             if (visitsData != undefined) {
-              var SERVICES_REST_API = REST + "/" + SERVICE_POINT + "/" + BRANCHES + "/" + branchIdVal + "/" + VISITS + "/" + visitIdVal + "/" + EVENTS;
-              $.ajax({
-                type: "GET",
-                dataType: "json",
-                url: SERVICES_REST_API,
-                success: function (eventsData) {
-                  if (eventsData != undefined) {
-                    var visitStatus = processVisitStatus(visitsData, eventsData);
-                    onSuccess(visitStatus);
-                  }
-                },
-                error: function (xhr, status, errorMsg) {
-                  onError(xhr, status, errorMsg);
-                }
-              });
+              var visitStatus = processVisitStatus(visitsData);
+              onSuccess(visitStatus);
             }
           },
           error: function (xhr, status, errorMsg) {
@@ -2863,9 +2881,9 @@ var MobileTicketAPI = (function () {
         $.ajax({
           method: 'DELETE',
           dataType: "json",
-          url: MOBILE_TICKET + "/" + BRANCHES + "/" + branch.id + "/" + TICKET + "/" + visit.visitId,
+          url: MOBILE_TICKET + "/" + BRANCHES + "/" + branch.id + "/" + TICKET + "/" + visit.visitId + "?checksum=" + visit.checksum,
           success: function () {
-            createCookie('visit', null, 0.5);
+            deleteAllCookies();
             onSuccess();
           },
           error: function (xhr, status, errorMsg) {
@@ -2876,18 +2894,26 @@ var MobileTicketAPI = (function () {
         onError(null, null, e.message);
       }
     },
-    setVisit: function (branchId, queueId, visitId) {
-      this.visitId = visitId;
-      this.queueId = queueId;
-      this.branchId = branchId;
+    setVisit: function (branchId, queueId, visitId, checksum) {
+      MobileTicketAPI.visitId = visitId;
+      MobileTicketAPI.queueId = queueId;
+      MobileTicketAPI.branchId = branchId;
+      MobileTicketAPI.checksum = checksum;
+      var data = JSON.stringify({
+              branchId: branchId,
+              checksum: checksum,
+              queueId: queueId,
+              visitId: visitId
+
+          });
+        MobileTicketAPI.visitInformation = data;
+        setCookies();
     },
     setBranchSelection: function (branch) {
-      this.selectedBranch = branch;
-      createCookie('branch', JSON.stringify(branch), 0.5);
+      MobileTicketAPI.selectedBranch = branch;
     },
     setServiceSelection: function (service) {
-      this.selectedService = service;
-      createCookie('service', JSON.stringify(service), 0.5);
+      MobileTicketAPI.selectedService = service;
     },
     getSelectedBranch: function () {
       return getSelectedBranch();
@@ -2898,11 +2924,14 @@ var MobileTicketAPI = (function () {
     getCurrentVisit: function () {
       return getCurrentVisit();
     },
-    getCurrentVisitEvent: function(){
+    getCurrentVisitEvent: function () {
       return getCurrentVisitEvent();
     },
-    getCurrentVisitStatus: function(){
+    getCurrentVisitStatus: function () {
       return getCurrentVisitStatus();
+    },
+    resetCurrentVisitStatus: function () {
+      return resetCurrentVisitStatus();
     }
   }
 })();

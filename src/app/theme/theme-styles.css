@@ -5,6 +5,11 @@
   color: #FFFFFF !important;
 }
 
+/* Edit to change font color of buttons */
+.custom.btn-text-color{
+  color: #FFFFFF !important;
+}
+
 /* Edit to change accent color of buttons */
 .custom.accent-bg-color {
   background: rgba(157, 0, 58, 0.9) !important

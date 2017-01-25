@@ -42,4 +42,12 @@ export class ServiceComponent implements OnInit {
       this.isRtl = false;
     }
   }
+
+  getVisibilityOfTick(){
+    if(this.selected){
+      return "visible";
+    }else{
+      return "hidden";
+    }
+  }
 }

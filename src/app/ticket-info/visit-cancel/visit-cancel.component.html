@@ -1,5 +1,5 @@
-<div class="center-text">
-  <div class="accent-btn accent-btn-side custom accent-bg-color" (click)='onButtonClick()'>
+<div *ngIf='showButton()' [ngClass]="{'btn-margin': isAfterCalled, 'center-text': true}">
+  <div class="accent-btn accent-btn-side custom accent-bg-color btn-text-color" (click)='onButtonClick()'>
     {{ getButtonTitle() }}
   </div>
 </div>

@@ -16,10 +16,6 @@
   text-align: center;
 }
 
-.logo-margin {
-  margin:  36px 0 10px 0;
-}
-
 .logo-container{
   display: inline-block;
   height: 100%;
@@ -39,16 +35,17 @@
 }
 
 .logo{
-  width: 32vw;
-  max-width: 24em;
+  /*width: 32vw;*/
+  /*max-width: 24em;*/
+  width: 200px;
+  max-width: 200px;
   margin: 0 auto;
   content: url('app/resources/qmLogo.png');
 }
 
 .frame {
-  height: 13vw;
+  height: 7em;
   text-align: center;
-  margin-bottom: 6px;
   max-height: 10em;
 }
 
@@ -58,16 +55,21 @@
   vertical-align: middle;
 }
 
-.extra-margin{
-  height: 0.5em;
-}
-
-.container-fit-height{
-  height: calc(100vh - 13vw) !important;
-}
-
 /* Media Queries */
+/* Small phones */
+@media (max-width: 350px), (orientation: landscape) and (max-height: 450px){
+  .logo{
+    width: 110px;
+  }
 
+  .frame {
+    height: 4em;
+    text-align: center;
+    max-height: 10em;
+  }
+}
+
+/*
 @media (max-width: 800px) and (orientation: portrait)  {
   .frame{
     padding-top: 2em !important;
@@ -100,4 +102,4 @@
     width: 25vw;
   }
 }
-
+*/

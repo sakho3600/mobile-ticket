@@ -2,6 +2,7 @@ var proxy = require('express-http-proxy');
 var express = require('express');
 var fs = require('fs');
 var https = require('https');
+var path = require('path');
 var app = express();
 
 var configFile = 'proxy-config.json';
@@ -30,7 +31,22 @@ if (supportSSL) {
 	credentials = { key: privateKey, cert: certificate };
 }
 
-app.use(express.static('src'));
+app.use(express.static(__dirname + '/src'));
+
+// Redirect all requests that start with branches and end, to index.html
+app.get('/branches$', function (req, res) {
+  res.sendFile(path.join(__dirname + '/src', 'index.html'));
+});
+
+// Redirect all requests that start with services and end, to index.html
+app.get('/services$', function (req, res) {
+  res.sendFile(path.join(__dirname + '/src', 'index.html'));
+});
+
+// Redirect all requests that start with ticket info and end, to index.html
+app.get('/ticket$', function (req, res) {
+  res.sendFile(path.join(__dirname + '/src', 'index.html'));
+});
 
 // Proxy mobile example to API gateway
 var apiProxy = proxy(host, {										// ip and port off apigateway

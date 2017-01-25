@@ -2,6 +2,20 @@
     background: transparent;
 }
 
+.app-visit-cancel{
+  position: absolute;
+  width: 100%;
+}
+
+.expand-view-btn, .expand-view-ticket{
+  float: none !important;
+  width: 100% !important;
+}
+
+.expand-view-btn{
+  margin: 0 auto 0 auto !important;
+}
+
 .ticket_branch{
   position: relative;
   top: 6px;
@@ -11,21 +25,14 @@
   float: none !important;
 }
 
-@media (orientation : landscape) {
+@media (orientation : landscape) and (max-height: 500px) {
   .ticket-container{
     width: 50%;
     float: left;
     margin: 0 auto;
   }
   .button-container{
-    width: 50%;
+    width: 43%;
     float: left;
-    margin: 12vw auto 0 auto;
-  }
-}
-
-@media (orientation: landscape) and (max-height: 600px) {
-  .button-container{
-    margin-top: 8vw;
   }
 }

@@ -1,6 +1,7 @@
 export class BranchEntity {
-   id: string
-   name: string
-   address:string
-   distance:string
+   id: string;
+   name: string = '';
+   address: string;
+   distance: string;
+   enabled: boolean;
 }

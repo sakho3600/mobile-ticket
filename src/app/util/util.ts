@@ -1,5 +1,7 @@
 export class Util {
 
+    private IMPERIAL_UNIT_COUNTRY_CODES = ["US","LR","MM"];
+
     public getNumberSufix(number : number) {
         var m = number % 10,
         n = number % 100;
@@ -14,4 +16,14 @@ export class Util {
         }
         return number + "th";
     }
+
+    public isImperial(): boolean {
+        let lang: string = navigator.language;
+        for(let code of this.IMPERIAL_UNIT_COUNTRY_CODES) {
+            if(code.toLowerCase() === lang.split('-')[1].toLowerCase()) {
+                return true;
+            }
+        }
+    }
+
 }

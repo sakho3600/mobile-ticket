@@ -1,4 +1,10 @@
-<div class="message-container sub-heading-text-3">
-  <div class="loader-div" ><img [src]="loaderResource" class="loader"></div>
-  <div class="message-div message-align-left" >Sorry, there seems to be an issue with the connection.</div>
+<div class="row width-control">
+  <div class="loader-container">
+    <div class="inline-block-elem left-cell">
+      <img [src]="loaderResource" class="loader"/>
+    </div>
+    <div class="inline-block-elem right-cell">
+      <span class="sub-heading-text-3">{{ textMsg }}</span>
+    </div>
+  </div>
 </div>

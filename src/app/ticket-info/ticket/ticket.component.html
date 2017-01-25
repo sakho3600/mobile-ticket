@@ -1,13 +1,12 @@
-<div *ngIf="!isTicketEndedOrDeleted" class="ticket_container ticket_info">
-  <div class="v-center">
+<div *ngIf="!isTicketEndedOrDeleted" class="ticket_container ticket_info parent-center">
+  <div *ngIf='ticketEntity' class="child-center">
     <div
-      [ngClass]="{'fadeIn': !isTicketNumberHidden, 'fadeOut': isTicketNumberHidden, 'ticket-size-1' : ticketEntity.ticketNumber.length == 1, 'ticket-size-2' : ticketEntity.ticketNumber.length == 2, 'ticket-size-3' : ticketEntity.ticketNumber.length == 3, 'ticket-size-4' : ticketEntity.ticketNumber.length == 4, 'ticket-size-5' : ticketEntity.ticketNumber.length == 5, 'ticket-size-6' : ticketEntity.ticketNumber.length == 6, 'ticket_nmbr': true}">
+      [ngClass]="{'fadeIn': !isTicketNumberHidden, 'fadeOut': isTicketNumberHidden, 'ticket-size-1' : ticketEntity.ticketNumber?.length == 1, 'ticket-size-2' : ticketEntity.ticketNumber?.length == 2, 'ticket-size-3' : ticketEntity.ticketNumber?.length == 3, 'ticket-size-4' : ticketEntity.ticketNumber?.length == 4, 'ticket-size-5' : ticketEntity.ticketNumber?.length == 5, 'ticket-size-6' : ticketEntity.ticketNumber?.length == 6, 'ticket_nmbr': true}">
       {{ticketEntity.ticketNumber}}
     </div>
-    <div class="inside-margin"></div>
     <div class="sub-heading-text-2 ticket-service-name">{{ serviceName }}</div>
   </div>
 </div>
-<div *ngIf="isTicketEndedOrDeleted" class="center-text sub-heading-text-3 ticket-remove-heading custom text-color">
+<div *ngIf="isTicketEndedOrDeleted && !isAfterCalled" class="center-text sub-heading-text-3 ticket-remove-heading custom text-color">
   {{ 'ticketInfo.ticketRemovedHeading' | translate }}
 </div>

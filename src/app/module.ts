@@ -12,6 +12,7 @@ import { ServicesContainerComponent } from './service/list-container/services-co
 import { ServiceComponent } from './service/list-item/service.component';
 import { ServiceService } from './service/service.service';
 
+
 import { FrameLayoutComponent } from './shared/frame-layout/frame-layout.component';
 import { TicketInfoContainerComponent } from './ticket-info/container/ticket-info-container.component';
 import { TicketInfoService } from './ticket-info/ticket-info.service';
@@ -27,11 +28,13 @@ import { QueueItemComponent } from './ticket-info/queue-item/queue-item.componen
 import { SortPipe } from './util/sort.pipe';
 import { Config } from './config/config';
 import { Locale } from './locale/locale';
+import { LocationService } from './util/location';
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
 
 import { ConnectivityMessageComponent} from './shared/connectivity-message/connectivity-message.component';
 
 import  { RetryService } from './shared/retry.service';
+import { VisitNotfoundComponent } from './ticket-info/visit-notfound/visit-notfound.component';
 
 declare var MobileTicketAPI: any;
 
@@ -40,7 +43,7 @@ declare var MobileTicketAPI: any;
   declarations: [
     BranchesComponent, BranchComponent, ServicesComponent, ServiceComponent,
     RootComponent, RoutingComponents, FrameLayoutComponent, TicketComponent, 
-    QueueComponent, VisitCancelComponent, QueueItemComponent, SortPipe, ConnectivityMessageComponent
+    QueueComponent, VisitCancelComponent, QueueItemComponent, SortPipe, ConnectivityMessageComponent, VisitNotfoundComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,7 @@ declare var MobileTicketAPI: any;
       deps: [Http]
     })
   ],
-  providers: [BranchService, ServiceService, TicketInfoService, AuthGuard, RetryService,Locale,
+  providers: [BranchService, ServiceService, TicketInfoService, AuthGuard, RetryService,Locale, LocationService, SortPipe,
     Config,
     { provide: APP_INITIALIZER, useFactory: (config: Config) => () => config.load(), deps: [Config], multi: true }
   ],

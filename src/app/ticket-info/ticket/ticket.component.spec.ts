@@ -19,32 +19,32 @@ describe('TicketComponent', () => {
     });
   });
 
-  it(`Should return a string of length 30 characters if input is a string of more than 30 characters`, async(() => {
+  it(`Should return a string of length 20 characters if input is a string of more than 20 characters`, async(() => {
     let fixture = TestBed.createComponent(TicketComponent);
     let component = fixture.debugElement.componentInstance;
-    let str = component.trimServiceString("1234567890123456789012345678901");
-    expect(str.length).toEqual(30);
+    let str = component.trimServiceString("123456789012345678901");
+    expect(str.length).toEqual(20);
   }));
 
-  it(`Should return true if 27th position on string in . when length of inout string longer than 31`, async(() => {
+  it(`Should return true if 17th position on string in . when length of inout string longer than 20`, async(() => {
     let fixture = TestBed.createComponent(TicketComponent);
     let component = fixture.debugElement.componentInstance;
     let str = component.trimServiceString("1234567890123456789012345678901");
-    expect(str[27]).toEqual(".");
+    expect(str[17]).toEqual(".");
   }));
 
-  it(`Should return true if 28th position on string in . when length of inout string longer than 31`, async(() => {
+  it(`Should return true if 18th position on string in . when length of inout string longer than 20`, async(() => {
     let fixture = TestBed.createComponent(TicketComponent);
     let component = fixture.debugElement.componentInstance;
     let str = component.trimServiceString("1234567890123456789012345678901");
-    expect(str[28]).toEqual(".");
+    expect(str[18]).toEqual(".");
   }));
 
-  it(`Should return true if 29th position on string in . when length of inout string longer than 31`, async(() => {
+  it(`Should return true if 19th position on string in . when length of inout string longer than 20`, async(() => {
     let fixture = TestBed.createComponent(TicketComponent);
     let component = fixture.debugElement.componentInstance;
     let str = component.trimServiceString("1234567890123456789012345678901");
-    expect(str[29]).toEqual(".");
+    expect(str[19]).toEqual(".");
   }));
 
 });

@@ -2,7 +2,7 @@
   <div class="row sub-heading-text-1-margin">
     <div class="col-xs-1 col-xxs"></div>
     <div class="col-xs-10 col-xxs">
-      <div class="center-text sub-heading-text-1 custom text-color">
+      <div class="center-text sub-heading-text-1 custom text-color pad-bottom inner-margin-separator">
         <div>{{ 'branch.subHeadingOne' | translate }}</div>
       </div>
     </div>
@@ -21,13 +21,7 @@
 </div>
 
 <div class="row" [hidden]="!showNetWorkError">
-  <div class="col-xs-0 col-xxs"></div>
-  <div class="col-xs-12 col-xxs">
-    <div>
       <app-network-message></app-network-message>
-    </div>
-  </div>
-  <div class="col-xs-0 col-xxs"></div>
 </div>
 
 <div class="row">

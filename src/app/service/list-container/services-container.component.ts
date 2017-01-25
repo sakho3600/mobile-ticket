@@ -47,8 +47,16 @@ export class ServicesContainerComponent {
         this.takeTicket();
     }
 
+    private getStatusErrorCode(val: string) {
+        var regex = (/error_code:\s*(\d*)/g);
+        var parsedArray = regex.exec(val);
+        if (parsedArray && parsedArray.length > 0) {
+            return parsedArray[1];
+        }
+    }
+
     private takeTicket(): void {
-      
+
         if (this.selectedServiceId) {
             let clientId;
             ga(function (tracker) {
@@ -72,17 +80,23 @@ export class ServicesContainerComponent {
                     this.router.navigate(['ticket']);
                 },
                 (xhr, status, errorMessage) => {
-                    this.showHideNetworkError(true);
-                    this.retryService.retry(() => {
-                        let branchId = MobileTicketAPI.getSelectedBranch().id;
-                        MobileTicketAPI.getBranchInformation(branchId,
-                            () => {
-                                this.retryService.abortRetry();
-                                this.showHideNetworkError(false);
-                            }, () => {
-                                //Do nothing on error
-                            });
-                    });
+                    if (this.getStatusErrorCode(xhr.getAllResponseHeaders()) === "8042") {
+                        this.translate.get('error_codes.error_8042').subscribe((res: string) => {
+                            alert(res);
+                        });
+                    } else {
+                        this.showHideNetworkError(true);
+                        this.retryService.retry(() => {
+                            let branchId = MobileTicketAPI.getSelectedBranch().id;
+                            MobileTicketAPI.getBranchInformation(branchId,
+                                () => {
+                                    this.retryService.abortRetry();
+                                    this.showHideNetworkError(false);
+                                }, () => {
+                                    //Do nothing on error
+                                });
+                        });
+                    }
                 }
             );
         }

@@ -21,7 +21,11 @@ npm install -g angular-cli
 ```
 Clone the Mobile Ticket Solution
 ```
-git clone https://github.com/qmatic/mobile-ticket.git
+git clone https://github.com/qmatic/mobileticket.git
+```
+When the cloning is complete, install the required node modules by running the follwing command from the project directory.
+```
+npm install
 ```
 We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
 
@@ -34,6 +38,12 @@ The current implementation is indented to be hosted on node.js and proxing is pr
 ###### Configuring the Proxy for Development Environment
 
 Edit proxy.config.json and set target to the IP and port of the QMATIC API Gateway service
+
+File location
+```html
+project directory
+|---proxy.config.json
+```
 
 ```js
 {
@@ -70,7 +80,14 @@ ng serve --proxy-config proxy.conf.json
 ###### Configuring the Proxy for Production Environment
 
 Once the solution is built the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
-to "value" in "apigw_ip_port".
+to "value" in "apigw_ip_port". Then set a valid auth token to "value" in "auth_token".
+
+File location
+```html
+project directory
+|---dist
+      |--- proxy.config.json
+```
 
 ```js
 {
@@ -96,6 +113,43 @@ to "value" in "apigw_ip_port".
     }
 }
 ```
+###### Changing the deafult configurations of the application in  Development/Production Environment
+Application configuration file called 'cofig.json' contains the application specific parameters.
+
+File location
+```html
+project directory
+|---src
+     |---app
+           |---config
+                  |---config.json
+```
+
+```js
+{
+    "branch_radius": {
+        "value": "2147483647",
+        "description": "Radius to include branches within (in meters)"
+    },
+    "version": {
+        "value": "1.0.0.2",
+        "description": "MobileTicket version"
+    },
+    "ga_track_id": {
+        "value":"",
+        "description": "Google Analytic Track-ID"
+    },
+    "notification_sound": {
+        "value":"notification.mp3",
+        "description": "Sound file use for notification"
+    },
+    "measuring_unit": {
+        "value":"Imperial",
+        "description":"Measuring unit for branch distance. Can be either Metric or Imperial"
+    }
+}
+```
+
 ###### Configuring the Proxy for Production Environment with HTTPS
 
 Fist it is required to install openssl and once the solution is built the output folder structure will contain a folder by the name 'sslcert' which contains 
@@ -137,7 +191,7 @@ MobileTicketAPI.init()
 
 Fetch branch information for the provided branchId
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 ```js
@@ -198,11 +252,11 @@ MobileTicketAPI.getBranchInformation(branchId, onSuccess, onError)
 
 Fetch Queue information for the provided queueId
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 ```js
-MobileTicketAPI.getQueueInformation(queueId, onSuccess, onError)
+MobileTicketAPI.getQueueInformation(serviceId, onSuccess, onError)
 
 //-----OUTPUT------
 
@@ -224,7 +278,7 @@ longitude - Longitude of current location
 
 radius - The radius of the circular area within which the branches are expected to be available
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 ```js
@@ -267,7 +321,7 @@ MobileTicketAPI.getBranchesNearBy(latitude, longitude, radius, onSuccess, onErro
 
 Fetch all the branches that are available
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 ```js
@@ -325,7 +379,7 @@ MobileTicketAPI.getAllBranches(onSuccess, onError)
 Fetch all services for the selected branch
 NOTE: Branch selection will be cached inside the library, so here it gives the services for the so called caches branch
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 ```js
@@ -362,7 +416,7 @@ NOTE: Branch selection and service selection will be cached inside the library
 
 clientId - clientId assigned by Google Analytics
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 ```js
@@ -383,7 +437,7 @@ MobileTicketAPI.createVisit(clientId, onSuccess, onError)
 
 Fetch the visit status of a created visit.
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 
@@ -401,7 +455,7 @@ MobileTicketAPI.getVisitStatus(onSuccess, onError)
 ```
 Fetch the queue status of a created visit.
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 
@@ -414,7 +468,7 @@ MobileTicketAPI.getQueueStatus(onSuccess, onError)
 ```
 Cancel the current visit.
 
-onSccuess - Success callback
+onSuccess - Success callback
 
 onError - Error callback
 ```js
@@ -426,7 +480,7 @@ MobileTicketAPI.cancelVisit(onSuccess, onError)
 ```
 
 ```js
-MobileTicketAPI.setVisit(branchId, queueId, visitId)
+MobileTicketAPI.setVisit(branchId, queueId, visitId, checksum)
 ```
 Set the branch selection.
 ```js

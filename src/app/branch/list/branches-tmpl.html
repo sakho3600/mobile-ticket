@@ -1,8 +1,21 @@
-<div [hidden]="!showBranchList || showLoader || networkError" class="list-container" >
-   <branch [name]="branch.name" [address]="branch.address" [distance]="branch.distance" [entity]="branch" [id]="branch.id" *ngFor="let branch of branches"></branch>
+<div [hidden]="!showLoader" class="row list-container sub-heading-text-1-margin">
+  <div class="row width-control">
+    <div class="loader-container">
+      <div class="inline-block-elem left-cell">
+        <img [src]="loaderResource" class="loader"/>
+      </div>
+      <div class="inline-block-elem right-cell">
+        <span class="sub-heading-text-3">{{ 'branch.loading' | translate }}</span>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div [hidden]="showBranchList || showLoader || networkError" class="row list-container sub-heading-text-1-margin">
+<div [hidden]="!showBranchList || showLoader || networkError" class="list-container" >
+   <branch [hidden]="!branch.enabled" [name]="branch.name" [address]="branch.address" [distance]="branch.distance" [entity]="branch" [id]="branch.id" *ngFor="let branch of branches"></branch>
+</div>
+
+<div [hidden]="showBranchList" class="row list-container sub-heading-text-1-margin">
   <div class="col-xs-1 col-xxs"></div>
   <div class="col-xs-10 col-xxs">
     <div class="center-text sub-heading-text-3 custom text-color">
@@ -12,13 +25,4 @@
   <div class="col-xs-1 col-xxs"></div>
 </div>
 
-<div [hidden]="!showLoader || !networkError" class="row list-container sub-heading-text-1-margin">
-  <div class="col-xs-1 col-xxs"></div>
-  <div class="col-xs-10 col-xxs">
-    <div class="center-text sub-heading-text-3 custom textd-color">
-      <div><img [src]="loaderResource" class="loader"></div>
-      <div>{{ 'branch.loading' | translate }}</div>
-    </div>
-  </div>
-  <div class="col-xs-1 col-xxs"></div>
-</div>
+

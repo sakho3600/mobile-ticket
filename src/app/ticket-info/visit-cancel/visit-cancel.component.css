@@ -1,0 +1,9 @@
+.btn-margin {
+  margin-top: 2em;
+}
+
+@media (orientation : landscape) and (max-height: 500px) {
+  .btn-margin {
+    margin-top: 5em !important;
+  }
+}

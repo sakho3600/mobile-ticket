@@ -1,12 +1,14 @@
 {
   "branch": {
     "defaultTitle": "Mobile Ticket",
+    "btn_text_separator" : ",",
     "loading": "Loading...",
     "noBranches": "Sorry, there are no available branches close by.",
     "tryAgain": "Try again",
     "diffLocation": "at a different location.",
     "subHeadingOne": "Welcome to Qmatic!",
-    "subHeadingTwo": "Do you want to get in line for one of our services? Start by selecting location."
+    "subHeadingTwo": "Do you want to get in line for one of our services? Start by selecting location.",
+    "positionPermission" : "If you want to list nearby branches, please enable Location Services. Otherwise, all branches will be listed."
   },
   "service": {
     "subHeadingOne": "Welcome to Qmatic!",
@@ -21,11 +23,23 @@
     "defaultTitle": "Mobile Ticket",
     "titleYourTurn": "It's your turn!",
     "ticketReady": "is ready to serve you <br> at",
-    "titleInLine": "in line",
+    "titleInLine": "position",
     "btnTitleNewTicket": "Get new ticket",
     "ticketRemovedHeading": "Your ticket has been removed",
     "yourPosition": "You",
     "queueHeading": "Your place in line:",
-    "ticketEndHeading": "Thank you for visiting us! <br> Welcome back!"
+    "ticketEndHeading": "Thank you for visiting us! <br> Welcome back!",
+    "visitRecycledMessage": "You will be called shortly"
+  },
+  "visit": {
+    "notFound": "Sorry, visit not found.",
+    "clickHere": "Click here",
+    "loadBranches": "to load branches."
+  },
+  "error_codes": {
+    "error_8042": "Line is full. Please try again later."
+  },
+  "connection" : {
+    "issue_with_connection" : "Sorry, there seems to be an issue with the connection."
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 
+
 declare var MobileTicketAPI: any;
 
 @Component({
@@ -12,6 +13,9 @@ declare var MobileTicketAPI: any;
 export class VisitCancelComponent {
 
   @Input() isTicketEndedOrDeleted: boolean;
+  @Input() isUrlAccessedTicket: boolean;
+    @Input() isAfterCalled: boolean;
+
   public btnTitleLeaveLine: string;
   public btnTitleNewTicket: string;
 
@@ -29,29 +33,31 @@ export class VisitCancelComponent {
     var confirmMsg = "";
     this.translate.get('ticketInfo.leaveVisitConfirmMsg').subscribe((res: string) => {
       confirmMsg = res;
+      var isConfirm = confirm(confirmMsg);
+      if (isConfirm == true) {
+        MobileTicketAPI.cancelVisit(
+          () => {
+            this.router.navigate(['branches']);
+          },
+          (xhr, status, errorMsg) => {
+          });
+      }
+      else {
+
+      }
     });
-    var isConfirm = confirm(confirmMsg);
-    if(isConfirm == true){
-      MobileTicketAPI.cancelVisit(
-      () => {
-        this.router.navigate(['branches']);
-      },
-      () => {
-
-      });
-    }
-    else{
-
-    }
-
   }
 
   getButtonTitle(): string {
     return (this.isTicketEndedOrDeleted ? this.btnTitleNewTicket : this.btnTitleLeaveLine);
   }
 
+  showButton(): boolean {
+    return (!this.isTicketEndedOrDeleted ? true : (this.isUrlAccessedTicket) ? false : true);
+  }
+
   getNewTicket() {
-        this.router.navigate(['services']);
+    this.router.navigate(['branches']);
   }
 
   onButtonClick() {

@@ -46,7 +46,7 @@ export class QueueItemComponent {
 
     public getQueueIndex(): any {
         if (this.hilightSelctedPosition()) {
-            return this.ordinal_suffix_of(this.index);
+            return this.index;
         }
         return this.trimIndex(this.index);
     }
@@ -57,21 +57,6 @@ export class QueueItemComponent {
             return '.' + a;
         }
         return index;
-    }
-
-    public ordinal_suffix_of(i) {
-        let j = i % 10,
-            k = i % 100;
-        if (j === 1 && k !== 11) {
-            return this.trimIndex(i) + 'st';
-        }
-        if (j === 2 && k !== 12) {
-            return this.trimIndex(i) + 'nd';
-        }
-        if (j === 3 && k !== 13) {
-            return this.trimIndex(i) + 'rd';
-        }
-        return this.trimIndex(i) + 'th';
     }
 
 }

@@ -3,19 +3,30 @@
 }
 
 .queue-container {
-  min-width: 70%;
   max-width: 98%;
   margin: 0 auto;
   display: table;
+  min-width: 65%;
 }
 
 .queue-heading {
   color: white;
-  font-size: calc(15px + 1vw);
+  font-size: 20px;
   color: #FFFFFF;
   font-family: Nanami-Rounded-Light;
-  position: relative;
-  bottom: 8px;
+  padding-bottom: 8px;
+}
+
+
+/* Small phones */
+@media (max-width: 350px), (max-height: 350px) {
+  .queue-heading {
+    color: white;
+    font-size: 15px;
+    color: #FFFFFF;
+    font-family: Nanami-Rounded-Light;
+    padding-bottom: 8px;
+  }
 }
 
 .queue-heading-alignment{

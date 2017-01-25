@@ -1,17 +1,107 @@
+/* Common styles */
+
+.center-text {
+  text-align: center;
+}
+
+.inner-margin-separator{
+  padding-top: 6px;
+}
+
+.sub-heading-text-1 {
+  font-size: 30px;
+  color: #FFFFFF;
+  font-family: Nanami-Rounded-Medium;
+}
+
+.sub-heading-text-2 {
+  font-size: 20px;
+  color: #FFFFFF;
+  font-family: Nanami-Rounded-Light;
+  width: 75%;
+  margin: 0 auto;
+}
+
+div.row {
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+
+.sub-heading-text-3 {
+  font-size: 18px;
+  color: #FFFFFF;
+  font-family: "Helvetica";
+  font-style: oblique;
+  font-weight: 300;
+}
+
+.common-btn {
+  font-family: "Helvetica";
+  color: #303030;
+  font-size: 12px;
+}
+
+.common-btn {
+  stroke: #9c003a;
+}
+
+.accent-btn:hover {
+  opacity: 1;
+}
+
+.accent-btn:active {
+  opacity: 1;
+  -webkit-box-shadow: inset 0 0 5px #000;
+  -moz-box-shadow: inset 0 0 5px #000;
+  box-shadow: inset 0 0 5px #000;
+}
+
+.accent-btn {
+  max-width: 250px;
+  margin: auto;
+  line-height: 2em;
+  background: rgba(157, 0, 58, 0.58);
+  border-radius: 250px;
+  color: #FFFFFF;
+  font-size: 25px;
+  font-family: Nanami-Rounded-Medium;
+  font-weight: 300;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Load cache === */
+.image-for-service-btn {
+  background: url('app/resources/serviceBtn.png');
+}
+
+.image-for-service-btn-active {
+  background: url('app/resources/serviceBtn_active.png');
+}
+
+/* Animation */
+
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 /* Media Queries */
-.loader{
-  width: 15vw;
-  max-width: 9em;
-  margin: 0.25em;
+.loader {
+  max-width: 50px;
+  margin: 0.25em 0.25em 0.25em 0.25em;
   animation-name: rotate;
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-}
-
-@keyframes rotate {
-  from {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
 }
 
 @media (max-width: 480px) {
@@ -22,6 +112,47 @@
   }
 }
 
+/* Small phones */
+@media (max-width: 350px), (orientation: landscape) and (max-height: 400px){
+  .sub-heading-text-1 {
+    font-size: 25px;
+    color: #FFFFFF;
+    font-family: Nanami-Rounded-Medium;
+  }
+
+  .sub-heading-text-2 {
+    font-size: 15px;
+    color: #FFFFFF;
+    font-family: Nanami-Rounded-Light;
+    width: 75%;
+    margin: 0 auto;
+  }
+
+  .sub-heading-text-3 {
+    font-size: 14px;
+    color: #FFFFFF;
+    font-family: "Helvetica";
+    font-style: oblique;
+    font-weight: 300;
+  }
+}
+
+/* Center element vertically and horizontally */
+
+.parent-center:before {
+  content: '\200B';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.child-center {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+/*
 @media only screen and (orientation: landscape) {
   .accent-btn-side {
     max-width: calc(50vw - 3em) !important;
@@ -32,7 +163,7 @@
     color: #FFFFFF;
     font-size: calc(1vw + 18px);
     font-family: Nanami-Rounded-Medium;
-    font-weight: 100;
+    font-weight: 300;
   }
 
   .accent-btn-side:active {
@@ -42,6 +173,7 @@
     box-shadow: inset 0 0 5px #000;
   }
 }
+
 
 @media (min-width: 850px) {
   .accent-btn {
@@ -68,73 +200,4 @@
     max-width: calc(800px - 3em);
   }
 }
-
-/* Common styles */
-
-.center-text {
-  text-align: center;
-}
-
-.sub-heading-text-1 {
-  font-size: calc(13px + 2vw);
-  color: #FFFFFF;
-  font-family: Nanami-Rounded-Medium;
-}
-
-.sub-heading-text-2 {
-  font-size: calc(15px + 1vw);
-  color: #FFFFFF;
-  font-family: Nanami-Rounded-Light;
-  width: 75%;
-  margin: 0 auto;
-}
-
-div.row {
-  padding: 0 !important;
-  margin: 0 auto !important;
-}
-
-.sub-heading-text-3 {
-  font-size: calc(16px + 0.8vw);
-  color: #FFFFFF;
-  font-family: "Helvetica";
-  font-style: oblique;
-  font-weight: 100;
-}
-
-.common-btn {
-  font-family: "Helvetica";
-  color: #303030;
-  font-size: 12px;
-}
-
-.common-btn {
-  stroke: #9c003a;
-}
-
-.accent-btn:hover {
-  opacity: 1;
-}
-
-.accent-btn:active {
-  opacity: 1;
-  -webkit-box-shadow: inset 0 0 5px #000;
-  -moz-box-shadow: inset 0 0 5px #000;
-  box-shadow: inset 0 0 5px #000;
-}
-
-.accent-btn {
-  max-width: calc(76vw + 54px - 3em);
-  margin: auto;
-  line-height: calc(1vw + 60px);
-  background: rgba(157, 0, 58, 0.58);
-  border-radius: 250px;
-  color: #FFFFFF;
-  font-size: calc(2vw + 18px);
-  font-family: Nanami-Rounded-Medium;
-  font-weight: 100;
-}
-
-::-webkit-scrollbar {
-  display:none;
-}
+*/

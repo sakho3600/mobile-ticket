@@ -1,6 +1,6 @@
 export class TicketEntity {
   visitId: number;
-  ticketNumber: string;
+  ticketNumber: string = '';
   queueId: number;
 
 }

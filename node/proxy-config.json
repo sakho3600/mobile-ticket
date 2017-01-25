@@ -1,10 +1,10 @@
 {
     "apigw_ip_port": {
-        "value": "192.168.0.1:9090",
+        "value": "10.2.3.88:9090",
         "description": "API Gateway - host address"
     },
     "local_webserver_port": {
-        "value": "80",
+        "value": "81",
         "description": "Local webserver port"
     },
     "auth_token": {

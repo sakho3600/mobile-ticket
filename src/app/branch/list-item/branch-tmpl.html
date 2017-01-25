@@ -1,14 +1,40 @@
-<div [ngClass]="{'branch-btn-rtl': isRtl, 'branch-btn': true, 'center-text' : true, 'common-btn': true, 'bg' : true, 'branch-btn' : true}" (click)='selectBranch(entity)'>
-  <span class="align-content">
-  <span class="btn-text">
-    {{ name }}
-  </span>
-  <div class="more-info">
-    <div class="text-center margin-center">
-      <span *ngIf="address" class="branch-btn-text left"> {{ address }} </span>
-      <span [class.branch-addr-padding]="address" class="branch-addr right"> {{ " ( " + distance + " ) " }}</span>
+<!--<div
+  [ngClass]="{'branch-btn-rtl': isRtl, 'branch-btn': true, 'center-text' : true, 'common-btn': true, 'bg' : true, 'branch-btn' : true}"
+  (click)='selectBranch(entity)'>
+  <div class="align-content">
+    <div class="btn-text">
+      {{ name }}
+    </div>
+    <div *ngIf="distance || address" class="more-info flex-parent has-child">
+      <div class="flex-child long-and-truncated-with-child-corrected text-center margin-center">
+        <span *ngIf="address" class="branch-btn-text"> {{ address }} </span>
+      </div>
+      <span>&nbsp;</span>
+      <div class="flex-child short-and-fixed">
+        <span *ngIf="distance" [class.branch-addr-padding]="address" class="branch-addr"> {{ " ( " + distance + " ) " }}</span>
+      </div>
     </div>
   </div>
-  </span>
-</div>
+</div>-->
 
+
+<div
+  [ngClass]="{'branch-btn-rtl': isRtl, 'branch-btn': true, 'center-text' : true, 'common-btn': true, 'bg' : true, 'branch-btn' : true}"
+  (click)='selectBranch(entity)'>
+  <div class="align-content">
+    <div class="btn-text">
+      {{ name }}
+    </div>
+
+    <span *ngIf="distance || address" class="more-info flex-parent has-child">
+        <span class="flex-child long-and-truncated-with-child-corrected text-center">
+          <span *ngIf="address" class="branch-btn-text"> {{ address }} </span>
+        </span>
+        <span *ngIf="address">&nbsp;</span>
+        <span class="flex-child short-and-fixed">
+          <span *ngIf="distance" [class.branch-addr-padding]="address" class="branch-addr"> {{ "(" + distance + ")" }} </span>
+        </span>
+      </span>
+
+  </div>
+</div>

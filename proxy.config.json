@@ -1,10 +1,10 @@
 {
   "/MobileTicket/*": {
-    "target": "http://10.2.2.218:9090",
+    "target": "http://10.2.3.111:9090",
     "secure": false
   },
   "/rest/*": {
-    "target": "http://10.2.2.218:9090",
+    "target": "http://10.2.3.111:9090",
     "secure": false
   }
 }

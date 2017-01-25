@@ -1,20 +1,47 @@
 <div
   [ngClass]="{'service-btn': !selected, 'service-btn-active': selected, 'service-btn': true, 'common-btn' : true, 'center-text' : true}"
   (click)='onSelectService(entity)'>
-  <div class="btn-text row">
-    <span [ngClass]="{'tick-container-rtl': isRtl, 'tick-container': true}" id="selection" *ngIf="selected">
-      <svg [ngClass]="{'tick-rtl': isRtl, 'tick': true, 'custom' : true, 'accent-tick-color': true, 'tick': true}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44.69 46.89"><defs><style>.cls-1 {
-        fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        stroke-width: 8px;
-      }</style></defs><title>Asset 27</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polyline
-        class="cls-1" points="4 29.48 18.36 42.89 40.69 4"/></g></g></svg>
-    </span>
-    <div id="service_name" class="service_name">
-      <span>{{ name }}</span>
+
+  <div class="btn-text btn-text-container">
+
+    <div class="flex-parent has-child">
+
+      <div class="flex-child short-and-fixed">
+        <svg [style.visibility]="getVisibilityOfTick()"
+             [ngClass]="{'tick-rtl': isRtl, 'tick': true, 'custom' : true, 'accent-tick-color': true, 'tick': true}"
+             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44.69 46.89">
+          <defs>
+            <style>.cls-1 {
+              fill: none;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-width: 8px;
+            }</style>
+          </defs>
+          <title>Asset 27</title>
+          <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
+              <polyline
+                class="cls-1" points="4 29.48 18.36 42.89 40.69 4"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="flex-child long-and-truncated-with-child-corrected service_name">
+        <span>{{ name }}</span>
+      </div>
       <span class="waiting-text">&nbsp;</span>
-      <span> {{ "(" + customersWaiting + ")" }} </span>
+      <div class="flex-child short-and-fixed">
+        <span
+          *ngIf="customersWaiting"> {{ "(" + customersWaiting + ' ' + ('service.waiting' | translate) + ")" }}  </span>
+      </div>
+
     </div>
+
   </div>
+
+
 </div>
+
+

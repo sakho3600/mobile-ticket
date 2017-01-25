@@ -39,23 +39,19 @@ export class ServiceService {
   }
 
   setServiceInformation(serviceList: Array<ServiceEntity>): void {
-    this.translate.get('service.waiting').subscribe((res: string) => {
-      for (var i = 0; i < serviceList.length; i++) {
-      let serviceId = serviceList[i].id;
-      MobileTicketAPI.getQueueInformation(serviceId,
-        (serviceInfo) => {
-          for (var i = 0; i < serviceList.length; i++) {
-            if (serviceInfo.id === serviceList[i].id) {
-              serviceList[i].customersWaiting = serviceInfo.customersWaiting + " " + res;
+     for (var i = 0; i < serviceList.length; i++) {
+        let service = serviceList[i];
+        MobileTicketAPI.getQueueInformation(service.id,
+          (serviceInfo) => {
+            service.customersWaiting = serviceInfo.customersWaiting;
+            if(service.customersWaiting.toString() === '0') {
+              service.customersWaiting = '0';
             }
-          }
-        },
-        () => {
+          },
+          () => {
 
-        });
-    }
-    });
-    
+          });
+      }
   }
 
 }

@@ -10,4 +10,6 @@ export class QueueEntity {
     public prevVisitPosition: number;
     public prevUpperBound: number;
     public prevLowerBound: number;
+    public currentServiceName: string;
+    public queueId: number;
 }

@@ -1,3 +1,45 @@
+.zero-pad{
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.width-control{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.loader-alignment{
+  text-align: right;
+  width: 48px;
+}
+
+.table-style{
+  height: 4em;
+  text-align: center;
+  width: 100%;
+}
+
+.inline-block-elem{
+  display: inline-block;
+}
+
+.left-cell{
+  width: 50px;
+}
+
+.right-cell{
+  vertical-align: middle;
+  text-align: center;
+  display: inline-flex;
+  max-width: 75%;
+  text-overflow: ellipsis;
+  overflow: auto;
+}
+
+.loader-container{
+  margin: 0 auto;
+  text-align: center;
+}
 
 
 .list-container {

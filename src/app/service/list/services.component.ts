@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
 import { ServiceService } from '../service.service';
 import { ServiceEntity } from '../../entities/service.entity';
 import { RetryService } from '../../shared/retry.service';
@@ -10,7 +10,7 @@ declare var MobileTicketAPI: any;
   templateUrl: './services-tmpl.html',
   styleUrls: ['./services.css', '../../shared/css/common-styles.css']
 })
-export class ServicesComponent implements OnInit {
+export class ServicesComponent implements AfterViewInit {
   public services: Array<ServiceEntity>;
   public showListShadow: boolean;
   @Output() onServiceListHeightUpdate: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -24,7 +24,7 @@ export class ServicesComponent implements OnInit {
         this.onShowHideServiceFetchError.emit(true);
         retryService.retry(() => {
           serviceService.getServices((serviceList: Array<ServiceEntity>, error: boolean) => {
-            if (!error) {              
+            if (!error) {
               this.onServicesReceived(serviceList, serviceService)
               retryService.abortRetry();
             }
@@ -45,7 +45,7 @@ export class ServicesComponent implements OnInit {
     serviceService.setServiceInformation(this.services);
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     window.addEventListener('orientationchange', this.setListShadow, true);
     window.addEventListener('resize', this.setListShadow, true);
     window.addEventListener('scroll', this.setListShadow, true);
