@@ -81,8 +81,10 @@ module.exports = function (grunt) {
       start: ["dist/"],
       end: ['dist/*.js', 'dist/*.css', 'dist/*.gz', 'dist/*.map', 'dist/*.html', 'dist/*.ico'],
       git_hub_files: ['<%= build.githubFolder %>/*.*', '!<%= build.githubFolder %>/.git', '!<%= build.githubFolder %>/.gitignore'],
-      other_lang_files: ['<%= build.githubFolder %>/src/app/locale/*.json', '!<%= build.githubFolder %>/src/app/locale/en.json']
-    }, replace: {
+      other_lang_files: ['<%= build.githubFolder %>/src/app/locale/*.json', '!<%= build.githubFolder %>/src/app/locale/en.json'],
+      zip_file: ['dist/mobile-ticket.zip']
+    }, 
+    replace: {
       dist: {
         options: {
           patterns: [
@@ -103,6 +105,30 @@ module.exports = function (grunt) {
           { expand: true, flatten: true, src: ['dist/src/index.html'], dest: 'dist/src' }
         ]
       }
+    },
+    zip: {
+      'using-cwd': {
+        cwd: 'dist/',
+        //src: ['dist/node_modules/**','dist/src/**','dist/sslcert/**','dist/proxy-config.json','dist/server.js'],
+        src: ['dist/**'],
+        dest: 'dist/mobile-ticket.zip'
+      }
+    },
+    secret: grunt.file.readJSON('secret.json'),
+    sftp: {
+      deploy: {
+        files: {
+            "./": "dist/mobile-ticket.zip"
+        },
+        options: {
+            path: '<%= secret.path %>',
+            host: '<%= secret.host %>',
+            username: '<%= secret.username %>',
+            password: '<%= secret.password %>',
+            showProgress: true,
+            srcBasePath: "dist/"
+        }
+      }
     }
   });
 
@@ -112,6 +138,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-properties-reader');
+  grunt.loadNpmTasks('grunt-zip');
+  grunt.loadNpmTasks('grunt-ssh');
+
 
   grunt.registerTask('help', function () {
     console.log("Available commands \n");
@@ -120,11 +149,12 @@ module.exports = function (grunt) {
     console.log("\t build_production - Build project files and copy them to 'dist' folder \n");
     console.log("\t build_development - Build project files and copy them to 'dist' folder without minification \n");
     console.log("\t extract_for_github - Copy the required files which are intended to go to github repo to 'mobileticket_git_hub' folder  \n");
+    console.log("\t remote_deploy - Build production release and deploy the zip file to specified location/server. \n");
   });
 
   grunt.registerTask('build_development', ['clean:start', 'shell:ngbuild_development:command', 'copy:common', 'copy:mobileticket_lib', 'clean:end', 'copy:proxy_files']);
   grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'uglify', 'copy:common', 'copy:mobileticket_lib', 'clean:end', 'copy:proxy_files', 'replace']);
   grunt.registerTask('extract_for_github', ['clean:git_hub_files', 'copy:git_hub_files', 'clean:other_lang_files']);
-
+  grunt.registerTask('remote_deploy', ['clean:start', 'shell:ngbuild_production:command', 'uglify', 'copy:common', 'copy:mobileticket_lib', 'clean:end', 'clean:zip_file', 'copy:proxy_files', 'replace', 'zip', 'sftp:deploy', 'clean:zip_file'])
 
 };

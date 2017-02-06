@@ -1,22 +1,18 @@
 .flex-parent {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   align-items: center;
-  padding: 0 10px;
   margin: 0 auto;
-  width: 89%;
-}
-
-.long-and-truncated {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  align-items: center;
+  justify-content: center;
+  width: calc(88vw + 8px - 100px) !important;
+  max-width: 256px;
 }
 
 .short-and-fixed {
@@ -25,31 +21,16 @@
 }
 
 .short-and-fixed > div {
-  width: 30px;
+  width: 40px;
   height: 30px;
   border-radius: 10px;
   background: lightgreen;
   display: inline-block;
 }
 
-.long-and-truncated-with-child {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-
-.long-and-truncated-with-child span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .long-and-truncated-with-child-corrected {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
   min-width: 0;
-  /* or some value */
 }
 
 .long-and-truncated-with-child-corrected span {
@@ -60,41 +41,31 @@
 
 .service-btn {
   color: black;
-  margin: 0 auto;
   height: calc(14vw + 8px) !important;
-  /*max-width: calc(76vw + 54px);*/
+  width: calc(88vw + 8px) !important;
   max-height: 64px;
-  /*max-height: 12em;*/
   max-width: 356px;
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
   position: relative;
-
-  background: url('app/resources/serviceBtn.png');
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  background-size: contain;
+  background-color: #E7E9ED;
+  margin: 0 auto 5px auto;
+  border-radius: 3px;
 }
 
-/*.service-btn:hover {
-  background: url('app/resources/serviceBtn_active.png');
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  background-size: contain;
-}*/
-
 .service-btn-active {
-  background: url('app/resources/serviceBtn_active.png');
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  background-size: contain;
+  background-color:#FCFCFD;
+  border-radius: 3px;
+}
+
+.service-btn:hover {
+  background-color:#FCFCFD !important;
+  border-radius: 3px;
 }
 
 .service_name {
@@ -110,9 +81,8 @@
 }
 
 div.btn-text {
-  /*font-size: calc(3vw + 9px);*/
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 17px;
+  font-weight: 400;
   vertical-align: super;
 }
 
@@ -130,60 +100,51 @@ div.btn-text > span:nth-child(2) {
 }
 
 svg.tick {
-  width: 18px;
+  width: 16px;
   visibility: hidden;
+  position: relative;
+  top: 2px;
 }
 
 .is-visible {
   visibility: visible;
 }
 
+.tick-container{
+  position: absolute;
+  right: 18px;
+  top: 28%;
+}
+
+.customer-waiting{
+  /*...*/
+}
+
+.customer-icon{
+  width: 20px;
+  vertical-align: sub;
+  stroke: #303030;
+  padding: 1px;
+}
+
 /* Media Queries */
-/*
-@media only screen and (min-width: 1200px) {
-  .service-btn {
-    width: 800px !important;
-    max-width: 800px !important;
+@media (min-width: 450px){
+  div.btn-text {
+    font-size: 17px;
+    font-weight: 400;
+    vertical-align: super;
+  }
+
+  .tick-container{
+    position: absolute;
+    right: 1.5em;
+    top: 34%
   }
 
   svg.tick {
-    width: 2.5vw;
+    position: relative;
+    top: 2px;
+    width: 18px;
+    visibility: hidden;
   }
 }
-
-@media only screen and (min-width: 900px) {
-  .service-btn {
-    width: 700px !important;
-    max-width: 800px !important;
-  }
-}
-
-@media only screen and (max-width: 350px) {
-  .service-btn {
-    font-size: 12px !important;
-  }
-}
-
-@media only screen and (max-width: 280px) {
-  .service-btn {
-    font-size: 10px !important;
-  }
-}
-
-@media (min-width: 900px) {
-  div.btn-text {
-    font-size: calc(2vw + 9px);
-  }
-}
-
-@media only screen and (min-width: 750px) {
-  div.btn-text {
-    font-size: 31.5px !important;
-  }
-
-  svg.tick {
-    width: 37.5px !important;
-  }
-
-}
-*/

@@ -32,6 +32,9 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   private isTicketEndPage: boolean;
   public prevVisitState: string;
   private isAfterCalled: boolean;
+  public isUrlVisitLoading: boolean;
+  public visitCallMsgOne: string;
+  public visitCallMsgThree: string;
   @ViewChild('ticketNumberComponent') ticketNumberComponent;
 
   constructor(private ticketService: TicketInfoService, public router: Router, private translate: TranslateService,
@@ -40,16 +43,27 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.isTicketEndedOrDeleted = false;
     this.isVisitCall = false;
     this.visitCallMsg = undefined;
+    this.visitCallMsgOne = undefined;
+    this.visitCallMsgThree = undefined;
     this.isSoundPlay = false;
-    this.isAfterCalled = true;
+    this.isAfterCalled = false;
     this.isVisitRecycled = false;
+    this.isUrlVisitLoading = true;
     this.visitState = new VisitState();
+
 
     this.getSelectedBranch();
 
+    /**
+     * this is commented 
+     * Issue: once called and ended a ticket and next time issued a ticket
+     * previosuly ticket called screen is shown for a while.
+     */
+    /** 
     if (MobileTicketAPI.getCurrentVisitStatus() !== undefined) {
       this.onVisitStatusUpdate(MobileTicketAPI.getCurrentVisitStatus());
     }
+    */
   }
 
   ngOnInit() {
@@ -61,10 +75,15 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     var fileName = this.config.getConfig("notification_sound");
     this.notificaitonSound.src = "./app/resources/" + fileName;
     this.notificaitonSound.load();
+    this.isSoundPlay = false;
   }
 
   onUrlAccessedTicket(isUrl: boolean) {
     this.isUrlAccessedTicket = isUrl;
+  }
+
+  onUrlVisitLoading(isLoading: boolean) {
+    this.isUrlVisitLoading = isLoading;
   }
 
   playNotificationSound() {
@@ -117,6 +136,9 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     else if (visitStatus.status == this.visitState.IN_QUEUE) {
       this.isVisitCall = false;
     }
+    else if (visitStatus.status == this.visitState.CACHED) {
+      this.router.navigate(['services']);
+    }
     else if (visitStatus && visitStatus.visitPosition === null) {
       if (this.prevVisitState === 'CALLED') {
         this.isAfterCalled = true;
@@ -136,13 +158,16 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.isNetworkErr = isNetwrkErr;
   }
 
-  updateVisitCallMsg(firstName: string, servicePointName: String) {
+  updateVisitCallMsg(firstName: string, servicePointName: string) {
 
     this.translate.get('ticketInfo.titleYourTurn').subscribe((res: string) => {
       var title1 = res;
       this.translate.get('ticketInfo.ticketReady').subscribe((res: string) => {
         var title2 = res;
-        this.visitCallMsg = title1 + " <br>" + firstName + " " + title2 + " " + servicePointName;
+        this.visitCallMsgOne = title1;
+        this.visitCallMsg = firstName + ' ' + title2;
+        this.visitCallMsgThree = servicePointName;
+
       });
     });
     if (this.ticketNumberComponent && !this.isTicketFlashed) {

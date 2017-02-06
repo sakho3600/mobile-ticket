@@ -16,6 +16,7 @@ export class ServicesComponent implements AfterViewInit {
   @Output() onServiceListHeightUpdate: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onServiceSelection: EventEmitter<number> = new EventEmitter<number>();
   @Output() onShowHideServiceFetchError = new EventEmitter<boolean>();
+  @Output() onServiceListLoaded = new EventEmitter<boolean>();
 
   constructor(private serviceService: ServiceService, private retryService: RetryService) {
     this.onShowHideServiceFetchError.emit(false);
@@ -33,7 +34,12 @@ export class ServicesComponent implements AfterViewInit {
       } else {
         this.onServicesReceived(serviceList, serviceService);
       }
+      this.onListLoaded();
     });
+  }
+
+  private onListLoaded(){
+    this.onServiceListLoaded.emit(true);
   }
 
   private onServicesReceived(serviceList, serviceService): void {
@@ -53,11 +59,16 @@ export class ServicesComponent implements AfterViewInit {
   }
 
   resetSelections(selectedService: ServiceEntity) {
-    this.onServiceSelection.emit(selectedService.id);
-    for (let i = 0; i < this.services.length; ++i) {
-      if (selectedService.id !== this.services[i].id) {
-        this.services[i].selected = false;
+    if (selectedService) {
+      this.onServiceSelection.emit(selectedService.id);
+      for (let i = 0; i < this.services.length; ++i) {
+        if (selectedService.id !== this.services[i].id) {
+          this.services[i].selected = false;
+        }
       }
+    }
+    else {
+      this.onServiceSelection.emit(undefined);
     }
   }
 

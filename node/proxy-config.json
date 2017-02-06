@@ -12,7 +12,7 @@
         "description": "Mobile API user - authentication token"
     },
     "local_webserver_ssl_port": {
-        "value": "8443",
+        "value": "4443",
         "description": "Local webserver HTTPS port"
     },
     "support_ssl": {

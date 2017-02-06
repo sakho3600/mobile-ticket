@@ -3,10 +3,13 @@
 }
 
 .queue-container {
-  max-width: 98%;
+  /*
+  * Definition - 40px each box, times 9 for nine other boxes, plus 50px for selected box, padding left and right for each of the 10 boxes and 1px precision.
+  */
+  max-width: calc((9 * 40px) + 50px + (2px * 10) + 1px);
+  width: calc((9 * 8.5vw) + 12vw + (2px * 10) + 1px);
   margin: 0 auto;
   display: table;
-  min-width: 65%;
 }
 
 .queue-heading {
@@ -17,25 +20,13 @@
   padding-bottom: 8px;
 }
 
-
-/* Small phones */
-@media (max-width: 350px), (max-height: 350px) {
-  .queue-heading {
-    color: white;
-    font-size: 15px;
-    color: #FFFFFF;
-    font-family: Nanami-Rounded-Light;
-    padding-bottom: 8px;
-  }
-}
-
 .queue-heading-alignment{
   text-align: left;
 }
 
 .queue-end {
-font-size: 1.2em;
-  margin-top: 2em;
+  font-size: 1.2em;
+  margin-top: 2em !important;
 }
 
 .queue-body {
@@ -46,4 +37,24 @@ font-size: 1.2em;
 
 .app-queue-item{
   font-size: 0em;
+}
+
+/* Small phones */
+@media (max-width: 450px){
+
+  .queue-heading {
+    color: white;
+    font-size: 18px;
+    color: #FFFFFF;
+    font-family: Nanami-Rounded-Light;
+    padding-bottom: 8px;
+  }
+
+  .queue-container {
+    max-width: calc((9 * 35px) + 45px + (2px * 10) + 1px);
+    width: calc((9 * 8.5vw) + 12vw + (2px * 10) + 1px);
+    margin: 0 auto;
+    display: table;
+    min-width: 65%;
+  }
 }

@@ -16,39 +16,39 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-line-clamp: 2;
   margin: 0em auto !important;
+  text-align: center;
 }
 
 .table-container {
   width: 100%;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: calc(100vh - 7em) !important;
+  height: calc(100vh - 5em) !important;
 }
 
 .table-child-heading-1 {
-  flex: 0.5;
-  /*max-height: 100px;*/
+  /*flex: 0.5;*/
+  padding-bottom: 1em;
 }
 
 .table-child-heading-2 {
-  flex: 1;
-  /*max-height: 120px;*/
+  /*flex: 1;*/
 }
 
 .table-child-list {
-  flex: 5;
+  /*flex: 5;*/
   overflow: scroll;
+  max-height: calc(100vh - 5em - 90px - 95px);
 }
 
 .table-child-shadow {
-  flex: 0.5;
+  /*flex: 0.5;*/
 }
 
 .table-child-footer {
-  flex: 1;
+  /*flex: 1;*/
 }
 
 .list-shadow {
@@ -58,49 +58,56 @@
   height: 7px;
   box-shadow: inset 0px -3px 4px rgba(0, 0, 0, 1);
   opacity: 0.7;
-  max-width: 350px;
   margin-left: auto;
   margin-right: auto;
   content: "...";
-  max-width: 356px;
   text-overflow: initial;
   color: transparent;
-}
-/*
-@media (max-height: 500px) and (orientation: landscape) {
-  .table-container {
-    height: calc(100vh - 8vw) !important;
-  }
+  width: calc(76vw + 54px);
+  max-width: 356px;
 }
 
-@media (max-width: 800px) and (orientation: portrait) {
-  .table-container {
-    height: calc(100vh - 84px) !important;
-  }
+.margin-placement{
+  padding-bottom: 2em;
 }
 
-@media only screen and (min-width: 1200px) {
-  .list-shadow  {
-    width: 800px !important;
-    max-width: 800px !important;
-  }
+.position-btn{
+  margin-top: 2.4em;
 }
 
-@media only screen and (min-width: 900px) {
-  .list-shadow  {
-    width: 700px !important;
-    max-width: 800px !important;
-  }
+.place-btn-bottom{
+  position: absolute;
+  width: 100%;
 }
-*/
 
+.place-btn-bottom .accent-btn{
+  position: relative;
+  top: 2em;
+}
 
-@media (max-width: 350px), (max-height: 350px){
+.qm-footer{
+  margin-top: 1em;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.list-show-hidden{
+  visibility: hidden;
+}
+
+@media (max-width: 450px), (max-height: 450px){
   .table-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     width: 100%;
     height: calc(100vh - 4em) !important;
+  }
+
+  .table-child-list {
+    overflow: scroll;
+    max-height: calc(100vh - 4em - 90px - 95px);
   }
 }

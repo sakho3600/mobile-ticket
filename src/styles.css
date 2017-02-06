@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    /* These styles are to stop text selection on longpress mobile browsers*/
+    -moz-user-select:none;
+    -webkit-user-select:none;
+}

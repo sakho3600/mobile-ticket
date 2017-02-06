@@ -19,12 +19,13 @@ export class BranchesComponent implements AfterViewInit {
   private showLoader: boolean = true;
   private networkError = false;
   public loadingText: string = "Loading...";
+  private nmbrOfEnabledBranches: number;
   private loaderResource: string = "app/resources/loader.svg";
 
   @Output() startLoading = new EventEmitter<boolean>();
   @Output() onShowHideRequest = new EventEmitter<boolean>();
 
-  constructor(private branchService: BranchService, private retryService: RetryService, public router: Router, private translate: TranslateService, private sort : SortPipe) {
+  constructor(private branchService: BranchService, private retryService: RetryService, public router: Router, private translate: TranslateService, private sort: SortPipe) {
     this.translate.get('branch.defaultTitle').subscribe((res: string) => {
       document.title = res;
     });
@@ -38,43 +39,63 @@ export class BranchesComponent implements AfterViewInit {
     this.networkError = false;
     this.onShowHideRequest.emit(false);
     this.showLoader = true;
-    this.startLoading.emit(true);
-    branchService.getBranches((branchList: Array<BranchEntity>, error: boolean) => {
+    this.showBranchList = true;
+    // this.startLoading.emit(true);
+    branchService.getBranches((branchList: Array<BranchEntity>, error: boolean, isFullList: boolean) => {
       if (error) {
         this.networkError = true;
         this.onShowHideRequest.emit(true);
         this.showLoader = false;
         this.retryService.retry(() => {
-          this.branchService.getBranches((branchList: Array<BranchEntity>, error: boolean) => {
+          this.branchService.getBranches((branchList: Array<BranchEntity>, error: boolean,  isFullList: boolean) => {
             if (!error) {
-              this.onBranchFetchSuccess(branchList, branchService);
+              this.onBranchFetchSuccess(branchList, branchService, isFullList);
               this.retryService.abortRetry();
             }
           });
         });
       } else {
-        this.onBranchFetchSuccess(branchList, branchService);
+        this.onBranchFetchSuccess(branchList, branchService, isFullList);
       }
     });
   }
 
-  private onBranchFetchSuccess(branchList, branchService): void {
+  private onBranchFetchSuccess(branchList, branchService, isFullList): void {
     this.networkError = false;
     this.onShowHideRequest.emit(false);
-    this.sort.transform(branchList, "name");
-    this.branches = branchList;
-    if(branchList.length > 0){
-      branchService.setBranchAddresses(this.branches, (updatedList: Array<BranchEntity>) => {
-      if (updatedList.length === 1 && updatedList[0].enabled) {
-        MobileTicketAPI.setBranchSelection(branchList[0]);
-        this.router.navigate(['services']);
-      }
-      this.showBranchList = this.isBranchesAvailable(updatedList);
-      this.showLoader = false;
-      this.startLoading.emit(false);
-    });
+    if(isFullList == true){
+      this.sort.transform(branchList, "name");
     }
-    else{
+    this.branches = branchList;
+    let branchListCntr = 0;
+    if (branchList.length > 0) {
+      branchService.setBranchAddresses(this.branches, (updatedList: Array<BranchEntity>) => {
+        branchListCntr++;
+        if (branchListCntr === updatedList.length) {
+          if (this.isBranchesAvailable(updatedList)) {
+            this.showBranchList = true;
+            if (this.nmbrOfEnabledBranches === 1) {
+              for (let k = 0; k < updatedList.length; k++) {
+                if (updatedList[k].enabled) {
+                  MobileTicketAPI.setBranchSelection(updatedList[k]);
+                  this.router.navigate(['services']);
+                  break;
+                }
+              }
+
+            }
+          }
+          else {
+            this.showBranchList = false;
+          }
+
+          this.showLoader = false;
+          this.startLoading.emit(false);
+        }
+
+      });
+    }
+    else {
       this.showBranchList = this.isBranchesAvailable([]);
       this.showLoader = false;
       this.startLoading.emit(false);
@@ -83,22 +104,32 @@ export class BranchesComponent implements AfterViewInit {
   }
 
   public isBranchesAvailable(branchList) {
+    let disableCntr = 0;
+    let enbleCntr = 0;
     if (branchList.length === 0) {
       return false;
     }
     else {
-      let disableCntr = 0;
+
       for (let i = 0; i < branchList.length; i++) {
         if (!branchList[i].enabled) {
           disableCntr++;
         }
+        else {
+          enbleCntr++;
+        }
       }
+      this.setEnableBranchCntr(enbleCntr);
       if (disableCntr === branchList.length) {
         return false;
       }
       return true;
     }
 
+  }
+
+  public setEnableBranchCntr(enbleCntr) {
+    this.nmbrOfEnabledBranches = enbleCntr;
   }
 
   public reloadData() {

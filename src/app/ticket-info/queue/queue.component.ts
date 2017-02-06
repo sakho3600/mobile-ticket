@@ -40,6 +40,7 @@ export class QueueComponent implements OnInit, OnDestroy {
   public queueItems: Array<QueueEntity>;
   public isTicketEndedOrDeleted: boolean;
   public ticketEndHeading: string;
+  public welcomeback: string;
   public isRtl: boolean;
   private showNetWorkError: boolean;
   private queueIdPrev: number = -1;
@@ -50,17 +51,21 @@ export class QueueComponent implements OnInit, OnDestroy {
   @Output() onTciketNmbrChange = new EventEmitter();
   @Output() onServiceNameUpdate: EventEmitter<string> = new EventEmitter<string>();
   @Output() onBranchUpdate = new EventEmitter();
+  @Output() onUrlVisitLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onVisitStatusUpdate: EventEmitter<QueueEntity> = new EventEmitter<QueueEntity>();
   @Output() onNetworkErr: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
-  constructor(private ticketService: TicketInfoService, private retryService: RetryService,
+  constructor(public ticketService: TicketInfoService, private retryService: RetryService,
     private activatedRoute: ActivatedRoute,
     public router: Router, private translate: TranslateService) {
     this.visitPosition = 0;
     this.isTicketEndedOrDeleted = false;
     this.visitState = new VisitState();
+  }
 
+  ngOnInit() {
+    this.setRtlStyles();
     // subscribe to router event branchId=1&visitId=1&checksum=423434;
     this.routerSubscription = this.activatedRoute.queryParams.subscribe(
       (queryParams: any) => {
@@ -68,19 +73,21 @@ export class QueueComponent implements OnInit, OnDestroy {
         let visitId = queryParams['visit'];
         let checksum = queryParams['checksum'];
         if (branchId && visitId && checksum) {
-          ticketService.getBranchInformation(branchId, (branch: BranchEntity, error: boolean) => {
+          this.onUrlVisitLoading.emit(true);
+          this.ticketService.getBranchInformation(branchId, (branch: BranchEntity, error: boolean) => {
             if (error) {
               this.router.navigate(['no_visit']);
             } else {
               this.onBranchFetchSuccess(branch);
               MobileTicketAPI.setVisit(branchId, 0, visitId, checksum);
               this.ticketService.pollVisitStatus((queueInfo: QueueEntity) => {
+                this.onUrlVisitLoading.emit(false);
                 MobileTicketAPI.setServiceSelection({ name: MobileTicketAPI.getCurrentVisitStatus().currentServiceName });
                 this.onUrlAccessedTicket.emit(true);
                 this.onBranchUpdate.emit();
                 this.onTciketNmbrChange.emit();
                 this.onServiceNameUpdate.emit(MobileTicketAPI.getCurrentVisitStatus().currentServiceName);
-                this.initPollTimer(this.visitPosition, ticketService);
+                this.initPollTimer(this.visitPosition, this.ticketService);
               },
                 (xhr, status, msg) => {
                   if (xhr.status === 404 || xhr.status === 401) {
@@ -92,18 +99,15 @@ export class QueueComponent implements OnInit, OnDestroy {
           });
         }
         else {
+          this.onUrlVisitLoading.emit(false);
           this.branchId = MobileTicketAPI.getSelectedBranch().id;
           this.visitId = MobileTicketAPI.getCurrentVisit().visitId;
           this.queueId = MobileTicketAPI.getCurrentVisit().queueId;
           this.checksum = MobileTicketAPI.getCurrentVisit().checksum;
           // MobileTicketAPI.setVisit(this.branchId, this.queueId, this.visitId);
-          this.initPollTimer(this.visitPosition, ticketService);
+          this.initPollTimer(this.visitPosition, this.ticketService);
         }
       });
-  }
-
-  ngOnInit() {
-    this.setRtlStyles();
   }
 
   private onBranchFetchSuccess(branch) {
@@ -148,16 +152,20 @@ export class QueueComponent implements OnInit, OnDestroy {
           /**
            * this is to try if initial polling failed
            */
-          if(!this.prevVisitState) {
-            this.queuePoll(visitPosition, ticketService, false);
-          }
-          else {
+          // if (!this.prevVisitState) {
+          //   this.queuePoll(visitPosition, ticketService, false);
+          // }
+          // else {
             let queueInfo: QueueEntity = new QueueEntity();
             queueInfo.status = '';
             queueInfo.visitPosition = null;
             this.isTicketEndedOrDeleted = true;
+            var payload = xhr.responseJSON;
+            if(payload != undefined && payload.message.includes("New visits are not available until visitsOnBranchCache is refreshed") == true){
+              queueInfo.status = "CACHED";
+            }
             this.onVisitStatusUpdate.emit(queueInfo);
-          }
+          //}
         }
       }
     );
@@ -179,11 +187,6 @@ export class QueueComponent implements OnInit, OnDestroy {
         this.prevVisitPosition, this.prevUpperBound, this.prevLowerBound);
       this.updatePollTimer(this.visitPosition, ticketService);
     }
-    else if (this.prevVisitState !== 'CALLED') {
-      this.doUnsubscribeForPolling();
-      this.router.navigate(['branches']);
-    }
-
   }
 
   public updatePollTimer(visitPosition: number, ticketService: TicketInfoService) {

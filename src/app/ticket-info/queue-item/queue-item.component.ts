@@ -44,6 +44,10 @@ export class QueueItemComponent {
         return false;
     }
 
+    public isEmptyQueueItem(): boolean{
+        return !(this.index > 0);
+    }
+
     public getQueueIndex(): any {
         if (this.hilightSelctedPosition()) {
             return this.index;

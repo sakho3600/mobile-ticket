@@ -13,7 +13,7 @@
   "service": {
     "subHeadingOne": "Welcome to Qmatic!",
     "accentBtnText": "Get in line",
-    "selectService": "Please select a service at Qmatic",
+    "selectService": "Please select a service at",
     "defaultTitle": "Mobile Ticket",
     "waiting": "Waiting"
   },
@@ -22,14 +22,16 @@
     "btnTitleLeaveLine": "Leave the line",
     "defaultTitle": "Mobile Ticket",
     "titleYourTurn": "It's your turn!",
-    "ticketReady": "is ready to serve you <br> at",
+    "ticketReady": "is ready to serve you at",
     "titleInLine": "position",
     "btnTitleNewTicket": "Get new ticket",
     "ticketRemovedHeading": "Your ticket has been removed",
     "yourPosition": "You",
     "queueHeading": "Your place in line:",
-    "ticketEndHeading": "Thank you for visiting us! <br> Welcome back!",
-    "visitRecycledMessage": "You will be called shortly"
+    "ticketEndHeading": "Thank you for visiting us!",
+    "welcomeback": "Welcome back!",
+    "visitRecycledMessage": "You will be called shortly",
+    "visitAppRemoved": "No Entry Point of type SW_VISITAPP on branch, cannot create or delete visit"
   },
   "visit": {
     "notFound": "Sorry, visit not found.",

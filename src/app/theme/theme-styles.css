@@ -2,12 +2,12 @@
 
 /* Edit to change font color */
 .custom.text-color{
-  color: #FFFFFF !important;
+  color: #ffde00 !important;
 }
 
 /* Edit to change font color of buttons */
 .custom.btn-text-color{
-  color: #FFFFFF !important;
+  color: #33ff00 !important;
 }
 
 /* Edit to change accent color of buttons */
@@ -22,7 +22,7 @@
 
 /* Edit to change app background */
 .custom.bg-image {
-  background: url('../../app/resources/background.png') !important;
+  background: url('../../app/resources/background.jpg') !important;
 }
 
 /* Edit to change app logo */

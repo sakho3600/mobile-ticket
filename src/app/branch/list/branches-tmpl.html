@@ -1,11 +1,11 @@
-<div [hidden]="!showLoader" class="row list-container sub-heading-text-1-margin">
+<div [hidden]="!showLoader" class="row loader-container sub-heading-text-1-margin">
   <div class="row width-control">
     <div class="loader-container">
       <div class="inline-block-elem left-cell">
         <img [src]="loaderResource" class="loader"/>
       </div>
       <div class="inline-block-elem right-cell">
-        <span class="sub-heading-text-3">{{ 'branch.loading' | translate }}</span>
+        <span id="branchLoading" class="sub-heading-text-3 custom text-color">{{ 'branch.loading' | translate }}</span>
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
 <div [hidden]="showBranchList" class="row list-container sub-heading-text-1-margin">
   <div class="col-xs-1 col-xxs"></div>
   <div class="col-xs-10 col-xxs">
-    <div class="center-text sub-heading-text-3 custom text-color">
+    <div id="branchNoBranches" class="center-text sub-heading-text-3 custom text-color">
       {{ 'branch.noBranches' | translate }} <a id="link-to-reload" (click)='reloadData()'>{{ 'branch.tryAgain' | translate }} </a> {{ 'branch.diffLocation' | translate }}
      </div>
   </div>

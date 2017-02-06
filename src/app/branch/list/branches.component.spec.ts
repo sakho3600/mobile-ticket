@@ -1,6 +1,8 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, getTestBed, async, ComponentFixture } from '@angular/core/testing';
+import { By }              from '@angular/platform-browser';
+import { Injector }    from '@angular/core';
 import { BranchesComponent } from './branches.component';
 import { BranchEntity } from '../../entities/branch.entity';
 import { BranchComponent } from '../list-item/branch.component';
@@ -10,21 +12,54 @@ import { BranchService } from '../branch.service'
 import { QmRouterModule, RoutingComponents } from "../../router-module";
 import { BranchServiceMok } from '../branch.service.mok'
 import { RetryService } from '../../shared/retry.service';
+import { TranslateService, TranslateModule, TranslateLoader, TranslateStaticLoader, TranslatePipe } from 'ng2-translate/ng2-translate';
+import { Http, Response, ResponseOptions,  XHRBackend, HttpModule  } from '@angular/http';
+import { SortPipe } from '../../util/sort.pipe';
+import { MockBackend, MockConnection } from "@angular/http/testing";
 
+const mockBackendResponse = (connection: MockConnection, response: string) => {
+    connection.mockRespond(new Response(new ResponseOptions({body: response})));
+};
 
 describe('BranchesComponent', () => {
+  let injector: Injector;
+  let backend: MockBackend;
+  let translate: TranslateService;
+  let connection: MockConnection;
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpModule,TranslateModule.forRoot({
+            provide: TranslateLoader,
+            useFactory: (http: Http) => new TranslateStaticLoader(http, './app/locale', '.json'),
+            deps: [Http]
+        })],
       declarations: [
         BranchesComponent, BranchComponent
       ],
       providers: [
         { provide: Router, useClass: QmRouterModule },
         { provide: BranchService, useClass: BranchServiceMok},
-        RetryService
+        { provide: XHRBackend, useClass: MockBackend },
+        RetryService,
+        SortPipe,
+        TranslateService
       ]
     });
+
+    injector = getTestBed();
+    backend = injector.get(XHRBackend);
+    translate = injector.get(TranslateService);
+    // sets the connection when someone tries to access the backend with an xhr request
+    backend.connections.subscribe((c: MockConnection) => connection = c);
+    translate.use('en');
   });
+
+  afterEach(() => {
+        this.injector = undefined;
+        this.backend = undefined;
+        this.translate = undefined;
+        this.connection = undefined;
+    });
 
   it('Should create the Branches component', async(() => {
     let fixture = TestBed.createComponent(BranchesComponent);
@@ -35,7 +70,11 @@ describe('BranchesComponent', () => {
   it('Should be true if there are branches available', async(() => {
     let fixture = TestBed.createComponent(BranchesComponent);
     let branchComponent = fixture.debugElement.componentInstance;
-    let value = branchComponent.isBranchesAvailable([{}, {}]);
+    let branch1 = new BranchEntity();
+    branch1.enabled = true;
+    let branch2 = new BranchEntity();
+    branch1.enabled = true;
+    let value = branchComponent.isBranchesAvailable([branch1, branch2]);
     expect(value).toEqual(true);
   }));
 
@@ -54,10 +93,12 @@ describe('BranchesComponent', () => {
   }));
 
   it('Should be true if loading text is Loading...', async(() => {
+    mockBackendResponse(connection, '{"branch": {"loading": "Loading..."}}');
     let fixture = TestBed.createComponent(BranchesComponent);
-    let branchComponent = fixture.debugElement.componentInstance;
-    let value = branchComponent.loadingText;
-    expect(value).toEqual("Loading...");
+    let de = fixture.debugElement.query(By.css('#branchLoading'));
+    let el = de.nativeElement;
+    fixture.detectChanges();
+    expect(el.textContent).toEqual('Loading...');
   }));
 
   // the line corresponds to 'noBranchesAvailableLabel' is commented in qm.branches-component, so following test is commented

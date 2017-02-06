@@ -5,9 +5,9 @@ export class SortPipe implements PipeTransform {
   transform(array: Array<string>, args: string): Array<string> {
 		if(array != undefined){
 			array.sort((a: any, b: any) => {
-	    	if ( a[args] < b[args] ){
+				if ( (a[args]).toLowerCase() < (b[args]).toLowerCase() ){
 	    		return -1;
-	    	}else if( a[args] > b[args] ){
+				}else if( (a[args]).toLowerCase() > (b[args]).toLowerCase() ){
 	        return 1;
 	    	}else{
 	    		return 0;	

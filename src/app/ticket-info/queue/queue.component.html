@@ -13,5 +13,7 @@
       *ngFor="let queueItem of queueItems" class="app-queue-item"></app-queue-item>
   </div>
 </div>
-<div [innerHTML]="'ticketInfo.ticketEndHeading' | translate" *ngIf="isTicketEndedOrDeleted" class="center-text sub-heading-text-2 custom text-color queue-end">
+<div [innerHTML]="'ticketInfo.ticketEndHeading' | translate" *ngIf="isTicketEndedOrDeleted" class="center-text sub-heading-text-2 custom text-color queue-end"></div>
+<div [innerHTML]="'ticketInfo.welcomeback' | translate" *ngIf="isTicketEndedOrDeleted" class="center-text sub-heading-text-2 custom text-color">
+
 </div>

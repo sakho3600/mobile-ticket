@@ -4,6 +4,7 @@ import { QueueEntity } from '../entities/queue.entity';
 
 declare var MobileTicketAPI: any;
 
+
 @Injectable()
 export class TicketInfoService {
   constructor() { }
@@ -18,13 +19,32 @@ export class TicketInfoService {
     queueEntity.queueId = queueObj.queueId;
     return queueEntity;
   }
-  getVisitStatus(success, err): any {
+  getVisitStatus(success, err, isVisitCacheUpdate): any {
     MobileTicketAPI.getVisitStatus(
       (queueObj: any) => {
         success(this.convertToQueueEntity(queueObj));
       },
       (xhr, status, msg) => {
-        err(xhr, status, msg);
+        if (xhr.status == 404) {
+          var payload = xhr.responseJSON;
+          if (payload != undefined && payload.message.includes("New visits are not available until visitsOnBranchCache is refreshed") == true) {
+            setTimeout(function () {
+              MobileTicketAPI.getVisitStatus(
+                (queueObj: any) => {
+                  success(this.convertToQueueEntity(queueObj));
+                },
+                (xhr, status, msg) => {
+                  err(xhr, status, msg);
+                });
+            }, payload.refreshRate * 60);
+          }
+          else {
+            err(xhr, status, msg);
+          }
+        }
+        else {
+          err(xhr, status, msg);
+        }
       }
     );
   }
@@ -35,17 +55,36 @@ export class TicketInfoService {
         success(this.convertToQueueEntity(queueObj));
       },
       (xhr, status, msg) => {
-        err(xhr, status, msg);
+        if (xhr.status == 404) {
+          var payload = xhr.responseJSON;
+          if (payload != undefined && payload.message.includes("New visits are not available until visitsOnBranchCache is refreshed") == true) {
+            setTimeout(function () {
+              MobileTicketAPI.getVisitStatus(
+                (queueObj: any) => {
+                  success(this.convertToQueueEntity(queueObj));
+                },
+                (xhr, status, msg) => {
+                  err(xhr, status, msg);
+                });
+            }, payload.refreshRate * 1000);
+          }
+          else {
+            err(xhr, status, msg);
+          }
+        }
+        else {
+          err(xhr, status, msg);
+        }
       }
     );
   }
 
   getBranchInformation(branchId, onBranchResponse): void {
     MobileTicketAPI.getBranchInformation(branchId, (branchInfo) => {
-        onBranchResponse(branchInfo, false);
-      }, () => {
-        onBranchResponse(null, true);
-      });
+      onBranchResponse(branchInfo, false);
+    }, () => {
+      onBranchResponse(null, true);
+    });
   }
 
   getQueueUpperBound(queueSize, queuePosition): number {
@@ -80,11 +119,15 @@ export class TicketInfoService {
     }
   }
 
-  populateQueue(queueItem: QueueEntity, prevWaitingVisits: number, 
-  prevVisitPosition: number, prevUpperBound: number, prevLowerBound: number): Array<QueueEntity> {
+  populateQueue(queueItem: QueueEntity, prevWaitingVisits: number,
+    prevVisitPosition: number, prevUpperBound: number, prevLowerBound: number): Array<QueueEntity> {
     let entities: Array<QueueEntity> = [];
     let arrayQueueItem: QueueEntity;
     let upperBound = this.getQueueUpperBound(queueItem.waitingVisits, queueItem.visitPosition);
+    let queueSize = upperBound;
+    if (upperBound < 10) {
+      upperBound = 10;
+    }
     let lowerBound = this.getQueueLowerBound(queueItem.waitingVisits, queueItem.visitPosition, upperBound);
     for (let i = upperBound; i >= lowerBound; i -= 1) {
       arrayQueueItem = new QueueEntity();
@@ -98,7 +141,9 @@ export class TicketInfoService {
       arrayQueueItem.prevVisitPosition = prevVisitPosition;
       arrayQueueItem.prevUpperBound = prevUpperBound;
       arrayQueueItem.prevLowerBound = prevLowerBound;
-      arrayQueueItem.index = i;
+
+      if (i <= queueSize)
+        arrayQueueItem.index = i;
 
       entities.push(arrayQueueItem);
     }

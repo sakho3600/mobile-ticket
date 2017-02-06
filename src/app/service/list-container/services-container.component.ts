@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { ServiceEntity } from '../../entities/service.entity';
 import { RetryService } from '../../shared/retry.service';
+import { Util } from '../../util/util';
 
 declare var MobileTicketAPI: any;
 declare var ga: Function;
@@ -19,9 +20,11 @@ export class ServicesContainerComponent {
     public showListShadow;
     public selectedServiceId: number;
     private showNetWorkError = false;
+    private isServiceListLoaded: boolean;
 
     constructor(private branchService: BranchService, public router: Router, private translate: TranslateService
         , private retryService: RetryService) {
+        this.isServiceListLoaded = false;
         this.translate.get('service.defaultTitle').subscribe((res: string) => {
             document.title = res;
         });
@@ -45,14 +48,6 @@ export class ServicesContainerComponent {
 
     onTakeTicket() {
         this.takeTicket();
-    }
-
-    private getStatusErrorCode(val: string) {
-        var regex = (/error_code:\s*(\d*)/g);
-        var parsedArray = regex.exec(val);
-        if (parsedArray && parsedArray.length > 0) {
-            return parsedArray[1];
-        }
     }
 
     private takeTicket(): void {
@@ -80,8 +75,13 @@ export class ServicesContainerComponent {
                     this.router.navigate(['ticket']);
                 },
                 (xhr, status, errorMessage) => {
-                    if (this.getStatusErrorCode(xhr.getAllResponseHeaders()) === "8042") {
+                    let util = new Util();
+                    if (util.getStatusErrorCode(xhr && xhr.getAllResponseHeaders()) === "8042") {
                         this.translate.get('error_codes.error_8042').subscribe((res: string) => {
+                            alert(res);
+                        });
+                    } else if (util.getStatusErrorCode (xhr && xhr.getAllResponseHeaders()) === "11000") {
+                        this.translate.get('ticketInfo.visitAppRemoved').subscribe((res: string) => {
                             alert(res);
                         });
                     } else {
@@ -100,5 +100,9 @@ export class ServicesContainerComponent {
                 }
             );
         }
+    }
+
+    public onServiceListLoaded(){
+      this.isServiceListLoaded = true;
     }
 }

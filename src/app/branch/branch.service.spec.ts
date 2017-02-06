@@ -1,30 +1,61 @@
 /* tslint:disable:no-unused-variable */
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 import { BranchService } from './branch.service';
 import { PositionEntity } from '../entities/position.entity';
 import { Config } from '../config/config';
+import { TranslateService, TranslateModule, TranslateLoader, TranslateStaticLoader, TranslatePipe } from 'ng2-translate/ng2-translate';
+import { Http, Response, ResponseOptions,  XHRBackend, HttpModule  } from '@angular/http';
+import { MockBackend, MockConnection } from "@angular/http/testing";
+import { Injector }    from '@angular/core';
+
+const mockBackendResponse = (connection: MockConnection, response: string) => {
+    connection.mockRespond(new Response(new ResponseOptions({body: response})));
+};
 
 describe('BranchService', () => {
-
+  let injector: Injector;
+  let backend: MockBackend;
+  let translate: TranslateService;
+  let connection: MockConnection;
   beforeEach(async(() => {
 
     
   let MobileTicketAPI = {};
 
     TestBed.configureTestingModule({
+      imports: [HttpModule,TranslateModule.forRoot({
+            provide: TranslateLoader,
+            useFactory: (http: Http) => new TranslateStaticLoader(http, './app/locale', '.json'),
+            deps: [Http]
+        })],
       declarations: [
 
       ],
-      providers: [BranchService]
+      providers: [BranchService,
+        { provide: XHRBackend, useClass: MockBackend },
+         TranslateService]
     })
       .compileComponents();
+      injector = getTestBed();
+      backend = injector.get(XHRBackend);
+      translate = injector.get(TranslateService);
+      // sets the connection when someone tries to access the backend with an xhr request
+      backend.connections.subscribe((c: MockConnection) => connection = c);
+      translate.use('en');
   }));
+
+  afterEach(() => {
+        this.injector = undefined;
+        this.backend = undefined;
+        this.translate = undefined;
+        this.connection = undefined;
+    });
 
   let branchListService
 
 
   beforeEach(() => {
-    branchListService = new BranchService(null);
+    branchListService = new BranchService(null, null, translate)
   });
 
   it('Should create a PositionEntity', async(() => {
@@ -37,7 +68,11 @@ describe('BranchService', () => {
     let branchPosition = new PositionEntity(6.896114844252166, 79.8547870680015);
     let currentPosition = new PositionEntity(6.8931276, 79.8576719);
     let distance = branchListService.getBranchDistance(branchPosition, currentPosition);
-    expect(distance).toEqual('460m');
+    let isDistancePass = false;
+    if(distance == '460m' || distance == '503 yd'){
+      isDistancePass = true;
+    }
+    expect(isDistancePass).toEqual(true);
   }));
 
   it('Should return a list of BranchEntities', async(() => {

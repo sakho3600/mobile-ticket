@@ -1,6 +1,6 @@
 <div class="col center-text queue-itm parent-center"
-     [ngClass]="{selected:hilightSelctedPosition(), other:!hilightSelctedPosition(), animselected:animatePosition()}">
-  <div class="child-center center-content">
+     [ngClass]="{empty:isEmptyQueueItem(), selected:hilightSelctedPosition(), other:!hilightSelctedPosition() && !isEmptyQueueItem(), animselected:animatePosition()}">
+  <div [ngClass]="{'child-center': true, 'center-content' : !hilightSelctedPosition()}">
     <div class="box  ellipsis  reverse-ellipsis content-container-one">
       <div class="ellipsis__content">{{ getQueueIndex() }}</div>
     </div>

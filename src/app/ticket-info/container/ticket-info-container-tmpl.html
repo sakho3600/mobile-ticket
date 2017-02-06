@@ -1,9 +1,10 @@
-<div class="inner-margin-separator">
+<div [hidden]="isUrlVisitLoading" class="inner-margin-separator">
   <div class="row" [hidden]="isVisitCall">
     <app-queue-container (onUrlAccessedTicket)='onUrlAccessedTicket($event)'
                          (onTciketNmbrChange)='onTciketNmbrChange($event)'
                          (onServiceNameUpdate)='onServiceNameUpdate($event)' (onNetworkErr)='onNetworkErr($event)'
                          (onBranchUpdate)='onBranchUpdate($event)'
+                         (onUrlVisitLoading)='onUrlVisitLoading($event)'
                          (onVisitStatusUpdate)='onVisitStatusUpdate($event)'></app-queue-container>
   </div>
 
@@ -11,7 +12,9 @@
     <div class="col-xs-1 col-xxs"></div>
     <div class="col-xs-10 col-xxs">
       <div [hidden]="isNetworkErr" class="center-text sub-heading-text-2 custom text-color">
-        <div [innerHTML]="visitCallMsg"></div>
+        <div *ngIf="visitCallMsgOne" [innerHTML]="visitCallMsgOne" class="visitcall-heading-one"></div>
+        <div *ngIf="visitCallMsg" [innerHTML]="visitCallMsg"></div>
+        <div *ngIf="visitCallMsgThree" [innerHTML]="visitCallMsgThree" class="visitcall-heading-three"></div>
       </div>
       <div [hidden]="!isNetworkErr">
         <app-network-message></app-network-message>
@@ -20,14 +23,14 @@
     <div class="col-xs-1 col-xxs"></div>
   </div>
 
-  <div *ngIf='branchEntity' class="sub-heading-text-1 ticket_branch custom text-color text-center">{{ branchEntity.name }}</div>
+  <div *ngIf='branchEntity && !isVisitCall' class="sub-heading-text-1 text-center inner-padding"><span class="ticket_branch custom text-color">{{ branchEntity.name }}</span></div>
   <div class="parent-container row">
     <div
       [ngClass]="{'ticket-container-rtl' : isRtl, 'ticket-container' : true, 'ticket-container-center' : isVisitCall, 'expand-view-ticket': isTicketEndedOrDeleted}">
       <app-ticket #ticketNumberComponent [isTicketEndedOrDeleted]="isTicketEndedOrDeleted" [isAfterCalled]="isAfterCalled"></app-ticket>
     </div>
     <div [hidden]="isVisitCall && !isVisitRecycled" [ngClass]="{'button-container-rtl' : isRtl, 'button-container' : true, 'expand-view-btn': isTicketEndedOrDeleted}">
-      <app-visit-cancel [isUrlAccessedTicket]='isUrlAccessedTicket' [isTicketEndedOrDeleted]="isTicketEndedOrDeleted" [isAfterCalled]="isAfterCalled"></app-visit-cancel>
+      <app-visit-cancel [isUrlAccessedTicket]='isUrlAccessedTicket' [isTicketEndedOrDeleted]="isTicketEndedOrDeleted"></app-visit-cancel>
     </div>
   </div>
 

@@ -31,6 +31,7 @@ export class ServiceComponent implements OnInit {
       this.onSelection.emit(service);
       MobileTicketAPI.setServiceSelection(service);
     } else {
+      this.onSelection.emit(undefined);
       MobileTicketAPI.setServiceSelection(undefined);
     }
   }

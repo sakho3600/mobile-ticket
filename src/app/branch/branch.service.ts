@@ -63,7 +63,7 @@ export class BranchService {
         this.currentPosition = new PositionEntity(currentPosition.coords.latitude, currentPosition.coords.longitude)
         let radius = this.config.getConfig('branch_radius');
         this.getBranchesByPosition(this.currentPosition, radius, (branchList) => {
-          onBrancheListReceived(branchList);
+          onBrancheListReceived(branchList, false, false);
           this.currentLocation.removeWatcher();
         })
       }, (error) => {
@@ -72,9 +72,9 @@ export class BranchService {
           alertMsg = res;
           alert(alertMsg);
           MobileTicketAPI.getAllBranches((branchList) => {
-            onBrancheListReceived(branchList, false);
+            onBrancheListReceived(branchList, false, true);
           }, () => {
-            onBrancheListReceived(null, true);
+            onBrancheListReceived(null, true, false);
             this.currentLocation.removeWatcher();
           })
         });
@@ -82,9 +82,9 @@ export class BranchService {
     }
     else {
       MobileTicketAPI.getAllBranches((branchList) => {
-        onBrancheListReceived(branchList, false);
+        onBrancheListReceived(branchList, false, true);
       }, () => {
-        onBrancheListReceived(null, true)
+        onBrancheListReceived(null, true, false)
       })
     }
   }
@@ -138,7 +138,12 @@ export class BranchService {
             onListUpdate(branchList);
           },
           () => {
-
+            /**
+             * if error, callback branchList.
+             * List will be filtered using enabled key which ll 
+             * only available if fetching success. 
+             */
+            onListUpdate(branchList);
           });
       }
     });

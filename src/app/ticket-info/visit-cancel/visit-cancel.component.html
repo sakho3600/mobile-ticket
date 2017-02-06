@@ -1,4 +1,4 @@
-<div *ngIf='showButton()' [ngClass]="{'btn-margin': isAfterCalled, 'center-text': true}">
+<div *ngIf='showButton()' [ngClass]="{'btn-margin': isTicketEndedOrDeleted, 'center-text': true}">
   <div class="accent-btn accent-btn-side custom accent-bg-color btn-text-color" (click)='onButtonClick()'>
     {{ getButtonTitle() }}
   </div>

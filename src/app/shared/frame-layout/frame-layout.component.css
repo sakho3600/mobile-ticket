@@ -24,7 +24,7 @@
 }
 
 .bg {
-  background: url('app/resources/background.png');
+  background: url('app/resources/background.jpg');
   background-size: cover !important;
   background-position: center center !important;
   min-height: 100vh;
@@ -35,16 +35,14 @@
 }
 
 .logo{
-  /*width: 32vw;*/
-  /*max-width: 24em;*/
-  width: 200px;
-  max-width: 200px;
+  width: 160px;
+  max-width: 160px;
   margin: 0 auto;
   content: url('app/resources/qmLogo.png');
 }
 
 .frame {
-  height: 7em;
+  height: 5em;
   text-align: center;
   max-height: 10em;
 }
@@ -57,7 +55,7 @@
 
 /* Media Queries */
 /* Small phones */
-@media (max-width: 350px), (orientation: landscape) and (max-height: 450px){
+@media (max-width: 450px), (max-height: 450px){
   .logo{
     width: 110px;
   }
@@ -68,38 +66,3 @@
     max-height: 10em;
   }
 }
-
-/*
-@media (max-width: 800px) and (orientation: portrait)  {
-  .frame{
-    padding-top: 2em !important;
-    padding-bottom: 4em !important;
-  }
-
-  .logo{
-    width: 13em !important;
-  }
-
-  .container-fit-height{
-    height: calc(100vh - 8vw - 5em) !important;
-  }
-}
-
-
-@media (max-height: 500px) and (orientation: landscape)  {
-  .frame{
-    padding-bottom: 0 !important;
-    padding-top: 1em !important;
-    height: 8vw;
-  }
-
-  .container-fit-height{
-    height: calc(100vh - 1vw) !important;
-  }
-
-  .logo{
-    position: relative;
-    width: 25vw;
-  }
-}
-*/

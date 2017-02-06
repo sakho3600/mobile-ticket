@@ -1,5 +1,10 @@
 /* Common styles */
 
+body{
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
 .center-text {
   text-align: center;
 }
@@ -9,13 +14,13 @@
 }
 
 .sub-heading-text-1 {
-  font-size: 30px;
+  font-size: 27px;
   color: #FFFFFF;
   font-family: Nanami-Rounded-Medium;
 }
 
 .sub-heading-text-2 {
-  font-size: 20px;
+  font-size: 17px;
   color: #FFFFFF;
   font-family: Nanami-Rounded-Light;
   width: 75%;
@@ -28,7 +33,7 @@ div.row {
 }
 
 .sub-heading-text-3 {
-  font-size: 18px;
+  font-size: 16px;
   color: #FFFFFF;
   font-family: "Helvetica";
   font-style: oblique;
@@ -57,8 +62,8 @@ div.row {
 }
 
 .accent-btn {
-  max-width: 250px;
-  margin: auto;
+  width: 250px;
+  margin: 0 auto;
   line-height: 2em;
   background: rgba(157, 0, 58, 0.58);
   border-radius: 250px;
@@ -113,7 +118,7 @@ div.row {
 }
 
 /* Small phones */
-@media (max-width: 350px), (orientation: landscape) and (max-height: 400px){
+@media (max-width: 450px){
   .sub-heading-text-1 {
     font-size: 25px;
     color: #FFFFFF;
@@ -135,6 +140,18 @@ div.row {
     font-style: oblique;
     font-weight: 300;
   }
+
+  .accent-btn {
+    width: 250px;
+    margin: 0 auto;
+    line-height: 2em;
+    background: rgba(157, 0, 58, 0.58);
+    border-radius: 250px;
+    color: #FFFFFF;
+    font-size: 22px;
+    font-family: Nanami-Rounded-Medium;
+    font-weight: 300;
+  }
 }
 
 /* Center element vertically and horizontally */
@@ -150,54 +167,3 @@ div.row {
   display: inline-block;
   vertical-align: middle;
 }
-
-
-/*
-@media only screen and (orientation: landscape) {
-  .accent-btn-side {
-    max-width: calc(50vw - 3em) !important;
-    margin: auto;
-    line-height: calc(1vw + 60px);
-    background: rgba(157, 0, 58, 0.58);
-    border-radius: 250px;
-    color: #FFFFFF;
-    font-size: calc(1vw + 18px);
-    font-family: Nanami-Rounded-Medium;
-    font-weight: 300;
-  }
-
-  .accent-btn-side:active {
-    opacity: 1;
-    -webkit-box-shadow: inset 0 0 5px #000;
-    -moz-box-shadow: inset 0 0 5px #000;
-    box-shadow: inset 0 0 5px #000;
-  }
-}
-
-
-@media (min-width: 850px) {
-  .accent-btn {
-    font-size: calc(2vw + 7px) !important;
-  }
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-  .accent-btn {
-    font-size: calc(1vw + 18px) !important;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .accent-btn {
-    width: calc(800px - 3em);
-    max-width: calc(800px - 3em);
-  }
-}
-
-@media only screen and (min-width: 900px) {
-  .accent-btn {
-    width: calc(700px - 3em);
-    max-width: calc(800px - 3em);
-  }
-}
-*/
