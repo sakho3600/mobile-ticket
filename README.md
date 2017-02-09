@@ -557,12 +557,13 @@ In your build, open and edit src/app/theme/theme-styles.css file.
 
 Css selector                                  |   Css property | Description   | Example(Default Styles)
 ------------                                  |   ------------ | ------------- | -------------
-```custom.text-color            ```           |     color      | Edit to change font color |  #FFFFFF !important;
-```custom.accent-bg-color       ```           |   background   | Edit to change accent color of buttons |  #A9023A !important;
-```custom.accent-tick-color.tick```           |     stroke     | Edit to change accent color of tick mark |  #A9023A !important;
-```custom.bg-image              ```           |   background   | Edit to change app background |  url('../../app/resources/background.jpg') !important;
-```custom.logo-image            ```           |    content     | Edit to change app logo  |  url('../../app/resources/qmLogo.png') !important;
-```custom.logo-bg-color         ```           |   background   | Edit to change app logo  |  transparent !important;
+```.custom.text-color            ```           |     color      | Edit to change font color |  #FFFFFF !important;
+```.custom.btn-text-color         ```           |   color   | Edit to change font color of the accent buttons  |  #FFFFFF !important;
+```.custom.accent-bg-color       ```           |   background   | Edit to change accent color of buttons |  #A9023A !important;
+```.custom.accent-tick-color.tick```           |     stroke     | Edit to change accent color of tick mark |  #A9023A !important;
+```.custom.bg-image              ```           |   background   | Edit to change app background |  url('../../app/resources/background.jpg') !important;
+```.custom.logo-image            ```           |    content     | Edit to change app logo  |  url('../../app/resources/qmLogo.png') !important;
+```.custom.logo-bg-color         ```           |   background   | Edit to change app logo  |  transparent !important;
 
 Note:
 
