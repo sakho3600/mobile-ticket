@@ -2,9 +2,9 @@
 Qmatic mobile ticket solution is intended to issue e-tickets to the customers who are willing to go through the queue management solution by QMATIC. 
 This is a web application that has been developed using Angular2 and the development environment of the project uses Angular-cli tools 
 (https://github.com/angular/angular-cli).
-## Prerequisites
-Angular-cli tools requires Node 4 or higher, together with NPM 3 or higher.
-## Table of content
+## Prerequisite
+Angular-cli tools requires Node 4, or higher, together with NPM 3, or higher.
+## Table of contents
 - [Installation] ()
 - [Proxy to Backend] ()
 - [Running Unit Tests] ()
@@ -23,7 +23,7 @@ Clone the Mobile Ticket Solution
 ```
 git clone https://github.com/qmatic/mobileticket.git
 ```
-When the cloning is complete, install the required node modules by running the follwing command from the project directory.
+When the cloning is complete, install the required node modules by running the following command from the project directory
 ```
 npm install
 ```
@@ -31,9 +31,9 @@ We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE sinc
 
 ## Proxy to Back end
 
-Mobile Ticket solution is intended to work with QMATIC API Gateway service which provides anonymous access to Orchestra REST API. The Mobile Ticket solution
+Mobile Ticket solution is intended to work with QMATIC API Gateway service, which provides anonymous access to Orchestra REST API. The Mobile Ticket solution
 is required to be hosted separately and all the REST API calls are proxied to avoid cross domain access violations. 
-The current implementation is indented to be hosted on node.js and proxing is provided via express-http-proxy (https://www.npmjs.com/package/express-http-proxy).
+The current implementation is intended to be hosted on node.js and proxying is provided via express-http-proxy (https://www.npmjs.com/package/express-http-proxy).
 
 ###### Configuring the Proxy for Development Environment
 
@@ -57,7 +57,7 @@ project directory
   }
 }
 ```
-Once the configuration is done you are ready to start the development server. You can open a console window in visual code and run npm start
+Once the configuration is done you are ready to start the development server. You can open a console window in visual code and run npm start,
 if you use visual code as the IDE. Otherwise just run this command on any console (bash, windows cli etc).
 ```
 npm start
@@ -73,13 +73,13 @@ NOTE : npm start will run the command configured for "start" in package.json
   }
 ```
 
-As an alternative ng serve command also can be used with proxy configuration
+As an alternative, ng serve command also can be used with proxy configuration
 ```
 ng serve --proxy-config proxy.conf.json
 ```
 ###### Configuring the Proxy for Production Environment
 
-Once the solution is built the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
+Once the solution is built, the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
 to "value" in "apigw_ip_port". Then set a valid auth token to "value" in "auth_token".
 
 File location
@@ -113,8 +113,8 @@ project directory
     }
 }
 ```
-###### Changing the deafult configurations of the application in  Development/Production Environment
-Application configuration file called 'cofig.json' contains the application specific parameters.
+###### Changing the default configurations of the application in  Development/Production Environment
+Application configuration file called 'config.json' contains the application specific parameters.
 
 File location
 ```html
@@ -142,26 +142,24 @@ project directory
     "notification_sound": {
         "value":"notification.mp3",
         "description": "Sound file use for notification"
-    },
-    "measuring_unit": {
-        "value":"Imperial",
-        "description":"Measuring unit for branch distance. Can be either Metric or Imperial"
     }
 }
 ```
 
 ###### Configuring the Proxy for Production Environment with HTTPS
 
-Fist it is required to install openssl and once the solution is built the output folder structure will contain a folder by the name 'sslcert' which contains 
-a bash script by the name create_cert.sh. After the installation of openssl make sure you create an environment variable by the name OPENSSL_CONF and put the
-path to the openssl config file (e.g. C:\OpenSSL\bin\openssl.cnf ). Then by running the create_cert.sh file on shell you will be able to create a self signed certificate and a public key.
-Next it is required you to edit the proxy-config.json and enable ssl by setting the value of 'support_ssl' to true.Now by running 'node server.js' will run 
-another server instance on port 8443 that is accessible via https in addition to the instance that is accessible via http. The port for HTTPS is specified
+Fist, it is required to install openssl and once the solution is built the output folder structure will contain a folder by the name 'sslcert' which contains 
+a bash script by the name create_cert.sh. After the installation of openssl, make sure you create an environment variable by the name OPENSSL_CONF and put the
+path to the openssl config file (e.g. C:\OpenSSL\bin\openssl.cnf ). Then, by running the create_cert.sh file on shell you will be able to create a self-signed certificate and a public key.
+Next, it is required that you edit the proxy-config.json and enable ssl by setting the value of 'support_ssl' to true.Now, by running 'node server.js', you will run 
+another server instance on port 8443 that is accessible via https in addition to the instance that is accessible via https, in addition to the instance that is accessible via http. The port for HTTPS is specified
 in local_webserver_ssl_port value and can be changed.
 
-NOTE: Any valid certificate and a public key from a valid certificate authority should work and it is required that the certificate bear the name 'server.crt'
-      and the public key bear the name 'server.key'. The MobileTicket solution should run on HTTPS in order to get location awareness in the case of branch listing.
-      Otherwise it will list all the branches instead of nearby branches.
+NOTE: Any valid certificate and a public key from a valid certificate authority should work and it is required that the certificate is called 'server.crt'
+      and the public key is callled 'server.key'. The MobileTicket solution should run on HTTPS, in order to get location awareness, in the case of branch listing.
+      Otherwise, it will list all the branches instead of nearby branches.
+      
+Also, we have already included a valid ssl certificate and should only be used for development purposes. Please do not use this in a production enviornment.
 
 ## Running Unit Tests
 
@@ -172,9 +170,9 @@ npm test
 ```
 ng test
 ```
-For visual code IDE open up a console window inside the IDE and run either npm start or ng test, this will run all 
-the unit tests and from there onwards the unit test will be auto run on the console window whenever the changes are saved.
-In general these commands can be run on any console window (bash, windows cli etc) 
+For visual code IDE, open up a console window inside the IDE and run either npm start or ng test. This will run all 
+the unit tests and from there onwards the unit test will be auto-run on the console window whenever the changes are saved.
+In general, these commands can be run on any console window (bash, windows cli etc) 
 
 ## Mobileticket.js library
 
@@ -189,11 +187,11 @@ MobileTicketAPI.init()
 ```
 
 
-Fetch branch information for the provided branchId
+Fetch branch information for the provided branchId.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 ```js
 MobileTicketAPI.getBranchInformation(branchId, onSuccess, onError)
 
@@ -250,11 +248,11 @@ MobileTicketAPI.getBranchInformation(branchId, onSuccess, onError)
 ```
 
 
-Fetch Queue information for the provided queueId
+Fetch Queue information for the provided queueId.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 ```js
 MobileTicketAPI.getQueueInformation(serviceId, onSuccess, onError)
 
@@ -270,17 +268,17 @@ MobileTicketAPI.getQueueInformation(serviceId, onSuccess, onError)
 ```
 
 
-Fetch a list branches that match the distance from current location criteria
+Fetch a list of branches that match the distance from current location criteria.
 
-latitude - Latitude of current location
+latitude - Latitude of current location.
 
-longitude - Longitude of current location
+longitude - Longitude of current location.
 
-radius - The radius of the circular area within which the branches are expected to be available
+radius - The radius of the circular area within which the branches are expected to be available.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 ```js
 MobileTicketAPI.getBranchesNearBy(latitude, longitude, radius, onSuccess, onError)
 
@@ -319,11 +317,11 @@ MobileTicketAPI.getBranchesNearBy(latitude, longitude, radius, onSuccess, onErro
 ```
 
 
-Fetch all the branches that are available
+Fetch all the branches that are available.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 ```js
 MobileTicketAPI.getAllBranches(onSuccess, onError)
 
@@ -376,12 +374,12 @@ MobileTicketAPI.getAllBranches(onSuccess, onError)
 ```
 
 
-Fetch all services for the selected branch
-NOTE: Branch selection will be cached inside the library, so here it gives the services for the so called caches branch
+Fetch all services for the selected branch.
+NOTE: Branch selection will be cached inside the library, so here it gives the services for the so-called cached branch.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 ```js
 MobileTicketAPI.getServices(onSuccess, onError) 
 
@@ -410,15 +408,15 @@ MobileTicketAPI.getServices(onSuccess, onError)
 ```
 
 
-Creates a ticket for a selected service at the selected branch
+Creates a ticket for a selected service at the selected branch.
 
-NOTE: Branch selection and service selection will be cached inside the library
+NOTE: Branch selection and service selection will be cached inside the library.
 
-clientId - clientId assigned by Google Analytics
+clientId - clientId assigned by Google Analytics.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 ```js
 MobileTicketAPI.createVisit(clientId, onSuccess, onError)
 
@@ -437,9 +435,9 @@ MobileTicketAPI.createVisit(clientId, onSuccess, onError)
 
 Fetch the visit status of a created visit.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 
 ```js
 MobileTicketAPI.getVisitStatus(onSuccess, onError)
@@ -455,9 +453,9 @@ MobileTicketAPI.getVisitStatus(onSuccess, onError)
 ```
 Fetch the queue status of a created visit.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 
 ```js
 MobileTicketAPI.getQueueStatus(onSuccess, onError) 
@@ -468,9 +466,9 @@ MobileTicketAPI.getQueueStatus(onSuccess, onError)
 ```
 Cancel the current visit.
 
-onSuccess - Success callback
+onSuccess - Success callback.
 
-onError - Error callback
+onError - Error callback.
 ```js
 MobileTicketAPI.cancelVisit(onSuccess, onError)
 
@@ -519,9 +517,9 @@ NOTE: It is required to change the auth token specified in the MobileTicket.js w
 ```
       
 ##Creating a Build
-BEFORE YOU BUILD : Run setup_grunt.sp to install required npm grunt modules for the build process
+BEFORE YOU BUILD: Run setup_grunt.sp to install required npm grunt modules for the build process.
 
-Run grunt help to list build commands
+Run grunt help to list build commands.
 ```
 grunt help
 Running "help" task
@@ -551,7 +549,7 @@ grunt build_development
 
 ##Branding & Customization
 
-Customiztions can be done on the fly, after building your application ([Creating a Build] ()).
+Customizations can be done on the fly, after building your application ([Creating a Build] ()).
 
 In your build, open and edit src/app/theme/theme-styles.css file.
 
@@ -567,9 +565,9 @@ Css selector                                  |   Css property | Description   |
 
 Note:
 
-* If you're specifying styles in this stylesheet, it will override the default styles.
-* If you want to add a new logo or background Image, make sure to include the images in the src/app/resources folder and refer it from the theme-styles sheet as shown in the above table.
-* If you don't want to customize your application, remove this file from the build. In this case the application will load with the default styles.
+* If you are specifying styles in this stylesheet, it will override the default styles.
+* If you want to add a new logo or background image, make sure to include the images in the src/app/resources folder and refer it from the theme-styles sheet as shown in the above table.
+* If you do not want to customize your application, remove this file from the build. In this case, the application will load with the default styles.
 
 
 
