@@ -2,32 +2,30 @@ import { Injectable } from '@angular/core';
 import { ServiceEntity } from '../entities/service.entity';
 import 'rxjs/add/operator/map';
 import { TranslateService } from 'ng2-translate';
+import { Config } from '../config/config';
 
 declare var MobileTicketAPI: any;
 
 @Injectable()
 export class ServiceService {
-  constructor(private translate: TranslateService) { }
 
-  public convertToServiceEntities(serviceList): Array<ServiceEntity> {
-    let entities: Array<ServiceEntity> = [];
-    let serviceEntity: ServiceEntity;
-    for (var i = 0; i < serviceList.length; i++) {
-      serviceEntity = new ServiceEntity();
-      serviceEntity.id = serviceList[i].id;
-      serviceEntity.name = serviceList[i].name;
-      serviceEntity.estimatedWait = serviceList[i].estimatedWait;
-      serviceEntity.waitingTime = serviceList[i].waitingTime;
-      serviceEntity.selected = false;
-      entities.push(serviceEntity);
+  private onCountDownCompleteCallback;
+  private timerStart = 10 * 60 * 1000; //minutes
+  private serviceRefreshLintervel = 15; //seconds
+  private timerGap = 1000;
+  private isSingleBranch;
+  private countDownreTimersource;
+  private serviceFecthTimerResource
+
+  constructor(private config: Config, private translate: TranslateService) {
+    try {
+      this.timerStart = this.config.getConfig('service_screen_timeout') * 60 * 1000;
+    } catch (error) {
+      console.log(error.message + " error reading service_screen_timeout");
     }
-    if (serviceList.length == 1) {
-      entities[0].selected = true;
-    }
-    return entities;
   }
 
-  public getServices(callback): void {
+  private fetchServices(callback) {
     MobileTicketAPI.getServices(
       (serviceList: any) => {
         let serviceEntities = this.convertToServiceEntities(serviceList);
@@ -38,20 +36,64 @@ export class ServiceService {
       });
   }
 
-  setServiceInformation(serviceList: Array<ServiceEntity>): void {
-     for (var i = 0; i < serviceList.length; i++) {
-        let service = serviceList[i];
-        MobileTicketAPI.getQueueInformation(service.id,
-          (serviceInfo) => {
-            service.customersWaiting = serviceInfo.customersWaiting;
-            if(service.customersWaiting.toString() === '0') {
-              service.customersWaiting = '0';
-            }
-          },
-          () => {
-
-          });
+  private intiCountDown() {
+    let currenVal = this.timerStart;
+    this.stopBranchRedirectionCountDown();
+    this.countDownreTimersource = setInterval(() => {
+      if (currenVal == 0) {
+        clearInterval(this.countDownreTimersource);
+        clearInterval(this.serviceFecthTimerResource);
+        this.onCountDownCompleteCallback();
       }
+      currenVal = currenVal - this.timerGap;;
+    }, this.timerGap);
   }
 
+  public stopServiceFetchTimer() {
+    clearInterval(this.serviceFecthTimerResource);
+  }
+
+  public stopBranchRedirectionCountDown() {
+    clearInterval(this.countDownreTimersource);
+  }
+
+  public convertToServiceEntities(serviceList): Array<ServiceEntity> {
+    let entities: Array<ServiceEntity> = [];
+    let serviceEntity: ServiceEntity;
+    for (var i = 0; i < serviceList.length; i++) {
+      serviceEntity = new ServiceEntity();
+      serviceEntity.id = serviceList[i].serviceId;
+      serviceEntity.name = serviceList[i].serviceName;
+      serviceEntity.waitingTime = serviceList[i].waitingTimeInDefaultQueue;
+      serviceEntity.customersWaiting = serviceList[i].customersWaitingInDefaultQueue.toString();
+      serviceEntity.selected = false;
+      entities.push(serviceEntity);
+    }
+    if (serviceList.length == 1) {
+      entities[0].selected = true;
+    }
+    return entities;
+  }
+
+  public registerCountDownCompleteCallback(callback, singleBranch) {
+    this.onCountDownCompleteCallback = callback;
+    this.isSingleBranch = singleBranch;
+  }
+
+  public getServices(callback): void {
+    this.stopServiceFetchTimer();
+    this.fetchServices((serviceEntities, error) => {
+      this.intiCountDown();
+      callback(serviceEntities, error)
+    });
+    try {
+      this.serviceRefreshLintervel = this.config.getConfig('service_fetch_interval');
+    } catch (error) {
+      console.log(error.message + " error reading service_fetch_interval");
+    }
+
+    this.serviceFecthTimerResource = setInterval(() => {
+      this.fetchServices(callback);
+    }, this.serviceRefreshLintervel * 1000);
+  }
 }

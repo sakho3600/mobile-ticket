@@ -28,7 +28,6 @@ export class TicketComponent implements OnInit {
   ngOnInit() {
     this.ticketEntity = new TicketEntity();
     this.getSelectedBranch();
-    this.getSelectedService();
     this.getTicketInfo();
   }
 
@@ -38,17 +37,6 @@ export class TicketComponent implements OnInit {
   public getSelectedBranch() {
     if (MobileTicketAPI.getSelectedBranch() !== null) {
       this.branchEntity = MobileTicketAPI.getSelectedBranch();
-    }
-  }
-
-  public getSelectedService() {
-    if (MobileTicketAPI.getSelectedService() !== null) {
-      this.serviceEntity = MobileTicketAPI.getSelectedService();
-      this.serviceName = this.trimServiceString(this.serviceEntity.name);
-
-    }
-    else {
-      this.serviceName = '';
     }
   }
 
@@ -68,7 +56,7 @@ export class TicketComponent implements OnInit {
   }
 
   public onTicketIdChange() {
-    if(MobileTicketAPI.getCurrentVisitStatus().ticketId != null) {
+    if (MobileTicketAPI.getCurrentVisitStatus().ticketId != null) {
       this.ticketEntity.ticketNumber = MobileTicketAPI.getCurrentVisitStatus().ticketId;
     } else {
       this.ticketEntity.ticketNumber = '';

@@ -4,7 +4,7 @@
 }
 
 .width-control{
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -25,13 +25,14 @@
 
 .left-cell{
   width: 50px;
+  margin: 0.5em;
 }
 
 .right-cell{
   vertical-align: middle;
   text-align: center;
-  display: inline-flex;
-  max-width: 75%;
+  display: inline;
+  width: 100%;
   text-overflow: ellipsis;
   overflow: auto;
 }

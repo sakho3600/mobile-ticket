@@ -1,21 +1,28 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-branches-container',
   templateUrl: './branches-container-tmpl.html',
-  styleUrls: ['./branches-container.css', '../../shared/css/common-styles.css']
+  styleUrls: ['./branches-container.css']
 })
-export class BranchesContainerComponent {
+export class BranchesContainerComponent implements OnInit {
   private isLoading = true;
   private showNetWorkError = false;
 
-  startLoading(value: boolean){
+  ngOnInit() {
+    this.scrollPageToTop();
+  }
+
+  startLoading(value: boolean) {
     this.isLoading = value;
   }
 
-  showHideNetworkError(value: boolean){
+  showHideNetworkError(value: boolean) {
     this.showNetWorkError = value;
+  }
+
+  scrollPageToTop() {
+    window.scrollTo(0, 0);
   }
 }
 

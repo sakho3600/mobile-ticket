@@ -7,7 +7,7 @@ declare var MobileTicketAPI: any;
 @Component({
   selector: 'branch',
   templateUrl: './branch-tmpl.html',
-  styleUrls: ['./branch.css', './branch-rtl.css', '../../shared/css/common-styles.css']
+  styleUrls: ['./branch.css', './branch-rtl.css']
 })
 
 export class BranchComponent implements OnInit {
@@ -22,7 +22,7 @@ export class BranchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setRtlStyles();
+    this.setRtlStyles();    
   }
 
   selectBranch(branch) {

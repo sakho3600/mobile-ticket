@@ -11,6 +11,7 @@ Angular-cli tools requires Node 4, or higher, together with NPM 3, or higher.
 - [Mobileticket.js library] ()
 - [Creating a Build] ()
 - [Branding & Customization] ()
+- [Supported Orchestra Versions] ()
 
 ## Installation
 BEFORE YOU INSTALL: please read the [prerequisites] ()
@@ -37,12 +38,12 @@ The current implementation is intended to be hosted on node.js and proxying is p
 
 ###### Configuring the Proxy for Development Environment
 
-Edit proxy.config.json and set target to the IP and port of the QMATIC API Gateway service
+Edit proxy-config.json and set target to the IP and port of the QMATIC API Gateway service
 
 File location
 ```html
 project directory
-|---proxy.config.json
+|---proxy-config.json
 ```
 
 ```js
@@ -65,7 +66,7 @@ npm start
 NOTE : npm start will run the command configured for "start" in package.json
 ```js
 "scripts": {
-    "start": "ng serve --proxy-config proxy.config.json",
+    "start": "ng serve --proxy-config proxy-config.json",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
@@ -86,7 +87,7 @@ File location
 ```html
 project directory
 |---dist
-      |--- proxy.config.json
+      |--- proxy-config.json
 ```
 
 ```js
@@ -104,7 +105,7 @@ project directory
      "description" : "Mobile API user - authentication token"
      },
  "local_webserver_ssl_port": {
-        "value": "8443",
+        "value": "4443",
         "description": "Local webserver HTTPS port"
     },
  "support_ssl": {
@@ -148,18 +149,18 @@ project directory
 
 ###### Configuring the Proxy for Production Environment with HTTPS
 
-Fist, it is required to install openssl and once the solution is built the output folder structure will contain a folder by the name 'sslcert' which contains 
+First, it is required to install openssl and once the solution is built the output folder structure will contain a folder by the name 'sslcert' which contains 
 a bash script by the name create_cert.sh. After the installation of openssl, make sure you create an environment variable by the name OPENSSL_CONF and put the
 path to the openssl config file (e.g. C:\OpenSSL\bin\openssl.cnf ). Then, by running the create_cert.sh file on shell you will be able to create a self-signed certificate and a public key.
-Next, it is required that you edit the proxy-config.json and enable ssl by setting the value of 'support_ssl' to true.Now, by running 'node server.js', you will run 
-another server instance on port 8443 that is accessible via https in addition to the instance that is accessible via https, in addition to the instance that is accessible via http. The port for HTTPS is specified
+Next, it is required that you edit the proxy-config.json and enable ssl by setting the value of 'support_ssl' to true. Now, by running 'node server.js', you will run 
+another server instance on port 4443 that is accessible via https in addition to the instance that is accessible via https, in addition to the instance that is accessible via http. The port for HTTPS is specified
 in local_webserver_ssl_port value and can be changed.
 
 NOTE: Any valid certificate and a public key from a valid certificate authority should work and it is required that the certificate is called 'server.crt'
-      and the public key is callled 'server.key'. The MobileTicket solution should run on HTTPS, in order to get location awareness, in the case of branch listing.
+      and the public key is called 'server.key'. The MobileTicket solution should run on HTTPS, in order to get location awareness, in the case of branch listing.
       Otherwise, it will list all the branches instead of nearby branches.
       
-Also, we have already included a valid ssl certificate and should only be used for development purposes. Please do not use this in a production enviornment.
+Also, we have already included a valid ssl certificate and should only be used for development purposes. Please do not use this in a production environment.
 
 ## Running Unit Tests
 
@@ -517,7 +518,7 @@ NOTE: It is required to change the auth token specified in the MobileTicket.js w
 ```
       
 ##Creating a Build
-BEFORE YOU BUILD: Run setup_grunt.sp to install required npm grunt modules for the build process.
+BEFORE YOU BUILD: Run setup_grunt.sh to install required npm grunt modules for the build process.
 
 Run grunt help to list build commands.
 ```
@@ -569,6 +570,9 @@ Note:
 * If you want to add a new logo or background image, make sure to include the images in the src/app/resources folder and refer it from the theme-styles sheet as shown in the above table.
 * If you do not want to customize your application, remove this file from the build. In this case, the application will load with the default styles.
 
+##Supported Orchestra Versions
 
+* Orchestra 6.0: Version HF22 (not yet released)
+* Orchestra 6.1: Version HF 4 (not yet released)
 
 

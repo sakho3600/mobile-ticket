@@ -10,12 +10,18 @@ export class Locale {
     setLocale(){
         this.translate.setDefaultLang('en');
         let browserLang = this.translate.getBrowserLang();
-        this.translate.use(browserLang);
+        var deviceLang = navigator.language.split('-')[0];
+        var translateLang = browserLang;
+        if(browserLang == "en"){
+            translateLang = deviceLang;
+        }
 
+        this.translate.use(translateLang);
+        
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             var availableLangs = this.translate.getLangs();
             var rtlLang = ["ar", "arc", "dv", "far", "ha", "he", "khw", "ks", "ku", "ps", "ur", "yi"];
-            if(rtlLang.indexOf(browserLang) != -1 && availableLangs.indexOf(browserLang) != -1){
+            if(rtlLang.indexOf(translateLang) != -1 && availableLangs.indexOf(translateLang) != -1){
                 document.dir = "rtl";
             }
         });

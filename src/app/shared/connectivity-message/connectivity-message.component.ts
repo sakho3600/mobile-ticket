@@ -4,7 +4,7 @@ import { TranslateService } from 'ng2-translate';
 @Component({
   selector: 'app-network-message',
   templateUrl: './connectivity-message-tmpl.html',
-  styleUrls: ['./connectivity-message.component.css', '../../shared/css/common-styles.css']
+  styleUrls: ['./connectivity-message.component.css']
 })
 
 export class ConnectivityMessageComponent {

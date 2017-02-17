@@ -24,6 +24,7 @@
 .visitcall-heading-three {
   font-size: 25px;
   font-family: Nanami-Rounded-Medium;
+  word-wrap: break-word;
 }
 
 .ticket_branch{
@@ -47,4 +48,15 @@
 
 .inner-padding {
   padding-top: 30px;
+}
+
+.placement-layout{
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 auto;
+}
+
+.placement-layout > span{
+  vertical-align: super;
 }

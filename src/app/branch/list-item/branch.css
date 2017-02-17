@@ -55,10 +55,6 @@
   background-size: contain;
 }
 
-.branch-btn:hover {
-  opacity: 0.8;
-}
-
 .branch-btn:active {
   opacity: 0.8;
 }

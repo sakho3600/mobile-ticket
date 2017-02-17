@@ -39,8 +39,16 @@
   font-size: 0em;
 }
 
+.recycle-heading {
+  font-size: 19px;
+  color: #FFFFFF;
+  font-family: "Helvetica" !important;
+  font-style: oblique !important;
+  font-weight: 300;
+}
+
 /* Small phones */
-@media (max-width: 450px){
+@media (max-width: 400px){
 
   .queue-heading {
     color: white;

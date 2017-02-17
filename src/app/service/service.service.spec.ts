@@ -58,16 +58,16 @@ describe('ServiceService', () => {
  it('Should return a list of ServiceEntities', async(() => {
     let serviceList = [
       {
-        "waitingTime":0,
-        "estimatedWaitTime": 0,
-        "id": 2,
-        "name": "Service 2"        
+        "waitingTimeInDefaultQueue":0,
+        "customersWaitingInDefaultQueue": 0,
+        "serviceId": 2,
+        "serviceName": "Service 2"        
       },
       {
-        "waitingTime":0,
-        "estimatedWaitTime": 0,
-        "id": 1,
-        "name": "Branch 1"
+        "waitingTimeInDefaultQueue":0,
+        "customersWaitingInDefaultQueue": 0,
+        "serviceId": 1,
+        "serviceName": "Service 1"
       }
     ];
     

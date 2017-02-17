@@ -8,7 +8,7 @@ declare var MobileTicketAPI: any;
 @Component({
   selector: 'app-services',
   templateUrl: './services-tmpl.html',
-  styleUrls: ['./services.css', '../../shared/css/common-styles.css']
+  styleUrls: ['./services.css']
 })
 export class ServicesComponent implements AfterViewInit {
   public services: Array<ServiceEntity>;
@@ -28,34 +28,48 @@ export class ServicesComponent implements AfterViewInit {
             if (!error) {
               this.onServicesReceived(serviceList, serviceService)
               retryService.abortRetry();
+              this.onListLoaded();
             }
           });
         });
       } else {
         this.onServicesReceived(serviceList, serviceService);
+        this.onListLoaded();
+        
       }
-      this.onListLoaded();
     });
   }
 
-  private onListLoaded(){
+  private onListLoaded() {
     this.onServiceListLoaded.emit(true);
+    this.setSelectedService(MobileTicketAPI.getSelectedService());
   }
 
   private onServicesReceived(serviceList, serviceService): void {
     this.onShowHideServiceFetchError.emit(false);
     if (serviceList.length === 1) {
+      this.onServiceSelection.emit(serviceList[0].id);
       MobileTicketAPI.setServiceSelection(serviceList[0]);
     }
     this.services = serviceList;
-    serviceService.setServiceInformation(this.services);
+    this.initListShadow();
   }
 
   ngAfterViewInit() {
     window.addEventListener('orientationchange', this.setListShadow, true);
     window.addEventListener('resize', this.setListShadow, true);
     window.addEventListener('scroll', this.setListShadow, true);
-    this.initListShadow();
+  }
+
+  setSelectedService(selectedService: ServiceEntity) {
+    if (selectedService) {
+      this.onServiceSelection.emit(selectedService.id);
+      for (let i = 0; i < this.services.length; ++i) {
+        if (selectedService.id === this.services[i].id) {
+          this.services[i].selected = true;
+        }
+      }
+    }
   }
 
   resetSelections(selectedService: ServiceEntity) {

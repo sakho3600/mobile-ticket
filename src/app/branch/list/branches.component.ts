@@ -5,13 +5,15 @@ import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { RetryService } from '../../shared/retry.service';
 import { SortPipe } from '../../util/sort.pipe';
+import { PlatformLocation } from '@angular/common'
+import { ActivatedRoute } from '@angular/router';
 
 declare var MobileTicketAPI: any;
 
 @Component({
   selector: 'app-branches',
   templateUrl: './branches-tmpl.html',
-  styleUrls: ['./branches.css', '../../shared/css/common-styles.css']
+  styleUrls: ['./branches.css']
 })
 export class BranchesComponent implements AfterViewInit {
   public branches: Array<BranchEntity>;
@@ -21,13 +23,23 @@ export class BranchesComponent implements AfterViewInit {
   public loadingText: string = "Loading...";
   private nmbrOfEnabledBranches: number;
   private loaderResource: string = "app/resources/loader.svg";
+  private isRedirectedFromServices: boolean = false;
 
   @Output() startLoading = new EventEmitter<boolean>();
   @Output() onShowHideRequest = new EventEmitter<boolean>();
 
-  constructor(private branchService: BranchService, private retryService: RetryService, public router: Router, private translate: TranslateService, private sort: SortPipe) {
+  constructor(private branchService: BranchService, private retryService: RetryService, private route: ActivatedRoute,
+    public router: Router, private translate: TranslateService, private sort: SortPipe, location: PlatformLocation) {
     this.translate.get('branch.defaultTitle').subscribe((res: string) => {
       document.title = res;
+    });
+  }
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params['redirect'] != undefined) {
+        this.isRedirectedFromServices = true;
+      }
     });
   }
 
@@ -47,7 +59,7 @@ export class BranchesComponent implements AfterViewInit {
         this.onShowHideRequest.emit(true);
         this.showLoader = false;
         this.retryService.retry(() => {
-          this.branchService.getBranches((branchList: Array<BranchEntity>, error: boolean,  isFullList: boolean) => {
+          this.branchService.getBranches((branchList: Array<BranchEntity>, error: boolean, isFullList: boolean) => {
             if (!error) {
               this.onBranchFetchSuccess(branchList, branchService, isFullList);
               this.retryService.abortRetry();
@@ -63,7 +75,7 @@ export class BranchesComponent implements AfterViewInit {
   private onBranchFetchSuccess(branchList, branchService, isFullList): void {
     this.networkError = false;
     this.onShowHideRequest.emit(false);
-    if(isFullList == true){
+    if (isFullList == true) {
       this.sort.transform(branchList, "name");
     }
     this.branches = branchList;
@@ -78,11 +90,12 @@ export class BranchesComponent implements AfterViewInit {
               for (let k = 0; k < updatedList.length; k++) {
                 if (updatedList[k].enabled) {
                   MobileTicketAPI.setBranchSelection(updatedList[k]);
-                  this.router.navigate(['services']);
+                  if (!this.isRedirectedFromServices){
+                    this.router.navigate(['services']);
+                  }
                   break;
                 }
               }
-
             }
           }
           else {

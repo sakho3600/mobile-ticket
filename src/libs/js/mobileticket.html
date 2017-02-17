@@ -83,26 +83,7 @@
 								}
 							);		
 						}
-					);			
-      //--------------------------------------------------------------------------------------------------
-	  MobileTicketAPI.setServiceSelection({"id":"2"});	
-			  	  MobileTicketAPI.setBranchSelection({"id":"1"});
-				  MobileTicketAPI.createVisit("clientId",
-							function(data){
-								MobileTicketAPI.getQueueStatus(
-									function(data){
-										QUnit.test( "getQueueStatus", function( assert ) {
-									        assert.equal(Array.isArray(data), true);
-									    }); 
-									},
-									function(xhr, status, errorMsg){
-										QUnit.test( "getQueueStatus", function( assert ) {
-									   		assert.equal(1,0);
-										}); 
-									}
-								  );		
-						}
-					);
+					);			    
       //---------------------------------------------------------------------------------------------------
 	  MobileTicketAPI.setServiceSelection({"id":"2"});	
 			  		MobileTicketAPI.setBranchSelection({"id":"1"});

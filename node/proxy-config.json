@@ -16,7 +16,7 @@
         "description": "Local webserver HTTPS port"
     },
     "support_ssl": {
-        "value": "false",
+        "value": "true",
         "description": "Flag indicating server supports SSL.Should have a valid public key and certificate in 'sslcert' folder "
     }
 }

@@ -3,7 +3,7 @@ import { VisitEntity } from '../entities/visit.entity';
 import { QueueEntity } from '../entities/queue.entity';
 
 declare var MobileTicketAPI: any;
-
+var isVisitCacheUpdate = true;
 
 @Injectable()
 export class TicketInfoService {
@@ -19,51 +19,27 @@ export class TicketInfoService {
     queueEntity.queueId = queueObj.queueId;
     return queueEntity;
   }
-  getVisitStatus(success, err, isVisitCacheUpdate): any {
-    MobileTicketAPI.getVisitStatus(
-      (queueObj: any) => {
-        success(this.convertToQueueEntity(queueObj));
-      },
-      (xhr, status, msg) => {
-        if (xhr.status == 404) {
-          var payload = xhr.responseJSON;
-          if (payload != undefined && payload.message.includes("New visits are not available until visitsOnBranchCache is refreshed") == true) {
-            setTimeout(function () {
-              MobileTicketAPI.getVisitStatus(
-                (queueObj: any) => {
-                  success(this.convertToQueueEntity(queueObj));
-                },
-                (xhr, status, msg) => {
-                  err(xhr, status, msg);
-                });
-            }, payload.refreshRate * 60);
-          }
-          else {
-            err(xhr, status, msg);
-          }
-        }
-        else {
-          err(xhr, status, msg);
-        }
-      }
-    );
-  }
 
   pollVisitStatus(success, err): any {
-    MobileTicketAPI.getVisitStatus(
+    if(isVisitCacheUpdate == true){
+      MobileTicketAPI.getVisitStatus(
       (queueObj: any) => {
         success(this.convertToQueueEntity(queueObj));
       },
       (xhr, status, msg) => {
-        if (xhr.status == 404) {
+        if (xhr !== null && xhr.status == 404) {
           var payload = xhr.responseJSON;
-          if (payload != undefined && payload.message.includes("New visits are not available until visitsOnBranchCache is refreshed") == true) {
+          if (payload != undefined && 
+          payload.message.includes("New visits are not available until visitsOnBranchCache is refreshed") == true) {
+            isVisitCacheUpdate = false;
             setTimeout(function () {
               MobileTicketAPI.getVisitStatus(
                 (queueObj: any) => {
+                  isVisitCacheUpdate = true;
                   success(this.convertToQueueEntity(queueObj));
                 },
                 (xhr, status, msg) => {
+                  isVisitCacheUpdate = true;
                   err(xhr, status, msg);
                 });
             }, payload.refreshRate * 1000);
@@ -77,6 +53,7 @@ export class TicketInfoService {
         }
       }
     );
+    }
   }
 
   getBranchInformation(branchId, onBranchResponse): void {

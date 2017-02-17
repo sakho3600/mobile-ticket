@@ -7,7 +7,7 @@ declare var MobileTicketAPI: any;
 @Component({
   selector: 'app-service',
   templateUrl: './service-tmpl.html',
-  styleUrls: ['./service.css', './service-rtl.css', '../../shared/css/common-styles.css']
+  styleUrls: ['./service.css', './service-rtl.css']
 
 })
 export class ServiceComponent implements OnInit {

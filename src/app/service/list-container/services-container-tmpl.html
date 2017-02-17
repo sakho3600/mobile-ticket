@@ -1,8 +1,5 @@
 <div class="table-container inner-margin-separator">
   <div class="text-center table-child-heading-1">
-    <span class="center-text sub-heading-text-1 custom text-color">
-          <span>{{ 'service.subHeadingOne' | translate }}</span>
-    </span>
     <div class="center-text">
       <span [innerHTML]="subHeadingTwo" class="sub-heading-text-2 service-limit-label custom text-color"></span>
     </div>
@@ -25,7 +22,7 @@
 
   <div class="table-child-footer" [hidden]="showNetWorkError">
     <footer class="qm-footer" [hidden]="!isServiceListLoaded">
-      <div class="center-text margin-placement">
+      <div class="center-text">
         <div class="accent-btn custom accent-bg-color btn-text-color" (click)='onTakeTicket()'>
           {{ 'service.accentBtnText' | translate }}
         </div>

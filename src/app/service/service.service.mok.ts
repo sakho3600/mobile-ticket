@@ -15,8 +15,4 @@ export class ServiceServiceMok {
     callback([]);
   }
 
-  public setServiceInformation(serviceList: Array<ServiceEntity>): void {
-
-  }
-
 }

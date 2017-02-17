@@ -7,6 +7,7 @@ declare var MobileTicketAPI: any;
 @Injectable()
 export class AuthGuard implements CanActivate {
 
+    private prevUrl: string = '/';
     constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     }
 
@@ -18,9 +19,27 @@ export class AuthGuard implements CanActivate {
             let visitId = route.queryParams['visit'];
             let checksum = route.queryParams['checksum'];
 
-            if ((url.startsWith('/ticket') && ((branchId && visitId && checksum) ||
-             (visitInfo.branchId && visitInfo.visitId && visitInfo.checksum)))) {
-                 resolve(true);
+            if (url.startsWith('/branches')) {
+                resolve(true);
+            }
+            else if (url.startsWith('/services')) {
+                if ((this.prevUrl.startsWith('/branches') ||
+                    this.prevUrl === '/')) {
+                    resolve(true);
+                }
+                else if (this.prevUrl.startsWith('/ticket') &&
+                    (!visitInfo || visitInfo === null)) {
+                    resolve(true);
+                }
+                else if ((visitInfo && visitInfo !== null)) {
+                    this.router.navigate(['/branches']);
+                    resolve(false);
+                }
+            }
+
+            else if ((url.startsWith('/ticket') && ((branchId && visitId && checksum) ||
+                ((visitInfo !== null && visitInfo) && visitInfo.branchId && visitInfo.visitId && visitInfo.checksum)))) {
+                resolve(true);
             }
             else if (visitInfo) {
                 MobileTicketAPI.getVisitStatus(
@@ -43,6 +62,11 @@ export class AuthGuard implements CanActivate {
                 this.router.navigate(['/branches']);
                 resolve(false);
             }
+
+            if (!(this.prevUrl.startsWith('/branches') && url.startsWith('/ticket'))) {
+                this.prevUrl = url;
+            }
+
         });
     }
 }

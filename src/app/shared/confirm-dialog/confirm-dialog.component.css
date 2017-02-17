@@ -1,0 +1,63 @@
+.dialog-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: scroll;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+  opacity: 0;
+  -webkit-transition: opacity 100ms ease-in;
+  -moz-transition: opacity 100ms ease-in;
+  transition: opacity 100ms ease-in;
+  text-align: center;
+}
+
+.dialog-container > div {
+  position: relative;
+  width: 280px;
+  max-width: 290px;
+  min-height: 25px;
+  margin: 0 auto !important;
+  z-index: 99999;
+  background: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#cancelBtn, #okBtn{
+  width: calc((280px / 2) - 0.5px);
+  background-color: transparent;
+}
+
+#okBtn{
+  color: #33cc99;
+}
+
+#cancelBtn, #okBtn, .btn-seperator {
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+  border-top: 1px solid #ccc;
+}
+
+.btn-seperator{
+  width: 1px;
+  background: #ccc;
+  height: 40px;
+}
+
+.btnContainer {
+  text-align: center;
+  display: flex;
+}
+
+#message{
+  padding: 1.5em;
+  display: block;
+}
+
+#cancelBtn:active, #okBtn:active{
+  background: #e3e3e7;
+}

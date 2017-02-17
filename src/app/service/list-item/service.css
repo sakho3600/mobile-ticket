@@ -18,6 +18,7 @@
 .short-and-fixed {
   white-space: nowrap;
   margin: 0 3px;
+  min-width: 40px;
 }
 
 .short-and-fixed > div {
@@ -27,7 +28,6 @@
   background: lightgreen;
   display: inline-block;
 }
-
 
 .long-and-truncated-with-child-corrected {
   min-width: 0;
@@ -60,11 +60,6 @@
 
 .service-btn-active {
   background-color:#FCFCFD;
-  border-radius: 3px;
-}
-
-.service-btn:hover {
-  background-color:#FCFCFD !important;
   border-radius: 3px;
 }
 
@@ -110,17 +105,17 @@ svg.tick {
   visibility: visible;
 }
 
-.tick-container{
+.tick-container {
   position: absolute;
   right: 18px;
   top: 28%;
 }
 
-.customer-waiting{
+.customer-waiting {
   /*...*/
 }
 
-.customer-icon{
+.customer-icon {
   width: 20px;
   vertical-align: sub;
   stroke: #303030;
@@ -128,14 +123,14 @@ svg.tick {
 }
 
 /* Media Queries */
-@media (min-width: 450px){
+@media (min-width: 450px) {
   div.btn-text {
     font-size: 17px;
     font-weight: 400;
     vertical-align: super;
   }
 
-  .tick-container{
+  .tick-container {
     position: absolute;
     right: 1.5em;
     top: 34%

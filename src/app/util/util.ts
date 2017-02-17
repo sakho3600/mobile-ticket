@@ -1,3 +1,5 @@
+declare var ga: Function;
+
 export class Util {
 
     private IMPERIAL_UNIT_COUNTRY_CODES = ["US", "LR", "MM"];
@@ -35,6 +37,28 @@ export class Util {
         if (parsedArray && parsedArray.length > 0) {
             return parsedArray[1];
         }
+    }
+
+    public gaSend() {
+        ga('send', {
+            hitType: 'event',
+            eventCategory: 'Ticket',
+            eventAction: 'create',
+            eventLabel: 'vist-create'
+        });
+    }
+
+    public getClientId(): any {
+        let clientId;
+        ga(function (tracker) {
+            if (tracker.get('clientId')) {
+                clientId = tracker.get('clientId');
+            }
+            else {
+                clientId = '';
+            }
+        });
+        return clientId;
     }
 
 }

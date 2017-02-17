@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, Input, EventEmitter } from '@angular/core';
 import { QueueEntity } from '../../entities/queue.entity';
 import { TicketInfoService } from '../ticket-info.service';
 import { Observable } from 'rxjs/Rx';
@@ -9,8 +9,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BranchEntity } from '../../entities/branch.entity';
 import { TranslateService } from 'ng2-translate';
 import { VisitState } from '../../util/visit.state';
+import { Util } from '../../util/util';
 
 declare var MobileTicketAPI: any;
+declare var ga: Function;
 
 @Component({
   selector: 'app-queue-container',
@@ -52,8 +54,10 @@ export class QueueComponent implements OnInit, OnDestroy {
   @Output() onServiceNameUpdate: EventEmitter<string> = new EventEmitter<string>();
   @Output() onBranchUpdate = new EventEmitter();
   @Output() onUrlVisitLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onVisitNotFound: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onVisitStatusUpdate: EventEmitter<QueueEntity> = new EventEmitter<QueueEntity>();
   @Output() onNetworkErr: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public visitRecycleMsg: string;
 
 
   constructor(public ticketService: TicketInfoService, private retryService: RetryService,
@@ -76,6 +80,7 @@ export class QueueComponent implements OnInit, OnDestroy {
           this.onUrlVisitLoading.emit(true);
           this.ticketService.getBranchInformation(branchId, (branch: BranchEntity, error: boolean) => {
             if (error) {
+              this.onVisitNotFound.emit(true);
               this.router.navigate(['no_visit']);
             } else {
               this.onBranchFetchSuccess(branch);
@@ -88,9 +93,18 @@ export class QueueComponent implements OnInit, OnDestroy {
                 this.onTciketNmbrChange.emit();
                 this.onServiceNameUpdate.emit(MobileTicketAPI.getCurrentVisitStatus().currentServiceName);
                 this.initPollTimer(this.visitPosition, this.ticketService);
+
+                ga('send', {
+                  hitType: 'event',
+                  eventCategory: 'visit',
+                  eventAction: 'open',
+                  eventLabel: 'vist-open-url'
+                });
               },
                 (xhr, status, msg) => {
                   if (xhr.status === 404 || xhr.status === 401) {
+                    MobileTicketAPI.resetAllVars();
+                    this.onVisitNotFound.emit(true);
                     this.router.navigate(['no_visit']);
                   }
                 }
@@ -100,7 +114,7 @@ export class QueueComponent implements OnInit, OnDestroy {
         }
         else {
           this.onUrlVisitLoading.emit(false);
-          this.branchId = MobileTicketAPI.getSelectedBranch().id;
+          this.branchId = MobileTicketAPI.getCurrentVisit().branchId;
           this.visitId = MobileTicketAPI.getCurrentVisit().visitId;
           this.queueId = MobileTicketAPI.getCurrentVisit().queueId;
           this.checksum = MobileTicketAPI.getCurrentVisit().checksum;
@@ -110,20 +124,31 @@ export class QueueComponent implements OnInit, OnDestroy {
       });
   }
 
+  public onVisitRecycled(isRecyled) {
+    if(isRecyled) {
+     this.translate.get('ticketInfo.visitRecycledMessage').subscribe((res: string) => {
+        this.visitRecycleMsg = res;
+      });
+    }
+    else {
+      this.visitRecycleMsg = undefined;
+    }
+  }
+
   private onBranchFetchSuccess(branch) {
     MobileTicketAPI.setBranchSelection(branch);
   }
 
   private detectTransfer(currentQueueId: number) {
-    return (this.queueIdPrev != -1 && (this.queueIdPrev != currentQueueId));
+    return (this.queueIdPrev !== -1 && (this.queueIdPrev != currentQueueId));
   }
 
   public initPollTimer(visitPosition, ticketService: TicketInfoService) {
     if (visitPosition > 5) {
-      this.timer = TimerObservable.create(5000, 5000);
+      this.timer = TimerObservable.create(0, 5000);
     }
     if (visitPosition <= 5) {
-      this.timer = TimerObservable.create(1000, 1000);
+      this.timer = TimerObservable.create(0, 1000);
     }
     this.subscription = this.timer.subscribe(visitPosition => this.queuePoll(visitPosition, ticketService, false));
 
@@ -143,7 +168,14 @@ export class QueueComponent implements OnInit, OnDestroy {
     },
       (xhr, status, msg) => {
         this.doUnsubscribeForPolling();
-        if (xhr.status != 404 && !onRetry) {
+        if (xhr === null) {
+          let queueInfo: QueueEntity = new QueueEntity();
+          queueInfo.status = '';
+          queueInfo.visitPosition = null;
+          this.isTicketEndedOrDeleted = true;
+          this.onVisitStatusUpdate.emit(queueInfo);
+        }
+        else if (xhr.status != 404 && !onRetry) {
           this.showHideNetworkError(true);
           this.retryService.retry(() => {
             this.queuePoll(visitPosition, ticketService, true);
@@ -152,20 +184,16 @@ export class QueueComponent implements OnInit, OnDestroy {
           /**
            * this is to try if initial polling failed
            */
-          // if (!this.prevVisitState) {
-          //   this.queuePoll(visitPosition, ticketService, false);
-          // }
-          // else {
-            let queueInfo: QueueEntity = new QueueEntity();
-            queueInfo.status = '';
-            queueInfo.visitPosition = null;
-            this.isTicketEndedOrDeleted = true;
-            var payload = xhr.responseJSON;
-            if(payload != undefined && payload.message.includes("New visits are not available until visitsOnBranchCache is refreshed") == true){
-              queueInfo.status = "CACHED";
-            }
-            this.onVisitStatusUpdate.emit(queueInfo);
-          //}
+          let queueInfo: QueueEntity = new QueueEntity();
+          queueInfo.status = '';
+          queueInfo.visitPosition = null;
+          this.isTicketEndedOrDeleted = true;
+          var payload = xhr.responseJSON;
+          if (payload !== undefined && 
+          payload.message.includes("New visits are not available until visitsOnBranchCache is refreshed") == true) {
+            queueInfo.status = "CACHED";
+          }
+          this.onVisitStatusUpdate.emit(queueInfo);
         }
       }
     );
@@ -179,7 +207,13 @@ export class QueueComponent implements OnInit, OnDestroy {
     this.waitingVisits = queueInfo.waitingVisits;
     this.prevUpperBound = ticketService.getQueueUpperBound(this.prevWaitingVisits, this.prevVisitPosition);
     this.prevLowerBound = ticketService.getQueueLowerBound(this.prevWaitingVisits, this.prevVisitPosition, this.prevUpperBound);
-
+    /**
+     * get selected service name from getCurrentVisitStatus() object instead 
+     * of getSelectedService()
+     * because in multiple tab scenario, getSelectedService() returns the 
+     * value of the local variable which is not correct.
+     */
+    this.onServiceNameUpdate.emit(MobileTicketAPI.getCurrentVisitStatus().currentServiceName);
     this.onVisitStatusUpdate.emit(queueInfo);
     this.prevVisitState = queueInfo.status;
     if (queueInfo.status === 'IN_QUEUE' || queueInfo.status === 'CALLED') {

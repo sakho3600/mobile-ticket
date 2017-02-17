@@ -9,7 +9,7 @@ var configFile = 'proxy-config.json';
 var host = 'localhost:9090';
 var authToken = 'nosecrets';
 var port = '80';
-var sslPort = '8443';
+var sslPort = '4443';
 var supportSSL = false;
 
 //update configurations using config.json
@@ -68,14 +68,6 @@ app.use("/MobileTicket/MyVisit/*", apiProxy);
 app.use("/rest/servicepoint/*", apiProxy);
 app.use("/rest/entrypoint/*", apiProxy);
 
-var server = app.listen(port, function () {  										// port the mobileTicket will listen to.
-	var listenAddress = server.address().address;
-	var listenPort = server.address().port;
-
-	console.log("Mobile Ticket app listening at http://%s:%s", listenAddress, listenPort);
-
-});
-
 if (supportSSL) {
 	var httpsServer = https.createServer(credentials, app);
 	httpsServer.listen(sslPort, function () {
@@ -84,5 +76,14 @@ if (supportSSL) {
 
 		console.log("Mobile Ticket app listening at https://%s:%s over SSL", listenAddress, listenPort);
 	});
+}
+else{
+	var server = app.listen(port, function () {  										// port the mobileTicket will listen to.
+	var listenAddress = server.address().address;
+	var listenPort = server.address().port;
+
+	console.log("Mobile Ticket app listening at http://%s:%s", listenAddress, listenPort);
+
+});
 }
 

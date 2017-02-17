@@ -24,10 +24,7 @@
 }
 
 .bg {
-  background: url('app/resources/background.jpg');
-  background-size: cover !important;
-  background-position: center center !important;
-  min-height: 100vh;
+  background: transparent !important;
 }
 
 .full-with{

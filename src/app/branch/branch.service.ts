@@ -1,38 +1,42 @@
-import {Injectable} from '@angular/core';
-import {BranchEntity} from '../entities/branch.entity';
-import {PositionEntity} from '../entities/position.entity';
-import {GpsPositionCalculator} from '../util/gps-distance-calculator';
-import {Config} from '../config/config';
-import {LocationService} from '../util/location';
-import {TranslateService} from 'ng2-translate';
+import { Injectable } from '@angular/core';
+import { BranchEntity } from '../entities/branch.entity';
+import { PositionEntity } from '../entities/position.entity';
+import { GpsPositionCalculator } from '../util/gps-distance-calculator';
+import { Config } from '../config/config';
+import { LocationService } from '../util/location';
+import { TranslateService } from 'ng2-translate';
 import 'rxjs/add/operator/map';
+import {AlertDialogService} from "../shared/alert-dialog/alert-dialog.service";
 
-declare var MobileTicketAPI:any;
+declare var MobileTicketAPI: any;
 
 @Injectable()
 export class BranchService {
 
-  public branches:Array<BranchEntity>;
+  public branches: Array<BranchEntity>;
 
-  public currentPosition:PositionEntity;
-  public btnTextSeparator:string = ","; // Default character
+  public currentPosition: PositionEntity;
+  public btnTextSeparator: string = ","; // Default character
+  private singleBranch: boolean = false;
 
 
-  constructor(private config:Config, private currentLocation:LocationService, private translate:TranslateService) {
-    this.translate.get('branch.btn_text_separator').subscribe((separator:string) => {
+  constructor(private config: Config, private currentLocation: LocationService, private translate: TranslateService, private alertDialogService:AlertDialogService) {
+    this.translate.get('branch.btn_text_separator').subscribe((separator: string) => {
       this.btnTextSeparator = separator;
     });
   }
 
-  public convertToBranchEntities(branchList, customerPosition):Array<BranchEntity> {
-    let entities:Array<BranchEntity> = [];
-    let branchEntity:BranchEntity;
+  public convertToBranchEntities(branchList, customerPosition): Array<BranchEntity> {
+    let entities: Array<BranchEntity> = [];
+    let branchEntity: BranchEntity;
+    this.singleBranch = branchList.length === 1;
     for (var i = 0; i < branchList.length; i++) {
       branchEntity = new BranchEntity();
       branchEntity.id = branchList[i].id;
       branchEntity.name = branchList[i].name;
       let branchPosition = new PositionEntity(branchList[i].latitude, branchList[i].longitude);
-      branchEntity.distance = this.getBranchDistance(branchPosition, customerPosition) + '';
+      if (customerPosition !== undefined)
+        branchEntity.distance = this.getBranchDistance(branchPosition, customerPosition) + '';
       entities.push(branchEntity);
     }
     return entities;
@@ -41,7 +45,7 @@ export class BranchService {
   public setAdditionalBranchInfo() {
   }
 
-  public getBranchDistance(branchPosition:PositionEntity, customerPosition:PositionEntity):number {
+  public getBranchDistance(branchPosition: PositionEntity, customerPosition: PositionEntity): number {
     let calculator = new GpsPositionCalculator();
     return calculator.getDistanceFromLatLon(customerPosition.latitude,
       customerPosition.longitude, branchPosition.latitude, branchPosition.longitude);
@@ -49,7 +53,7 @@ export class BranchService {
 
   getBranchesByPosition(customerPosition, radius, onBrancheListFetch) {
     MobileTicketAPI.getBranchesNearBy(customerPosition.latitude, customerPosition.longitude, radius,
-      (branchList:any) => {
+      (branchList: any) => {
         onBrancheListFetch(this.convertToBranchEntities(branchList, customerPosition));
       },
       () => {
@@ -57,7 +61,7 @@ export class BranchService {
       });
   }
 
-  getBranches(onBrancheListReceived):void {
+  getBranches(onBrancheListReceived): void {
     if (location.protocol === 'https:') {
       this.currentLocation.watchCurrentPosition((currentPosition) => {
         this.currentPosition = new PositionEntity(currentPosition.coords.latitude, currentPosition.coords.longitude)
@@ -68,29 +72,32 @@ export class BranchService {
         })
       }, (error) => {
         var alertMsg = "";
-        this.translate.get('branch.positionPermission').subscribe((res:string) => {
+        this.translate.get('branch.positionPermission').subscribe((res: string) => {
           alertMsg = res;
-          alert(alertMsg);
-          MobileTicketAPI.getAllBranches((branchList) => {
-            onBrancheListReceived(branchList, false, true);
-          }, () => {
-            onBrancheListReceived(null, true, false);
-            this.currentLocation.removeWatcher();
-          })
+          this.alertDialogService.activate(alertMsg).then(res => {
+            MobileTicketAPI.getAllBranches((branchList) => {
+              onBrancheListReceived(this.convertToBranchEntities(branchList, undefined)
+                , false, true);
+            }, () => {
+              onBrancheListReceived(null, true, false);
+              this.currentLocation.removeWatcher();
+            });
+          });
         });
       });
     }
     else {
       MobileTicketAPI.getAllBranches((branchList) => {
-        onBrancheListReceived(branchList, false, true);
+        onBrancheListReceived(this.convertToBranchEntities(branchList, undefined)
+          , false, true);
       }, () => {
         onBrancheListReceived(null, true, false)
       })
     }
   }
 
-  setBranchAddresses(branchList:Array<BranchEntity>, onListUpdate) {
-    this.translate.get('branch.btn_text_separator').subscribe((separator:string) => {
+  setBranchAddresses(branchList: Array<BranchEntity>, onListUpdate) {
+    this.translate.get('branch.btn_text_separator').subscribe((separator: string) => {
       for (var i = 0; i < branchList.length; i++) {
         let branchId = branchList[i].id;
         MobileTicketAPI.getBranchInformation(branchId,
@@ -140,8 +147,8 @@ export class BranchService {
           () => {
             /**
              * if error, callback branchList.
-             * List will be filtered using enabled key which ll 
-             * only available if fetching success. 
+             * List will be filtered using enabled key which ll
+             * only available if fetching success.
              */
             onListUpdate(branchList);
           });
@@ -158,6 +165,15 @@ export class BranchService {
   }
 
   public getSelectedBranch() {
-    return MobileTicketAPI.getSelectedBranch().name;
+    try {
+      return MobileTicketAPI.getSelectedBranch().name;
+    }
+    catch (e) {
+      return null;
+    }
+  }
+
+  public isSingleBranch() {
+    return this.singleBranch;
   }
 }

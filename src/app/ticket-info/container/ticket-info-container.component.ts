@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { QueueEntity } from '../../entities/queue.entity';
@@ -35,7 +35,13 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   public isUrlVisitLoading: boolean;
   public visitCallMsgOne: string;
   public visitCallMsgThree: string;
+  public visitRecycleMsg: string;
+  public isCalled: boolean = false;
+  public isVisitNotFound: boolean = false;
+
   @ViewChild('ticketNumberComponent') ticketNumberComponent;
+  @ViewChild('queueComponent') queueComponent;
+  @ViewChild('cancelVisitComponent') cancelVisitComponent;
 
   constructor(private ticketService: TicketInfoService, public router: Router, private translate: TranslateService,
     private config: Config, private activatedRoute: ActivatedRoute) {
@@ -52,14 +58,15 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.visitState = new VisitState();
 
 
+
     this.getSelectedBranch();
 
     /**
-     * this is commented 
+     * this is commented
      * Issue: once called and ended a ticket and next time issued a ticket
      * previosuly ticket called screen is shown for a while.
      */
-    /** 
+    /**
     if (MobileTicketAPI.getCurrentVisitStatus() !== undefined) {
       this.onVisitStatusUpdate(MobileTicketAPI.getCurrentVisitStatus());
     }
@@ -67,6 +74,7 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.scrollPageToTop();
     this.loadNotificationSound();
     this.setRtlStyles();
   }
@@ -78,12 +86,20 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.isSoundPlay = false;
   }
 
+  scrollPageToTop() {
+    window.scrollTo(0, 0);
+  }
+
   onUrlAccessedTicket(isUrl: boolean) {
     this.isUrlAccessedTicket = isUrl;
   }
 
   onUrlVisitLoading(isLoading: boolean) {
     this.isUrlVisitLoading = isLoading;
+  }
+
+  onVisitNotFound(isNotFound) {
+    this.isVisitNotFound = isNotFound;
   }
 
   playNotificationSound() {
@@ -96,6 +112,32 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+  }
+
+
+  public setVisitCancelCalled(called) {
+    this.isCalled = called;
+  }
+
+  public getVisitCancelCalled(): boolean {
+    return this.isCalled;
+  }
+
+  isConfirmed(): boolean {
+    return this.cancelVisitComponent.isConfirmed();
+
+  }
+
+  isVisitCanceledOnce(): boolean {
+    return this.cancelVisitComponent.visitCancelled;
+  }
+
+  isVisitCanceledThroughLeaveLineBtn() {
+    return this.cancelVisitComponent.visitCancelledViaBtn;
+  }
+
+  cancelVisit() {
+    this.cancelVisitComponent.cancelVisitViaBrowserBack();
   }
 
   public onServiceNameUpdate(serviceName) {
@@ -123,30 +165,51 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
       var servicePoint = currentEvent.servicePointName;
       this.updateVisitCallMsg(firstName, servicePoint);
       this.isVisitCall = true;
-      if (this.isSoundPlay == false) {
+      if (this.isSoundPlay === false) {
         this.playNotificationSound();
       }
     }
-    else if (visitStatus.status == this.visitState.DELAYED) {
-      this.translate.get('ticketInfo.visitRecycledMessage').subscribe((res: string) => {
-        this.visitCallMsg = res;
-      });
-      this.isVisitRecycled = true;
-    }
-    else if (visitStatus.status == this.visitState.IN_QUEUE) {
+    else if (visitStatus.status === this.visitState.DELAYED) {
+      this.prevVisitState = this.visitState.DELAYED;
       this.isVisitCall = false;
+      this.isVisitRecycled = true;
+      this.queueComponent.onVisitRecycled(true);
     }
-    else if (visitStatus.status == this.visitState.CACHED) {
-      this.router.navigate(['services']);
+    else if (visitStatus.status === this.visitState.IN_QUEUE) {
+      this.isSoundPlay = false;
+      this.prevVisitState = this.visitState.IN_QUEUE;
+      this.isVisitCall = false;
+      this.isVisitRecycled = false;
+      this.queueComponent.onVisitRecycled(false);
+    }
+    else if (visitStatus.status === this.visitState.CACHED) {
+      if (this.prevVisitState === this.visitState.CALLED) {
+        this.isAfterCalled = true;
+      }
+      else {
+        this.isAfterCalled = false;
+      }
+      if (!this.isUrlAccessedTicket) {
+        MobileTicketAPI.deleteAllCookies();
+      }
+      MobileTicketAPI.resetAllVars();
+      this.isTicketEndedOrDeleted = true;
+      this.isVisitCall = false;
+      MobileTicketAPI.resetCurrentVisitStatus();
+      this.stopNotificationSound();
     }
     else if (visitStatus && visitStatus.visitPosition === null) {
-      if (this.prevVisitState === 'CALLED') {
+      if (this.prevVisitState === this.visitState.CALLED) {
         this.isAfterCalled = true;
       }
       else {
         this.isAfterCalled = false;
       }
 
+      if (!this.isUrlAccessedTicket) {
+        MobileTicketAPI.deleteAllCookies();
+      }
+      MobileTicketAPI.resetAllVars();
       this.isTicketEndedOrDeleted = true;
       this.isVisitCall = false;
       MobileTicketAPI.resetCurrentVisitStatus();
@@ -196,6 +259,16 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   }
 
   public getSelectedBranch() {
+    /**
+     * if selected branch id is not equal to current ongoing
+     * branch id in multiple tab scenario, 
+     * reset vars to fetch branchId from cache
+     */
+    if (!this.isUrlAccessedTicket && MobileTicketAPI.getCurrentVisit()) {
+      if (MobileTicketAPI.getCurrentVisit().branchId !== MobileTicketAPI.getSelectedBranch().id) {
+        MobileTicketAPI.resetAllVars();
+      }
+    }
     if (MobileTicketAPI.getSelectedBranch() !== null) {
       this.branchEntity = MobileTicketAPI.getSelectedBranch();
     }

@@ -1,6 +1,184 @@
 /* You can add global styles to this file, and also import other style files */
 body{
-    /* These styles are to stop text selection on longpress mobile browsers*/
-    -moz-user-select:none;
-    -webkit-user-select:none;
+  /* These styles are to stop text selection on longpress mobile browsers*/
+  -moz-user-select:none;
+  -webkit-user-select:none;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  background: transparent;
 }
+
+#app-bg{
+  background: url(app/resources/background.jpg);
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+/* FOR THE DESKTOP, SET THE HOVER STATE */
+body.no-touch .service-btn:hover {
+  background-color:#FCFCFD !important;
+  border-radius: 3px;
+}
+
+body.no-touch .branch-btn:hover {
+  opacity: 0.8;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.inner-margin-separator{
+  padding-top: 6px;
+}
+
+.sub-heading-text-1 {
+  font-size: 28px;
+  color: #FFFFFF;
+  font-family: Nanami-Rounded-Medium;
+}
+
+.sub-heading-text-2 {
+  font-size: 20px;
+  color: #FFFFFF;
+  font-family: Nanami-Rounded-Light;
+  width: 75%;
+  margin: 0 auto;
+}
+
+div.row {
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+
+.sub-heading-text-3 {
+  font-size: 19px;
+  color: #FFFFFF;
+  font-family: "Helvetica";
+  font-style: oblique;
+  font-weight: 300;
+}
+
+.common-btn {
+  font-family: "Helvetica";
+  color: #303030;
+  font-size: 12px;
+}
+
+.common-btn {
+  stroke: #9c003a;
+}
+
+.accent-btn:hover {
+  opacity: 1;
+}
+
+.accent-btn:active {
+  opacity: 1;
+  -webkit-box-shadow: inset 0 0 5px #000;
+  -moz-box-shadow: inset 0 0 5px #000;
+  box-shadow: inset 0 0 5px #000;
+}
+
+.accent-btn {
+  width: 250px;
+  margin: 0 auto;
+  line-height: 2.5em;
+  background: rgba(157, 0, 58, 0.58);
+  border-radius: 250px;
+  color: #FFFFFF;
+  font-size: 25px;
+  font-family: Nanami-Rounded-Medium;
+  font-weight: 300;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Media Queries */
+.loader {
+  max-width: 50px;
+  margin: 0.25em 0.25em 0.25em 0.25em;
+  animation-name: rotate;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@media (max-width: 480px) {
+  .col-xxs {
+    display: block;
+    float: none;
+    width: 100%
+  }
+}
+
+/* Small phones */
+@media (max-width: 450px){
+  .sub-heading-text-1 {
+    font-size: 27px;
+    color: #FFFFFF;
+    font-family: Nanami-Rounded-Medium;
+  }
+
+  .sub-heading-text-2 {
+    font-size: 17px;
+    color: #FFFFFF;
+    font-family: Nanami-Rounded-Light;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .sub-heading-text-3 {
+    font-size: 18px;
+    color: #FFFFFF;
+    font-family: "Helvetica";
+    font-style: oblique;
+    font-weight: 300;
+  }
+
+  .accent-btn {
+    width: 250px;
+    margin: 0 auto;
+    line-height: 2.5em;
+    background: rgba(157, 0, 58, 0.58);
+    border-radius: 250px;
+    color: #FFFFFF;
+    font-size: 22px;
+    font-family: Nanami-Rounded-Medium;
+    font-weight: 300;
+  }
+}
+
+/* Center element vertically and horizontally */
+
+.parent-center:before {
+  content: '\200B';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.child-center {
+  display: inline-block;
+  vertical-align: middle;
+}
+

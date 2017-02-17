@@ -18,7 +18,7 @@
     "waiting": "Waiting"
   },
   "ticketInfo": {
-    "leaveVisitConfirmMsg": "Would you like to leave the line",
+    "leaveVisitConfirmMsg": "Would you like to leave the line?",
     "btnTitleLeaveLine": "Leave the line",
     "defaultTitle": "Mobile Ticket",
     "titleYourTurn": "It's your turn!",
@@ -43,5 +43,16 @@
   },
   "connection" : {
     "issue_with_connection" : "Sorry, there seems to be an issue with the connection."
+  },
+  "dialog" : {
+    "confirm" : {
+      "ok" : "Ok",
+      "cancel" : "Cancel",
+      "title" : "This is a Confirmation"
+    },
+    "alert" : {
+      "ok" : "Ok",
+      "title" : "This is an Alert"
+    }
   }
 }
