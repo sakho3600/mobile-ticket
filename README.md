@@ -512,7 +512,7 @@ NOTE: It is required to change the auth token specified in the MobileTicket.js w
   $.ajaxSetup({
     beforeSend: function (xhr) {
       xhr.setRequestHeader("Accept", "application/json");
-      xhr.setRequestHeader("auth-token", "d0516eee-a32d-11e5-bf7f-feff819cdc9f"); // Replace with your auth token
+      xhr.setRequestHeader("auth-token", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Replace with your auth token
     }
   });
 ```
