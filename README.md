@@ -424,7 +424,7 @@ MobileTicketAPI.createVisit(clientId, onSuccess, onError)
 //-----OUTPUT------
 
 {
-  "clientId": "RVQU-SBCP-BYIO-WRZF-OBIQ-KJVB-KVKJ",
+  "clientId": "XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX",
   "serviceId": 1,
   "branchId": 2,
   "queueId": 1,
