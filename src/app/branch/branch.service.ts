@@ -26,7 +26,7 @@ export class BranchService {
     });
   }
 
-  public convertToBranchEntities(branchList, customerPosition): Array<BranchEntity> {
+  public convertToBranchEntities(branchList, customerPosition, onUpdateList) {
     let entities: Array<BranchEntity> = [];
     let branchEntity: BranchEntity;
     this.singleBranch = branchList.length === 1;
@@ -39,7 +39,8 @@ export class BranchService {
         branchEntity.distance = this.getBranchDistance(branchPosition, customerPosition) + '';
       entities.push(branchEntity);
     }
-    return entities;
+
+    this.setBranchAddresses(branchList, entities, onUpdateList);
   }
 
   public setAdditionalBranchInfo() {
@@ -54,7 +55,9 @@ export class BranchService {
   getBranchesByPosition(customerPosition, radius, onBrancheListFetch) {
     MobileTicketAPI.getBranchesNearBy(customerPosition.latitude, customerPosition.longitude, radius,
       (branchList: any) => {
-        onBrancheListFetch(this.convertToBranchEntities(branchList, customerPosition));
+        this.convertToBranchEntities(branchList, customerPosition, (modifyBranchList) =>{
+          onBrancheListFetch(modifyBranchList);
+        });
       },
       () => {
 
@@ -76,8 +79,9 @@ export class BranchService {
           alertMsg = res;
           this.alertDialogService.activate(alertMsg).then(res => {
             MobileTicketAPI.getAllBranches((branchList) => {
-              onBrancheListReceived(this.convertToBranchEntities(branchList, undefined)
-                , false, true);
+              this.convertToBranchEntities(branchList, undefined, (modifyBranchList) =>{
+                onBrancheListReceived(modifyBranchList, false, true);
+              });
             }, () => {
               onBrancheListReceived(null, true, false);
               this.currentLocation.removeWatcher();
@@ -88,71 +92,58 @@ export class BranchService {
     }
     else {
       MobileTicketAPI.getAllBranches((branchList) => {
-        onBrancheListReceived(this.convertToBranchEntities(branchList, undefined)
-          , false, true);
+        this.convertToBranchEntities(branchList, undefined, (modifyBranchList) =>{
+          onBrancheListReceived(modifyBranchList, false, true);
+        });
       }, () => {
         onBrancheListReceived(null, true, false)
       })
     }
   }
 
-  setBranchAddresses(branchList: Array<BranchEntity>, onListUpdate) {
+  setBranchAddresses(branchList, entities : Array<BranchEntity>, onUpdateList) {
     this.translate.get('branch.btn_text_separator').subscribe((separator: string) => {
+      let modifyBranchList : Array<BranchEntity> = [];
       for (var i = 0; i < branchList.length; i++) {
-        let branchId = branchList[i].id;
-        MobileTicketAPI.getBranchInformation(branchId,
-          (branchInfo) => {
-            for (var i = 0; i < branchList.length; i++) {
-              if (branchInfo.id === branchList[i].id) {
-                branchList[i].enabled = branchInfo.enabled;
-                let addressLine1, city, country;
-                let emptyAddressLine = "";
-                for (var j = 0; j < branchInfo.branchParameters.length; j++) {
+        let fliterList = entities.filter(
+          branch => branch.id === branchList[i].id);
+        let branch = fliterList[0];
+        let branchAddress = undefined;
+        let addressLine1, city;
+        let emptyAddressLine = "";
+        let branchData = branchList[i];
 
-                  if (branchInfo.branchParameters[j].key == 'label.address1' && branchInfo.branchParameters[j].value != null) {
-                    addressLine1 = branchInfo.branchParameters[j].value;
-                  } else if (branchInfo.branchParameters[j].key == 'label.address1' && branchInfo.branchParameters[j].value == null) {
-                    addressLine1 = emptyAddressLine;
-                  }
+        if(branchData.addressLine1 != undefined && branchData.addressLine1 != null){
+          addressLine1 = branchData.addressLine1;
+        }
+        else{
+          addressLine1 = emptyAddressLine;
+        }
 
-                  if (branchInfo.branchParameters[j].key == 'label.city' && branchInfo.branchParameters[j].value != null) {
-                    city = branchInfo.branchParameters[j].value;
-                  } else if (branchInfo.branchParameters[j].key == 'label.city' && branchInfo.branchParameters[j].value == null) {
-                    city = emptyAddressLine;
-                  }
+        if(branchData.addressLine4 != undefined && branchData.addressLine4 != null){
+          city = branchData.addressLine4;
+        }
+        else{
+          city = emptyAddressLine;
+        }
 
-                  if (branchInfo.branchParameters[j].key == 'label.country' && branchInfo.branchParameters[j].value != null) {
-                    country = branchInfo.branchParameters[j].value;
-                  } else if (branchInfo.branchParameters[j].key == 'label.country' && branchInfo.branchParameters[j].value == null) {
-                    country = emptyAddressLine;
-                  }
+        //following code removes any trailing commas
+        if (document.dir == "rtl") {
+          branchAddress = (this.concatSeparator(city, separator) + addressLine1).trim();
+        } else {
+          branchAddress = (this.concatSeparator(addressLine1, separator) + this.concatSeparator(city, separator)).trim();
+        }
+        let lastIndexOfComma = (branchAddress).lastIndexOf(',');
 
-                }
+        if (lastIndexOfComma === branchAddress.length - 1) {
+          branchAddress = branchAddress.substr(0, lastIndexOfComma);
+        }
 
-                //following code removes any trailing commas
-                if (document.dir == "rtl") {
-                  branchList[i].address = (this.concatSeparator(city, separator) + addressLine1).trim();
-                } else {
-                  branchList[i].address = (this.concatSeparator(addressLine1, separator) + this.concatSeparator(city, separator)).trim();
-                }
-                let lastIndexOfComma = (branchList[i].address).lastIndexOf(',');
+        branch.address = branchAddress;
+        modifyBranchList.push(branch);
+      } 
 
-                if (lastIndexOfComma === branchList[i].address.length - 1) {
-                  branchList[i].address = branchList[i].address.substr(0, lastIndexOfComma);
-                }
-              }
-            }
-            onListUpdate(branchList);
-          },
-          () => {
-            /**
-             * if error, callback branchList.
-             * List will be filtered using enabled key which ll
-             * only available if fetching success.
-             */
-            onListUpdate(branchList);
-          });
-      }
+      onUpdateList(modifyBranchList);
     });
   }
 

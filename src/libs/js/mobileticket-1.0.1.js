@@ -2571,10 +2571,7 @@ var MobileTicketAPI = (function () {
   var QUEUE = "queue";
   var VISITS = "visits";
   var WAIT_INFO = "wait-info";
-  var REST = "/rest";
-  var SERVICE_POINT = "servicepoint";
   var EVENTS = "events";
-  var ENTRY_POINT = "entrypoint";
   var CURRENT_STATUS = "CurrentStatus";
   var self = this;
 
@@ -2698,26 +2695,6 @@ var MobileTicketAPI = (function () {
       // eraseCookie("branch");
       // eraseCookie("service");
       // eraseCookie("visit");
-    },
-    getBranchInformation: function (branchId, onSuccess, onError) {
-      try {
-        var BRANCH_INFO_REST_API = REST + "/" + SERVICE_POINT + "/" + BRANCHES + "/" + branchId;
-        $.ajax({
-          type: "GET",
-          dataType: "json",
-          url: BRANCH_INFO_REST_API,
-          success: function (data) {
-            if (data != undefined) {
-              onSuccess(data);
-            }
-          },
-          error: function (xhr, status, errorMsg) {
-            onError(xhr, status, errorMsg);
-          }
-        });
-      } catch (e) {
-        onError(null, null, e.message);
-      }
     },
     getBranchesNearBy: function (latitude, longitude, radius, onSuccess, onError) {
       try {

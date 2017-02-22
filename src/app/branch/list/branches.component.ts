@@ -81,68 +81,19 @@ export class BranchesComponent implements AfterViewInit {
     this.branches = branchList;
     let branchListCntr = 0;
     if (branchList.length > 0) {
-      branchService.setBranchAddresses(this.branches, (updatedList: Array<BranchEntity>) => {
-        branchListCntr++;
-        if (branchListCntr === updatedList.length) {
-          if (this.isBranchesAvailable(updatedList)) {
-            this.showBranchList = true;
-            if (this.nmbrOfEnabledBranches === 1) {
-              for (let k = 0; k < updatedList.length; k++) {
-                if (updatedList[k].enabled) {
-                  MobileTicketAPI.setBranchSelection(updatedList[k]);
-                  if (!this.isRedirectedFromServices){
-                    this.router.navigate(['services']);
-                  }
-                  break;
-                }
-              }
-            }
-          }
-          else {
-            this.showBranchList = false;
-          }
-
-          this.showLoader = false;
-          this.startLoading.emit(false);
-        }
-
-      });
-    }
-    else {
-      this.showBranchList = this.isBranchesAvailable([]);
-      this.showLoader = false;
-      this.startLoading.emit(false);
-    }
-
-  }
-
-  public isBranchesAvailable(branchList) {
-    let disableCntr = 0;
-    let enbleCntr = 0;
-    if (branchList.length === 0) {
-      return false;
-    }
-    else {
-
-      for (let i = 0; i < branchList.length; i++) {
-        if (!branchList[i].enabled) {
-          disableCntr++;
-        }
-        else {
-          enbleCntr++;
+      this.showBranchList = true;
+      if(branchList.length == 1){
+        MobileTicketAPI.setBranchSelection(branchList[0]);
+        if (!this.isRedirectedFromServices){
+          this.router.navigate(['services']);
         }
       }
-      this.setEnableBranchCntr(enbleCntr);
-      if (disableCntr === branchList.length) {
-        return false;
-      }
-      return true;
     }
-
-  }
-
-  public setEnableBranchCntr(enbleCntr) {
-    this.nmbrOfEnabledBranches = enbleCntr;
+    else {
+      this.showBranchList = false;
+    }
+    this.showLoader = false;
+    this.startLoading.emit(false);
   }
 
   public reloadData() {

@@ -4,7 +4,7 @@
         "description": "Radius to include branches within (in meters)"
     },
     "version": {
-        "value": "1.0.0.5",
+        "value": "1.0.0.6",
         "description": "MobileTicket version"
     },
     "ga_track_id": {

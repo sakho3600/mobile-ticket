@@ -18,7 +18,7 @@ BEFORE YOU INSTALL: please read the [prerequisites] ()
 
 Install angular-cli tools via npm
 ```
-npm install -g angular-cli
+npm install -g angular-cli@1.0.0-beta.21
 ```
 Clone the Mobile Ticket Solution
 ```
@@ -512,7 +512,7 @@ NOTE: It is required to change the auth token specified in the MobileTicket.js w
   $.ajaxSetup({
     beforeSend: function (xhr) {
       xhr.setRequestHeader("Accept", "application/json");
-      xhr.setRequestHeader("auth-token", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Replace with your auth token
+      xhr.setRequestHeader("auth-token", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // replace with your auth-token
     }
   });
 ```

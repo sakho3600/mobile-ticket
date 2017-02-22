@@ -12,7 +12,7 @@
 </div>
 
 <div [hidden]="!showBranchList || showLoader || networkError" class="list-container" >
-   <branch [hidden]="!branch.enabled" [name]="branch.name" [address]="branch.address" [distance]="branch.distance" [entity]="branch" [id]="branch.id" *ngFor="let branch of branches"></branch>
+   <branch [name]="branch.name" [address]="branch.address" [distance]="branch.distance" [entity]="branch" [id]="branch.id" *ngFor="let branch of branches"></branch>
 </div>
 
 <div [hidden]="showBranchList" class="row list-container sub-heading-text-1-margin">

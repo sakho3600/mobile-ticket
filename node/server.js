@@ -65,8 +65,6 @@ var apiProxy = proxy(host, {										// ip and port off apigateway
 app.use("/MobileTicket/branches/*", apiProxy);
 app.use("/MobileTicket/services/*", apiProxy);
 app.use("/MobileTicket/MyVisit/*", apiProxy);
-app.use("/rest/servicepoint/*", apiProxy);
-app.use("/rest/entrypoint/*", apiProxy);
 
 if (supportSSL) {
 	var httpsServer = https.createServer(credentials, app);
