@@ -22,7 +22,7 @@ npm install -g angular-cli@1.0.0-beta.21
 ```
 Clone the Mobile Ticket Solution
 ```
-git clone https://github.com/qmatic/mobileticket.git
+git clone https://github.com/qmatic/mobile-ticket.git
 ```
 When the cloning is complete, install the required node modules by running the following command from the project directory
 ```
