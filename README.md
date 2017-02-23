@@ -30,6 +30,21 @@ npm install
 ```
 We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
 
+## Setting up auth-token for API gateway for development environment
+
+It is required to change the auth token specified in the MobileTicket.js with the one you have generated. This is necessary only for the development, 
+but for deployment/production auth token is read from the config file. So please refer to "Configuring the Proxy for Production Environment" to set up auth-token
+for production environment.
+
+```js
+  $.ajaxSetup({
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.setRequestHeader("auth-token", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // replace with your auth-token
+    }
+  });
+```
+
 ## Proxy to Back end
 
 Mobile Ticket solution is intended to work with QMATIC API Gateway service, which provides anonymous access to Orchestra REST API. The Mobile Ticket solution
@@ -49,10 +64,6 @@ project directory
 ```js
 {
   "/MobileTicket/*": {
-    "target": "http://192.168.1.35:9090",
-    "secure": false
-  },
-  "/rest/*": {
     "target": "http://192.168.1.35:9090",
     "secure": false
   }
@@ -504,17 +515,6 @@ MobileTicketAPI.getCurrentVisit()
 
 ```js
 MobileTicketAPI.getCurrentVisitEvent()
-```
-NOTE: It is required to change the auth token specified in the MobileTicket.js with the one you have generated. This is necessary only for the development,
-      but for deployment auth token is read from the config file.
-
-```js
-  $.ajaxSetup({
-    beforeSend: function (xhr) {
-      xhr.setRequestHeader("Accept", "application/json");
-      xhr.setRequestHeader("auth-token", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // replace with your auth-token
-    }
-  });
 ```
       
 ##Creating a Build
