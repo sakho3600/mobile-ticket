@@ -2,8 +2,10 @@
 Qmatic mobile ticket solution is intended to issue e-tickets to the customers who are willing to go through the queue management solution by QMATIC. 
 This is a web application that has been developed using Angular2 and the development environment of the project uses Angular-cli tools 
 (https://github.com/angular/angular-cli).
+
+<a name="prerequisites">
 ## Prerequisite
-Angular-cli tools requires Node 4, or higher, together with NPM 3, or higher.
+Angular-cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
 ## Table of contents
 - [Installation] (#installation)
 - [Setting up auth-token] (#authtoken)
@@ -16,7 +18,7 @@ Angular-cli tools requires Node 4, or higher, together with NPM 3, or higher.
 
 <a name="installation"/>
 ## Installation
-BEFORE YOU INSTALL: please read the [prerequisites] ()
+BEFORE YOU INSTALL: please read the [prerequisites] (#prerequisites)
 
 Install angular-cli tools via npm
 ```
@@ -34,8 +36,19 @@ We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE sinc
 <a name="authtoken"/>
 ## Setting up auth-token
 
-It is required to change the auth token specified in the MobileTicket.js with the one you have generated as shown in the code snippet below. This is necessary only for the development, 
-but in the production environment the auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment] (#proxyproduction) to get more information 
+It is required to change the auth token specified in the mobileticket-[version].js with the one you have generated as shown in the code snippet below. 
+
+File location
+```html
+project directory
+|---src
+     |---libs
+	      |---js
+		       |--- mobileticket-[version].js
+```
+
+This is necessary only for the development,but in the production environment the auth token is read from the config file. So please refer to
+ [Configuring the Proxy for Production Environment] (#proxyproduction) to get more information 
 on setting up auth-token for the production environment.
 
 ```js
