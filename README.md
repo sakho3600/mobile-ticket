@@ -5,14 +5,16 @@ This is a web application that has been developed using Angular2 and the develop
 ## Prerequisite
 Angular-cli tools requires Node 4, or higher, together with NPM 3, or higher.
 ## Table of contents
-- [Installation] ()
-- [Proxy to Backend] ()
-- [Running Unit Tests] ()
-- [Mobileticket.js library] ()
-- [Creating a Build] ()
-- [Branding & Customization] ()
-- [Supported Orchestra Versions] ()
+- [Installation] (#installation)
+- [Setting up auth-token] (#authtoken)
+- [Proxy to Backend] (#proxy)
+- [Running Unit Tests] (#unittest)
+- [Mobileticket.js library] (#mobileticketlib)
+- [Creating a Build] (#build)
+- [Branding & Customization] (#branding)
+- [Supported Orchestra Versions] (#orchestraversions)
 
+<a name="installation"/>
 ## Installation
 BEFORE YOU INSTALL: please read the [prerequisites] ()
 
@@ -29,11 +31,11 @@ When the cloning is complete, install the required node modules by running the f
 npm install
 ```
 We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
-
-## Setting up auth-token for API gateway for development environment
+<a name="authtoken"/>
+## Setting up auth-token for API gateway in development environment
 
 It is required to change the auth token specified in the MobileTicket.js with the one you have generated. This is necessary only for the development, 
-but for deployment/production auth token is read from the config file. So please refer to "Configuring the Proxy for Production Environment" to set up auth-token
+but for deployment/production auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment] (#proxyproduction) to set up auth-token
 for production environment.
 
 ```js
@@ -44,7 +46,7 @@ for production environment.
     }
   });
 ```
-
+<a name="proxy"/>
 ## Proxy to Back end
 
 Mobile Ticket solution is intended to work with QMATIC API Gateway service, which provides anonymous access to Orchestra REST API. The Mobile Ticket solution
@@ -89,6 +91,7 @@ As an alternative, ng serve command also can be used with proxy configuration
 ```
 ng serve --proxy-config proxy.conf.json
 ```
+<a name="proxyproduction">
 ###### Configuring the Proxy for Production Environment
 
 Once the solution is built, the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
@@ -172,7 +175,7 @@ NOTE: Any valid certificate and a public key from a valid certificate authority 
       Otherwise, it will list all the branches instead of nearby branches.
       
 Also, we have already included a valid ssl certificate and should only be used for development purposes. Please do not use this in a production environment.
-
+<a name="unittest"/>
 ## Running Unit Tests
 
 ```
@@ -185,7 +188,7 @@ ng test
 For visual code IDE, open up a console window inside the IDE and run either npm start or ng test. This will run all 
 the unit tests and from there onwards the unit test will be auto-run on the console window whenever the changes are saved.
 In general, these commands can be run on any console window (bash, windows cli etc) 
-
+<a name="mobileticketlib">
 ## Mobileticket.js library
 
 Mobileticket.js library facilitates the communication functionality. This contains an API that covers all the Mobile Ticket related
@@ -516,7 +519,7 @@ MobileTicketAPI.getCurrentVisit()
 ```js
 MobileTicketAPI.getCurrentVisitEvent()
 ```
-      
+<a name="build">      
 ##Creating a Build
 BEFORE YOU BUILD: Run setup_grunt.sh to install required npm grunt modules for the build process.
 
@@ -547,7 +550,7 @@ For development build version
 ```
 grunt build_development
 ```
-
+<a name="branding">
 ##Branding & Customization
 
 Customizations can be done on the fly, after building your application ([Creating a Build] ()).
@@ -569,7 +572,7 @@ Note:
 * If you are specifying styles in this stylesheet, it will override the default styles.
 * If you want to add a new logo or background image, make sure to include the images in the src/app/resources folder and refer it from the theme-styles sheet as shown in the above table.
 * If you do not want to customize your application, remove this file from the build. In this case, the application will load with the default styles.
-
+<a name="orchestraversions">
 ##Supported Orchestra Versions
 
 * Orchestra 6.0: Version HF22 (not yet released)
