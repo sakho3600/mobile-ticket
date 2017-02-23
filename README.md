@@ -32,11 +32,11 @@ npm install
 ```
 We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
 <a name="authtoken"/>
-## Setting up auth-token for API gateway in development environment
+## Setting up auth-token
 
-It is required to change the auth token specified in the MobileTicket.js with the one you have generated. This is necessary only for the development, 
-but for deployment/production auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment] (#proxyproduction) to set up auth-token
-for production environment.
+It is required to change the auth token specified in the MobileTicket.js with the one you have generated as shown in the code snippet below. This is necessary only for the development, 
+but in the production environment the auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment] (#proxyproduction) to get more information 
+on setting up auth-token for the production environment.
 
 ```js
   $.ajaxSetup({
