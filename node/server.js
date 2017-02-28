@@ -11,6 +11,8 @@ var authToken = 'nosecrets';
 var port = '80';
 var sslPort = '4443';
 var supportSSL = false;
+var validAPIGWCert = "1";
+var APIGWHasSSL = true;
 
 //update configurations using config.json
 var configuration = JSON.parse(
@@ -22,6 +24,13 @@ port = configuration.local_webserver_port.value;
 authToken = configuration.auth_token.value;
 sslPort = configuration.local_webserver_ssl_port.value;
 supportSSL = (configuration.support_ssl.value.trim() === 'true')?true:false;
+validAPIGWCert = (configuration.gateway_certificate_is_valid.value.trim()=== 'true')?"1":"0";
+APIGWHasSSL = (configuration.gateway_has_certificate.value.trim()=== 'true')?true:false;
+
+
+//this will bypass certificate errors in node to API gateway encrypted channel, if set to '1'
+//if '0' communication will be blocked. So production this should be set to '0'
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = validAPIGWCert;
 
 var privateKey, certificate, credentials;
 
@@ -33,8 +42,13 @@ if (supportSSL) {
 
 app.use(express.static(__dirname + '/src'));
 
+// Redirect no_visit requests to index.html
+app.get('/no_visit$', function (req, res) {
+  res.sendFile(path.join(__dirname + '/src', 'index.html'));
+});
+
 // Redirect all requests that start with branches and end, to index.html
-app.get('/branches$', function (req, res) {
+app.get('/branches*', function (req, res) {
   res.sendFile(path.join(__dirname + '/src', 'index.html'));
 });
 
@@ -49,22 +63,24 @@ app.get('/ticket$', function (req, res) {
 });
 
 // Proxy mobile example to API gateway
-var apiProxy = proxy(host, {										// ip and port off apigateway
+var apiProxy = proxy(host, {									// ip and port off apigateway
 	forwardPath: function (req, res) {
 		return require('url').parse(req.originalUrl).path;
 	},
-
 	decorateRequest: function (req) {
 		req.headers['auth-token'] = authToken		// api_token for mobile user
 		req.headers['Content-Type'] = 'application/json'
 		console.log(req.path, req.headers);
 		return req;
-	}
+	},
+	https: APIGWHasSSL
 });
 
 app.use("/MobileTicket/branches/*", apiProxy);
 app.use("/MobileTicket/services/*", apiProxy);
 app.use("/MobileTicket/MyVisit/*", apiProxy);
+app.use("/rest/servicepoint/*", apiProxy);
+app.use("/rest/entrypoint/*", apiProxy);
 
 if (supportSSL) {
 	var httpsServer = https.createServer(credentials, app);

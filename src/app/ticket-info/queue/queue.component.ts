@@ -78,12 +78,12 @@ export class QueueComponent implements OnInit, OnDestroy {
         let checksum = queryParams['checksum'];
         if (branchId && visitId && checksum) {
           this.onUrlVisitLoading.emit(true);
-          this.ticketService.getBranchInformation(branchId, (branch: BranchEntity, error: boolean) => {
-            if (error) {
+          this.ticketService.getBranchInformation(branchId, (success: boolean) => {
+            if (!success) {
               this.onVisitNotFound.emit(true);
               this.router.navigate(['no_visit']);
             } else {
-              this.onBranchFetchSuccess(branch);
+              // this.onBranchFetchSuccess(branch);
               MobileTicketAPI.setVisit(branchId, 0, visitId, checksum);
               this.ticketService.pollVisitStatus((queueInfo: QueueEntity) => {
                 this.onUrlVisitLoading.emit(false);

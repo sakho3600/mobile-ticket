@@ -18,5 +18,13 @@
     "support_ssl": {
         "value": "true",
         "description": "Flag indicating server supports SSL.Should have a valid public key and certificate in 'sslcert' folder "
+    },
+    "gateway_has_certificate": {
+        "value": "true",
+        "description": "Flag indicating the API gateway is configured to run on HTTPS"
+    },
+    "gateway_certificate_is_valid": {
+        "value": "true",
+        "description": "Flag indicating the configured SSL certificate in the API gateway is a valid. This setting is active only if 'gateway_has_certificate' is true. This must be set to 'false' if API gateway is configured with a self signed certificate "
     }
 }

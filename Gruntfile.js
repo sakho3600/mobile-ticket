@@ -60,7 +60,9 @@ module.exports = function (grunt) {
           { expand: true, src: ['protractor.conf.js'], dest: '<%= build.githubFolder %>', filter: 'isFile', flatten: true },
           { expand: true, src: ['proxy.config.json'], dest: '<%= build.githubFolder %>', filter: 'isFile', flatten: true },
           { expand: true, src: ['setup_grunt.sh'], dest: '<%= build.githubFolder %>', filter: 'isFile', flatten: true },
-          { expand: true, src: ['tslint.json'], dest: '<%= build.githubFolder %>', filter: 'isFile', flatten: true }
+          { expand: true, src: ['tslint.json'], dest: '<%= build.githubFolder %>', filter: 'isFile', flatten: true },
+          { expand: true, src: ['secret.json'], dest: '<%= build.githubFolder %>', filter: 'isFile', flatten: true },
+          { expand: true, src: ['build.config.json'], dest: '<%= build.githubFolder %>', filter: 'isFile', flatten: true }
         ]
       }
     },
@@ -72,7 +74,7 @@ module.exports = function (grunt) {
       },
       javascript: {
         files: {
-          'dist/src/libs/js/mobileticket-1.0.1.min.js': ['src/libs/js/mobileticket-1.0.1.js']
+          'dist/src/libs/js/mobileticket-1.0.1.min.js': ['dist/src/libs/js/mobileticket-1.0.1.js']
         }
       }
     },
@@ -98,11 +100,17 @@ module.exports = function (grunt) {
               match: /<!-- MOBILE-TICKET-MIN-JS -->/g, replacement: function () {
                 return '<script type=\'text/javascript\' src=\'libs/js/mobileticket-1.0.1.min.js\' ></script>';
               }
+            },
+             {
+              match: /xhr.setRequestHeader/g, replacement: function () {
+                return '//xhr.setRequestHeader';
+              }
             }
           ]
         },
         files: [
-          { expand: true, flatten: true, src: ['dist/src/index.html'], dest: 'dist/src' }
+          { expand: true, flatten: true, src: ['dist/src/index.html'], dest: 'dist/src' },
+          { expand: true, flatten: true, src: ['dist/src/libs/js/mobileticket-1.0.1.js'], dest: 'dist/src/libs/js/' }
         ]
       }
     },
@@ -153,8 +161,8 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('build_development', ['clean:start', 'shell:ngbuild_development:command', 'copy:common', 'copy:mobileticket_lib', 'clean:end', 'copy:proxy_files']);
-  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'uglify', 'copy:common', 'copy:mobileticket_lib', 'clean:end', 'copy:proxy_files', 'replace']);
+  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'copy:common', 'copy:mobileticket_lib', 'replace','uglify',  'clean:end', 'copy:proxy_files']);
   grunt.registerTask('extract_for_github', ['clean:git_hub_files', 'copy:git_hub_files', 'clean:other_lang_files']);
-  grunt.registerTask('remote_deploy', ['clean:start', 'shell:ngbuild_production:command', 'uglify', 'copy:common', 'copy:mobileticket_lib', 'clean:end', 'clean:zip_file', 'copy:proxy_files', 'replace', 'zip', 'sftp:deploy', 'clean:zip_file'])
+  grunt.registerTask('remote_deploy', ['clean:start', 'shell:ngbuild_production:command',  'copy:common', 'copy:mobileticket_lib', 'replace', 'uglify', 'clean:end', 'clean:zip_file', 'copy:proxy_files','zip', 'sftp:deploy', 'clean:zip_file'])
 
 };

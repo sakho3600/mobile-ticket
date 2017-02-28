@@ -8,18 +8,6 @@ body{
   background: transparent;
 }
 
-#app-bg{
-  background: url(app/resources/background.jpg);
-  background-size: cover !important;
-  background-position: center center !important;
-  background-repeat: no-repeat;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: -1;
-}
-
 /* FOR THE DESKTOP, SET THE HOVER STATE */
 body.no-touch .service-btn:hover {
   background-color:#FCFCFD !important;

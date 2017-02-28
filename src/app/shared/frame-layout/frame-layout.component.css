@@ -6,6 +6,18 @@
   src: url("app/resources/Nanami-Rounded-Medium.otf");
 }
 
+#app-bg{
+  background: url(app/resources/background.jpg);
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
 .caption {
   text-align: center;
   font-size: 2em;

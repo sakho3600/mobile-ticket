@@ -4,8 +4,12 @@ This is a web application that has been developed using Angular2 and the develop
 (https://github.com/angular/angular-cli).
 
 <a name="prerequisites">
-## Prerequisite
-Angular-cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
+## Prerequisites
+* Angular-cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
+* API Gateway version 1.3.2.0 or higher required. Download from Qmatic portal.
+* Supported Orchestra Versions
+  * Orchestra 6.1 HF 4 - build version 3.1.0.508
+
 ## Table of contents
 - [Installation] (#installation)
 - [Setting up auth-token] (#authtoken)
@@ -14,11 +18,10 @@ Angular-cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
 - [Mobileticket.js library] (#mobileticketlib)
 - [Creating a Build] (#build)
 - [Branding & Customization] (#branding)
-- [Supported Orchestra Versions] (#orchestraversions)
 
 <a name="installation"/>
 ## Installation
-BEFORE YOU INSTALL: please read the [prerequisites] (#prerequisites)
+BEFORE YOU INSTALL: please read the [prerequisites] ()
 
 Install angular-cli tools via npm
 ```
@@ -36,19 +39,8 @@ We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE sinc
 <a name="authtoken"/>
 ## Setting up auth-token
 
-It is required to change the auth token specified in the mobileticket-[version].js with the one you have generated as shown in the code snippet below. 
-
-File location
-```html
-project directory
-|---src
-     |---libs
-	      |---js
-		       |--- mobileticket-[version].js
-```
-
-This is necessary only for the development,but in the production environment the auth token is read from the config file. So please refer to
- [Configuring the Proxy for Production Environment] (#proxyproduction) to get more information 
+It is required to change the auth token specified in the MobileTicket.js with the one you have generated as shown in the code snippet below. This is necessary only for the development, 
+but in the production environment the auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment] (#proxyproduction) to get more information 
 on setting up auth-token for the production environment.
 
 ```js
@@ -73,7 +65,7 @@ Edit proxy-config.json and set target to the IP and port of the QMATIC API Gatew
 File location
 ```html
 project directory
-|---proxy-config.json
+|---proxy.config.json
 ```
 
 ```js
@@ -84,15 +76,31 @@ project directory
   }
 }
 ```
+
+If the API gateway is configures to use HTTPS the "target" parameters should indicate the protocol as "https".
+
+If the certificate configured in API gateway has certificate errors or if it is a self signed certificate and still need the REST API calls to work with no issue, the setting "secure"
+should be set to false. Having "secure" set to true will validate the certificate and REST calls will be failed if the certificate is not valid. The configurations for an API gateway configured
+with a valid certificate will be as below.
+
+```js
+{
+  "/MobileTicket/*": {
+    "target": "https://192.168.1.35:9090",
+    "secure": true
+  }
+}
+```
+
 Once the configuration is done you are ready to start the development server. You can open a console window in visual code and run npm start,
-if you use visual code as the IDE. Otherwise just run this command on any console (bash, windows cli etc).
+if you use visual code as the IDE. Otherwise just run this command on any console (bash, windows cli etc). Make sure you are in project root directory when running the command.
 ```
 npm start
 ```
 NOTE : npm start will run the command configured for "start" in package.json
 ```js
 "scripts": {
-    "start": "ng serve --proxy-config proxy-config.json",
+    "start": "ng serve --proxy-config proxy.config.json",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
@@ -110,6 +118,14 @@ ng serve --proxy-config proxy.conf.json
 Once the solution is built, the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
 to "value" in "apigw_ip_port". Then set a valid auth token to "value" in "auth_token".
 
+If the API gateway is configured to use HTTPS the setting "gateway_has_certificate" must be set to true. 
+
+If the certificate configured in API gateway has certificate errors or if it is a self signed certificate and still need the REST API calls to work with no issue, the setting "gateway_certificate_is_valid"
+should be set to false. Having "gateway_certificate_is_valid" set to true will validate the certificate and REST calls will be failed if the certificate is not valid.
+
+NOTE: WE DO NOT ENCOURAGE USING SELF SIGNED CERTIFICATES OR CERTIFICATES WITH ERRORS TO BE USED IN PRODUCTION ENVIRONMENT. THEREFORE WE RECOMMENT TO KEEP BOTH "gateway_has_certificate" and
+"gateway_certificate_is_valid" SETTINGS TO SET TO true IN PRODUCTION ENVIRONMENT. 
+
 File location
 ```html
 project directory
@@ -119,25 +135,33 @@ project directory
 
 ```js
 {
- "apigw_ip_port" : {
-     "value" : "192.168.0.1:9090",
-     "description" : "API Gateway - host address"
-      },
- "local_webserver_port" : {
-     "value" : "80",
-     "description" : "Local webserver port"
-     },
- "auth_token" : {
-     "value" : "nosecrets", 
-     "description" : "Mobile API user - authentication token"
-     },
- "local_webserver_ssl_port": {
+    "apigw_ip_port": {
+        "value": "10.2.3.88:9090",
+        "description": "API Gateway - host address"
+    },
+    "local_webserver_port": {
+        "value": "81",
+        "description": "Local webserver port"
+    },
+    "auth_token": {
+        "value": "nosecrets",
+        "description": "Mobile API user - authentication token"
+    },
+    "local_webserver_ssl_port": {
         "value": "4443",
         "description": "Local webserver HTTPS port"
     },
- "support_ssl": {
-        "value": "false",
+    "support_ssl": {
+        "value": "true",
         "description": "Flag indicating server supports SSL.Should have a valid public key and certificate in 'sslcert' folder "
+    },
+    "gateway_has_certificate": {
+        "value": "true",
+        "description": "Flag indicating the API gateway is configured to run on HTTPS"
+    },
+    "gateway_certificate_is_valid": {
+        "value": "true",
+        "description": "Flag indicating the configured SSL certificate in the API gateway is a valid. This setting is active only if 'gateway_has_certificate' is true. This must be set to 'false' if API gateway is configured with a self signed certificate "
     }
 }
 ```
@@ -170,6 +194,14 @@ project directory
     "notification_sound": {
         "value":"notification.mp3",
         "description": "Sound file use for notification"
+    },
+    "service_fetch_interval":{
+        "value":"15",
+        "description": "The interval (in seconds) at which service information is refreshed periodically"
+    },
+     "service_screen_timeout":{
+        "value":"10",
+        "description": "The time duration (in minutes) which the app will stay in services screen without creating a ticket"
     }
 }
 ```
@@ -212,67 +244,6 @@ REST API calls to QMATIC API Gateway service. This library file is fully indepen
 Initializes the library
 ```js
 MobileTicketAPI.init()
-```
-
-
-Fetch branch information for the provided branchId.
-
-onSuccess - Success callback.
-
-onError - Error callback.
-```js
-MobileTicketAPI.getBranchInformation(branchId, onSuccess, onError)
-
-//-----OUTPUT------
-
-{
-  "id": 2,
-  "name": "Branch1",
-  "description": "",
-  "enabled": true,
-  "timeZone": "+0500",
-  "timeZoneID": "Asia/Colombo",
-  "openingHour": null,
-  "closingHour": null,
-  "branchParameters": [
-    {
-      "key": "label.address1",
-      "value": null
-    },
-    {
-      "key": "label.postcode",
-      "value": null
-    },
-    {
-      "key": "label.longitude",
-      "value": "80.1014323"
-    },
-    {
-      "key": "label.address3",
-      "value": null
-    },
-    {
-      "key": "label.city",
-      "value": null
-    },
-    {
-      "key": "label.latitude",
-      "value": "6.1395323"
-    },
-    {
-      "key": "label.country",
-      "value": null
-    },
-    {
-      "key": "label.reset.time",
-      "value": null
-    },
-    {
-      "key": "label.address2",
-      "value": null
-    }
-  ]
-}
 ```
 
 
@@ -585,10 +556,3 @@ Note:
 * If you are specifying styles in this stylesheet, it will override the default styles.
 * If you want to add a new logo or background image, make sure to include the images in the src/app/resources folder and refer it from the theme-styles sheet as shown in the above table.
 * If you do not want to customize your application, remove this file from the build. In this case, the application will load with the default styles.
-<a name="orchestraversions">
-##Supported Orchestra Versions
-
-* Orchestra 6.0: Version HF22 (not yet released)
-* Orchestra 6.1: Version HF 4 (not yet released)
-
-

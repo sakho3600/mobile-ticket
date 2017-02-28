@@ -6,8 +6,8 @@ import { ServiceEntity } from '../../entities/service.entity';
 import { ServiceService } from '../service.service';
 import { RetryService } from '../../shared/retry.service';
 import { Util } from '../../util/util';
-import { NavigationExtras} from '@angular/router';
-import {AlertDialogService} from "../../shared/alert-dialog/alert-dialog.service";
+import { NavigationExtras } from '@angular/router';
+import { AlertDialogService } from "../../shared/alert-dialog/alert-dialog.service";
 
 declare var MobileTicketAPI: any;
 declare var ga: Function;
@@ -27,7 +27,7 @@ export class ServicesContainerComponent implements OnInit {
     private isTakeTicketClickedOnce: boolean;
 
     constructor(private branchService: BranchService, private serviceService: ServiceService, public router: Router,
-        private translate: TranslateService, private retryService: RetryService, private alertDialogService:AlertDialogService) {
+        private translate: TranslateService, private retryService: RetryService, private alertDialogService: AlertDialogService) {
 
         this.isServiceListLoaded = false;
         serviceService.registerCountDownCompleteCallback(() => {
@@ -73,17 +73,19 @@ export class ServicesContainerComponent implements OnInit {
 
     onTakeTicket() {
         this.takeTicket();
-        this.serviceService.stopServiceFetchTimer();
-        this.serviceService.stopBranchRedirectionCountDown();
     }
 
     private takeTicket(): void {
         if (!this.isTakeTicketClickedOnce) {
             if (MobileTicketAPI.getCurrentVisit()) {
+                this.serviceService.stopBranchRedirectionCountDown();
+                this.serviceService.stopServiceFetchTimer();
                 this.router.navigate(['ticket']);
             }
             else {
                 if (this.selectedServiceId) {
+                    this.serviceService.stopBranchRedirectionCountDown();
+                    this.serviceService.stopServiceFetchTimer();
                     this.isTakeTicketClickedOnce = true;
                     let clientId;
                     ga(function (tracker) {
@@ -112,17 +114,20 @@ export class ServicesContainerComponent implements OnInit {
                             this.isTakeTicketClickedOnce = false;
                             if (util.getStatusErrorCode(xhr && xhr.getAllResponseHeaders()) === "8042") {
                                 this.translate.get('error_codes.error_8042').subscribe((res: string) => {
-                                  this.alertDialogService.activate(res);
+                                    this.alertDialogService.activate(res);
                                 });
                             } else if (util.getStatusErrorCode(xhr && xhr.getAllResponseHeaders()) === "11000") {
                                 this.translate.get('ticketInfo.visitAppRemoved').subscribe((res: string) => {
-                                  this.alertDialogService.activate(res);
+                                    this.alertDialogService.activate(res);
                                 });
                             } else {
                                 this.showHideNetworkError(true);
                                 this.retryService.retry(() => {
-                                    let branchId = MobileTicketAPI.getSelectedBranch().id;
-                                    MobileTicketAPI.getBranchInformation(branchId,
+
+                                    /**
+                                    * replace this function once #140741231 is done
+                                    */
+                                    MobileTicketAPI.getBranchesNearBy(0, 0, 2147483647,
                                         () => {
                                             this.retryService.abortRetry();
                                             this.showHideNetworkError(false);
