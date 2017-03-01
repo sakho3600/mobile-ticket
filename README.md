@@ -21,7 +21,7 @@ This is a web application that has been developed using Angular2 and the develop
 
 <a name="installation"/>
 ## Installation
-BEFORE YOU INSTALL: please read the [prerequisites] ()
+BEFORE YOU INSTALL: please read the [prerequisites] (#prerequisites)
 
 Install angular-cli tools via npm
 ```
@@ -246,27 +246,6 @@ Initializes the library
 MobileTicketAPI.init()
 ```
 
-
-Fetch Queue information for the provided queueId.
-
-onSuccess - Success callback.
-
-onError - Error callback.
-```js
-MobileTicketAPI.getQueueInformation(serviceId, onSuccess, onError)
-
-//-----OUTPUT------
-
-{
-  "id": 1,
-  "name": "Queue 1",
-  "queueType": "QUEUE",
-  "customersWaiting": 16,
-  "waitingTime": 1349632
-}
-```
-
-
 Fetch a list of branches that match the distance from current location criteria.
 
 latitude - Latitude of current location.
@@ -417,7 +396,7 @@ onSuccess - Success callback.
 
 onError - Error callback.
 ```js
-MobileTicketAPI.createVisit(clientId, onSuccess, onError)
+MobileTicketAPI.createVisit(onSuccess, onError)
 
 //-----OUTPUT------
 
@@ -450,19 +429,6 @@ MobileTicketAPI.getVisitStatus(onSuccess, onError)
   "waitingVisits": 18
 }
 ```
-Fetch the queue status of a created visit.
-
-onSuccess - Success callback.
-
-onError - Error callback.
-
-```js
-MobileTicketAPI.getQueueStatus(onSuccess, onError) 
-
-//-----OUTPUT------
-
-//output
-```
 Cancel the current visit.
 
 onSuccess - Success callback.
@@ -481,10 +447,12 @@ MobileTicketAPI.setVisit(branchId, queueId, visitId, checksum)
 ```
 Set the branch selection.
 ```js
+//branch = {"id":"1", "name":"Gothenburg"};
 MobileTicketAPI.setBranchSelection(branch)
 ```
 Set the service selection.
 ```js
+//service = {"id":"1", "name":"Service 1"};
 MobileTicketAPI.setServiceSelection(service)
 ```
 Fetch the branch set via MobileTicketAPI.setBranchSelection(branch)
@@ -537,7 +505,7 @@ grunt build_development
 <a name="branding">
 ##Branding & Customization
 
-Customizations can be done on the fly, after building your application ([Creating a Build] ()).
+Customizations can be done on the fly, after building your application ([Creating a Build] (#branding)).
 
 In your build, open and edit src/app/theme/theme-styles.css file.
 
