@@ -505,7 +505,7 @@ grunt build_development
 <a name="branding">
 ##Branding & Customization
 
-Customizations can be done on the fly, after building your application ([Creating a Build] (#branding)).
+Customizations can be done on the fly, after building your application ([Creating a Build] (#build)).
 
 In your build, open and edit src/app/theme/theme-styles.css file.
 
