@@ -25,6 +25,8 @@
 npm-debug.log
 testem.log
 /typings
+build.config.json
+secret.json
 
 # e2e
 /e2e/*.js
