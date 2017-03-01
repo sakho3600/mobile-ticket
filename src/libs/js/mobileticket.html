@@ -23,6 +23,7 @@
 						  }); 
 						},
 						function(xhr, status, errorMsg){
+							console.log(errorMsg);
 			   QUnit.test( "getBranchesNearBy", function( assert ) {
 						  assert.equal(1,0);
 						   }); 
@@ -59,7 +60,7 @@
       //-------------------------------------------------------------------------------------------- 
 	    MobileTicketAPI.setServiceSelection({"id":"2"});	
 		MobileTicketAPI.setBranchSelection({"id":"1"});
-	    MobileTicketAPI.createVisit("clientId",
+	    MobileTicketAPI.createVisit(
 						function(data){
 							 QUnit.test( "createVisit", function( assert ) {
 						    		assert.equal(typeof(data), "object");
@@ -67,9 +68,8 @@
 						}
 		);			
        //--------------------------------------------------------------------------------------------- 
-	  MobileTicketAPI.createVisit("clientId",
+	  MobileTicketAPI.createVisit(
 						function(data){
-							MobileTicketAPI.setVisit(1,2,data.visitId);
 						    MobileTicketAPI.getVisitStatus(
 								function(data){
 									 QUnit.test( "getVisitStatus", function( assert ) {
@@ -87,7 +87,7 @@
       //---------------------------------------------------------------------------------------------------
 	  MobileTicketAPI.setServiceSelection({"id":"2"});	
 			  		MobileTicketAPI.setBranchSelection({"id":"1"});
-					MobileTicketAPI.createVisit("clientId",
+					MobileTicketAPI.createVisit(
 						function(data){
 						    MobileTicketAPI.cancelVisit(
 								function(){
