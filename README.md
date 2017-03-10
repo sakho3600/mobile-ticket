@@ -368,23 +368,27 @@ MobileTicketAPI.getServices(onSuccess, onError)
 
 [
   {
-    "estimatedWait": 0,
-    "waitingTime": 0,
-    "name": "Service 1",
-    "id": 1
+    "customersWaitingInDefaultQueue": 5,
+    "waitingTimeInDefaultQueue": 0,
+    "serviceId": 1,
+    "serviceName": "Service 1",
+    "description": ""
   },
   {
-    "estimatedWait": 0,
-    "waitingTime": 0,
-    "name": "Service 2",
-    "id": 2
+    "customersWaitingInDefaultQueue": 3,
+    "waitingTimeInDefaultQueue": 0,
+    "serviceId": 2,
+    "serviceName": "Service 2",
+    "description": ""
   },
   {
-    "estimatedWait": 0,
-    "waitingTime": 0,
-    "name": "Service 3",
-    "id": 3
+    "customersWaitingInDefaultQueue": 0,
+    "waitingTimeInDefaultQueue": 0,
+    "serviceId": 3,
+    "serviceName": "Service 3",
+    "description": ""
   }
+
 ]
 ```
 
