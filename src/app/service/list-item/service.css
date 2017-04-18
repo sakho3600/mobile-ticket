@@ -69,6 +69,7 @@
 
 .service_name > span {
   margin: 0 auto;
+  font-family: Roboto-Regular;
 }
 
 .btn-text-container {
@@ -87,11 +88,6 @@ div.btn-text > span:nth-child(1) {
 
 div.btn-text > span:nth-child(2) {
   flex: 10;
-}
-
-.waiting-text {
-  font-family: "Helvetica";
-  font-weight: 300;
 }
 
 svg.tick {

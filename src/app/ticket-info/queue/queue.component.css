@@ -16,8 +16,8 @@
   color: white;
   font-size: 20px;
   color: #FFFFFF;
-  font-family: Nanami-Rounded-Light;
-  padding-bottom: 8px;
+  font-family: Roboto-Light;
+  padding-bottom: 4px;
 }
 
 .queue-heading-alignment{
@@ -37,12 +37,13 @@
 
 .app-queue-item{
   font-size: 0em;
+  font-family: Roboto-Regular;
 }
 
 .recycle-heading {
   font-size: 19px;
   color: #FFFFFF;
-  font-family: "Helvetica" !important;
+  font-family: Roboto-Light !important;
   font-style: oblique !important;
   font-weight: 300;
 }
@@ -54,8 +55,8 @@
     color: white;
     font-size: 18px;
     color: #FFFFFF;
-    font-family: Nanami-Rounded-Light;
-    padding-bottom: 8px;
+    font-family: Roboto-Light;
+    padding-bottom: 4px;
   }
 
   .queue-container {

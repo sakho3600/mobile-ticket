@@ -18,12 +18,12 @@
 
 .visitcall-heading-one {
   padding-bottom: 1em;
-  font-family: Nanami-Rounded-Medium;
+  font-family: Roboto-Bold;
 }
 
 .visitcall-heading-three {
   font-size: 25px;
-  font-family: Nanami-Rounded-Medium;
+  font-family: Roboto-Bold;
   word-wrap: break-word;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .inner-padding {
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 .placement-layout{
@@ -55,8 +55,4 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0 auto;
-}
-
-.placement-layout > span{
-  vertical-align: super;
 }

@@ -23,19 +23,19 @@ body.no-touch .branch-btn:hover {
 }
 
 .inner-margin-separator{
-  padding-top: 6px;
+  padding-top: 0px;
 }
 
 .sub-heading-text-1 {
   font-size: 28px;
   color: #FFFFFF;
-  font-family: Nanami-Rounded-Medium;
+  font-family: Roboto-Bold;
 }
 
 .sub-heading-text-2 {
   font-size: 20px;
   color: #FFFFFF;
-  font-family: Nanami-Rounded-Light;
+  font-family: Roboto-Light;
   width: 75%;
   margin: 0 auto;
 }
@@ -48,13 +48,13 @@ div.row {
 .sub-heading-text-3 {
   font-size: 19px;
   color: #FFFFFF;
-  font-family: "Helvetica";
+  font-family: Roboto-Light;
   font-style: oblique;
   font-weight: 300;
 }
 
 .common-btn {
-  font-family: "Helvetica";
+  font-family: Roboto-Light;
   color: #303030;
   font-size: 12px;
 }
@@ -82,7 +82,7 @@ div.row {
   border-radius: 250px;
   color: #FFFFFF;
   font-size: 25px;
-  font-family: Nanami-Rounded-Medium;
+  font-family: Roboto-Bold;
   font-weight: 300;
 }
 
@@ -124,13 +124,11 @@ div.row {
   .sub-heading-text-1 {
     font-size: 27px;
     color: #FFFFFF;
-    font-family: Nanami-Rounded-Medium;
   }
 
   .sub-heading-text-2 {
     font-size: 17px;
     color: #FFFFFF;
-    font-family: Nanami-Rounded-Light;
     width: 100%;
     margin: 0 auto;
   }
@@ -138,7 +136,6 @@ div.row {
   .sub-heading-text-3 {
     font-size: 18px;
     color: #FFFFFF;
-    font-family: "Helvetica";
     font-style: oblique;
     font-weight: 300;
   }
@@ -151,7 +148,6 @@ div.row {
     border-radius: 250px;
     color: #FFFFFF;
     font-size: 22px;
-    font-family: Nanami-Rounded-Medium;
     font-weight: 300;
   }
 }

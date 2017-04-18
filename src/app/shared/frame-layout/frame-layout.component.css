@@ -1,9 +1,13 @@
-@font-face {font-family: "Nanami-Rounded-Light";
-  src: url("app/resources/Nanami-Rounded-Light.otf");
+@font-face {font-family: "Roboto-Light";
+  src: url("app/resources/Roboto-Light.ttf");
 }
 
-@font-face {font-family: "Nanami-Rounded-Medium";
-  src: url("app/resources/Nanami-Rounded-Medium.otf");
+@font-face {font-family: "Roboto-Bold";
+  src: url("app/resources/Roboto-Bold.ttf");
+}
+
+@font-face {font-family: "Roboto-Regular";
+  src: url("app/resources/Roboto-Regular.ttf");
 }
 
 #app-bg{
