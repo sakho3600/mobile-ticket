@@ -2587,7 +2587,7 @@ var MobileTicketAPI = (function () {
   });
 
   function createCookie(name, value, days) {
-    var enc = window.btoa(value);
+    var enc = window.btoa( unescape(encodeURIComponent(value)) );
     if (days) {
       var date = new Date();
       date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -2605,7 +2605,7 @@ var MobileTicketAPI = (function () {
       while (c.charAt(0) == ' ') c = c.substring(1, c.length);
       if (c.indexOf(nameEQ) == 0) {
         var val = c.substring(nameEQ.length, c.length);
-        return window.atob(val);
+        return decodeURIComponent(escape(window.atob(val)));
       }
     }
     return null;

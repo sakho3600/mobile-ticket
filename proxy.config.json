@@ -1,6 +1,6 @@
 {
   "/MobileTicket/*": {
-    "target": "https://localhost:9090",
-    "secure": true
+    "target": "http://localhost:9090",
+    "secure": false
   }
 }

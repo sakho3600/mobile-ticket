@@ -21,7 +21,7 @@ This is a web application that has been developed using Angular2 and the develop
 
 <a name="installation"/>
 ## Installation
-BEFORE YOU INSTALL: please read the [prerequisites] (#prerequisites)
+BEFORE YOU INSTALL: please read the [prerequisites] ()
 
 Install angular-cli tools via npm
 ```
@@ -31,12 +31,9 @@ Clone the Mobile Ticket Solution
 ```
 git clone https://github.com/qmatic/mobile-ticket.git
 ```
-When the cloning is complete, the project folder will contain all the node modules and the source files that are used by the mobileticket application.
-
-NOTE: For customization purposes if a new module is required to be downloaded, please use npm install for that particular module only as below. 
-Omitting the module name will cause a full update of all the node modules which may introduce inconsistencies. So please use npm install with caution.
+When the cloning is complete, install the required node modules by running the following command from the project directory
 ```
-npm install [module name]
+npm install
 ```
 We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
 <a name="authtoken"/>
@@ -454,12 +451,10 @@ MobileTicketAPI.setVisit(branchId, queueId, visitId, checksum)
 ```
 Set the branch selection.
 ```js
-//branch = {"id":"1", "name":"Gothenburg"};
 MobileTicketAPI.setBranchSelection(branch)
 ```
 Set the service selection.
 ```js
-//service = {"id":"1", "name":"Service 1"};
 MobileTicketAPI.setServiceSelection(service)
 ```
 Fetch the branch set via MobileTicketAPI.setBranchSelection(branch)
@@ -512,7 +507,7 @@ grunt build_development
 <a name="branding">
 ##Branding & Customization
 
-Customizations can be done on the fly, after building your application ([Creating a Build] (#build)).
+Customizations can be done on the fly, after building your application ([Creating a Build] ()).
 
 In your build, open and edit src/app/theme/theme-styles.css file.
 
