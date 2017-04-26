@@ -475,17 +475,7 @@ MobileTicketAPI.getCurrentVisitEvent()
 ```
 <a name="build">      
 ##Creating a Build
-BEFORE YOU BUILD: Run setup_grunt.sh to install required npm grunt modules for the build process. Then add a file named secret.json to the root of the project and add the content below. You won't be able to run any of the grunt tasks without this file. You'll need this file to store remote location details when running grunt tasks to do remote deployments.
-
-secret.json
-```
-{
-	"host": "0.0.0.0",
-	"username": "server+username",
-	"password": "password",
-	"path" : "C:\\mobile-ticket"
-}
-```
+BEFORE YOU BUILD: Run setup_grunt.sh to install required npm grunt modules for the build process.
 
 Run grunt help to list build commands.
 ```
