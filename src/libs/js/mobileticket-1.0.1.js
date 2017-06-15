@@ -2561,6 +2561,7 @@ var MobileTicketAPI = (function () {
   var currentVisitStatus = undefined;
 
   var MOBILE_TICKET = "/MobileTicket";
+  var GEO = "/geo";
   var SERVICES = "services";
   var BRANCHES = "branches";
   var TICKET = "ticket";
@@ -2699,7 +2700,7 @@ var MobileTicketAPI = (function () {
     getBranchesNearBy: function (latitude, longitude, radius, onSuccess, onError) {
       try {
         var service = getSelectedService();
-        var BRANCHES_REST_API = MOBILE_TICKET + "/" + BRANCHES + "/";
+        var BRANCHES_REST_API = GEO + "/" + BRANCHES + "/";
         $.ajax({
           type: "GET",
           dataType: "json",
@@ -2720,7 +2721,7 @@ var MobileTicketAPI = (function () {
     getAllBranches: function (onSuccess, onError) {
       try {
         var service = getSelectedService();
-        var ALL_BRANCHES_REST_API = MOBILE_TICKET + "/" + BRANCHES + "/?longitude=0&latitude=0&radius=2147483647";
+        var ALL_BRANCHES_REST_API = GEO + "/" + BRANCHES + "/?longitude=0&latitude=0&radius=2147483647";
         $.ajax({
           type: "GET",
           dataType: "json",
