@@ -90,6 +90,7 @@ var apiProxy = proxy(host, {									// ip and port off apigateway
 	https: APIGWHasSSL
 });
 
+app.use("/geo/branches/*", apiProxy);
 app.use("/MobileTicket/branches/*", apiProxy);
 app.use("/MobileTicket/services/*", apiProxy);
 app.use("/MobileTicket/MyVisit/*", apiProxy);
