@@ -14,6 +14,7 @@ import {ServiceService} from './service/service.service';
 
 
 import {FrameLayoutComponent} from './shared/frame-layout/frame-layout.component';
+import {NotSupportComponent} from './shared/not-support/not-support.component';
 import {TicketInfoContainerComponent} from './ticket-info/container/ticket-info-container.component';
 import {TicketInfoService} from './ticket-info/ticket-info.service';
 
@@ -48,7 +49,7 @@ declare var MobileTicketAPI:any;
 @NgModule({
   declarations: [
     BranchesComponent, BranchComponent, ServicesComponent, ServiceComponent,
-    RootComponent, RoutingComponents, FrameLayoutComponent, TicketComponent,
+    RootComponent, RoutingComponents, FrameLayoutComponent, TicketComponent, NotSupportComponent,
     QueueComponent, VisitCancelComponent, QueueItemComponent, SortPipe,
     ConnectivityMessageComponent, VisitNotfoundComponent, ConfirmDialogComponent, AlertDialogComponent
   ],

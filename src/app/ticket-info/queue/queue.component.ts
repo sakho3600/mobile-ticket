@@ -160,7 +160,7 @@ export class QueueComponent implements OnInit, OnDestroy {
       this.onQueuePollSuccess(queueInfo, ticketService);
       this.retryService.abortRetry();
       this.queueId = queueInfo.queueId;
-      if (this.detectTransfer(this.queueId) == true) {
+      if (this.detectTransfer(this.queueId) === true) {
         MobileTicketAPI.setServiceSelection({ name: MobileTicketAPI.getCurrentVisitStatus().currentServiceName });
         this.onBranchUpdate.emit();
       }
