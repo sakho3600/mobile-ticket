@@ -2,9 +2,11 @@
   <div class="frame custom logo-bg-color parent-center">
     <img class="logo custom logo-image child-center"/>
   </div>
-
-  <div>
+  <div [hidden]="!isBrowserSupport">
     <ng-content></ng-content>
+  </div>
+  <div [hidden]="isBrowserSupport">
+    <not-support-layout [browserName]='onBrowserNotSupport'></not-support-layout>
   </div>
 </div>
 <div id="app-bg" class="custom bg-image"></div>
