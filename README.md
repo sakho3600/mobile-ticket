@@ -187,6 +187,10 @@ project directory
         "value": "1.0.0.2",
         "description": "MobileTicket version"
     },
+    "customer_feedback": {
+        "value": "",
+        "description": "URL to redirect to when visit is ended."
+    },
     "ga_track_id": {
         "value":"",
         "description": "Google Analytic Track-ID"
