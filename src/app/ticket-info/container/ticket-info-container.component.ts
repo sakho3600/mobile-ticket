@@ -38,6 +38,8 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   public visitRecycleMsg: string;
   public isCalled: boolean = false;
   public isVisitNotFound: boolean = false;
+  private tmpBranchId: number;
+  private tmpVisitId: number;
 
   @ViewChild('ticketNumberComponent') ticketNumberComponent;
   @ViewChild('queueComponent') queueComponent;
@@ -168,6 +170,9 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
       if (this.isSoundPlay === false) {
         this.playNotificationSound();
       }
+
+      this.tmpBranchId = MobileTicketAPI.getSelectedBranch().id;
+      this.tmpVisitId = MobileTicketAPI.getCurrentVisit().visitId;
     }
     else if (visitStatus.status === this.visitState.DELAYED) {
       this.prevVisitState = this.visitState.DELAYED;
@@ -189,6 +194,7 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
       else {
         this.isAfterCalled = false;
       }
+
       if (!this.isUrlAccessedTicket) {
         MobileTicketAPI.deleteAllCookies();
       }
@@ -197,6 +203,7 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
       this.isVisitCall = false;
       MobileTicketAPI.resetCurrentVisitStatus();
       this.stopNotificationSound();
+      this.openCustomerFeedback(this.tmpBranchId, this.tmpVisitId);
     }
     else if (visitStatus && visitStatus.visitPosition === null) {
       if (this.prevVisitState === this.visitState.CALLED) {
@@ -214,11 +221,22 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
       this.isVisitCall = false;
       MobileTicketAPI.resetCurrentVisitStatus();
       this.stopNotificationSound();
+      this.openCustomerFeedback(this.tmpBranchId, this.tmpVisitId);
     }
   }
 
   onNetworkErr(isNetwrkErr: boolean) {
     this.isNetworkErr = isNetwrkErr;
+  }
+
+  openCustomerFeedback(branchId, visitId){
+    if(this.isTicketEndedOrDeleted == true && this.isAfterCalled){
+      let customerFeedBackUrl = this.config.getConfig('customer_feedback');
+      if(customerFeedBackUrl && customerFeedBackUrl.length > 0){
+        customerFeedBackUrl = customerFeedBackUrl + "?" + "b=" + branchId + "&" + "v=" + visitId;
+        window.location.href = customerFeedBackUrl;
+      }
+    }
   }
 
   updateVisitCallMsg(firstName: string, servicePointName: string) {
