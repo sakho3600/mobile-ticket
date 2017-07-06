@@ -1,5 +1,9 @@
 var proxy = require('express-http-proxy');
 var express = require('express');
+var compression = require('compression');
+var zlib = require('zlib')
+var expressStaticGzip = require("express-static-gzip");
+
 var fs = require('fs');
 var https = require('https');
 var path = require('path');
@@ -13,6 +17,20 @@ var sslPort = '4443';
 var supportSSL = false;
 var validAPIGWCert = "1";
 var APIGWHasSSL = true;
+
+// Enable packet compression of each response
+app.use(compression({level: zlib.Z_BEST_COMPRESSION, strategy: zlib.Z_DEFAULT_STRATEGY}));
+// Set route to fetch compressed content
+if (fs.existsSync('./src/gz')) {
+   app.use("/gz", expressStaticGzip(__dirname + '/src/gz', {
+    enableBrotli: true,
+    customCompressions: [{
+        encodingName: "gzip",
+        fileExtension: "gz"
+    }]
+}));
+}
+
 
 //update configurations using config.json
 var configuration = JSON.parse(

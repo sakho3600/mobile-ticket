@@ -1,3 +1,7 @@
+const imageminSvgo = require('imagemin-svgo');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminOptipng = require('imagemin-optipng');
+
 module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
@@ -31,11 +35,8 @@ module.exports = function (grunt) {
           { expand: true, src: ['src/app/resources/*'], dest: 'dist/src/app/resources', filter: 'isFile', flatten: true },
           { expand: true, src: ['src/app/config/config.json'], dest: 'dist/src/app/config', filter: 'isFile', flatten: true },
           { expand: true, src: ['src/app/locale/en.json'], dest: 'dist/src/app/locale', filter: 'isFile', flatten: true },
-          { expand: true, src: ['src/app/theme/*'], dest: 'dist/src/app/theme', filter: 'isFile', flatten: true }
-        ]
-      },
-      mobileticket_lib: {
-        files: [
+          { expand: true, src: ['src/app/theme/*'], dest: 'dist/src/app/theme', filter: 'isFile', flatten: true },
+          { expand: true, src: ['src/libs/css/*'], dest: 'dist/src/libs/css/', filter: 'isFile', flatten: true },
           { expand: true, src: ['src/libs/js/*'], dest: 'dist/src/libs/js/', filter: 'isFile', flatten: true }
         ]
       },
@@ -69,23 +70,83 @@ module.exports = function (grunt) {
     uglify: {
       options: {
         mangle: false,
-        sourceMap: true,
+        sourceMap: false,
         sourceMapName: 'build/sourcemap.map'
       },
       javascript: {
         files: {
-          'dist/src/libs/js/mobileticket-1.0.1.min.js': ['dist/src/libs/js/mobileticket-1.0.1.js']
+          'dist/src/libs/js/mt.bundle.min.js': ['dist/src/libs/js/mobileticket-*.js'],
+          'dist/src/libs/js/analytics.bundle.min.js': ['dist/src/libs/js/analytics.min.js']
         }
       }
     },
+    concat: {
+			js: {
+				src: ['dist/src/libs/js/analytics.bundle.min.js', 'dist/src/libs/js/mt.bundle.min.js', 'dist/src/inline.*.bundle.js','dist/src/styles.*.bundle.js', 'dist/src/main.*.bundle.js'],
+				dest: 'dist/src/concat.min.js'
+			},
+			css: {
+				src: ['dist/src/styles.*.bundle.css', 'dist/src/libs/css/*.css'],
+				dest: 'dist/src/concat.min.css'
+			}
+		},
     clean: {
       options: { force: true },
       start: ["dist/"],
+      folder: ["dist/src/libs/"],
+      contents: ["dist/src/inline.*.js", "dist/src/inline.*.bundle.map", "dist/src/main.*.bundle.map", "dist/src/main.*.js", "dist/src/styles.*.js", "dist/src/styles.*.bundle.map", "dist/src/styles.*.css", "dist/src/main.*.bundle.js.gz", "dist/src/concat.min.js", "dist/src/concat.min.css"],
       end: ['dist/*.js', 'dist/*.css', 'dist/*.gz', 'dist/*.map', 'dist/*.html', 'dist/*.ico'],
       git_hub_files: ['<%= build.githubFolder %>/*.*', '!<%= build.githubFolder %>/.git', '!<%= build.githubFolder %>/.gitignore'],
       other_lang_files: ['<%= build.githubFolder %>/src/app/locale/*.json', '!<%= build.githubFolder %>/src/app/locale/en.json'],
       zip_file: ['dist/mobile-ticket.zip']
     }, 
+    'string-replace': {
+			inline: {
+				files: {
+					'dist/src/index.html': 'dist/src/index.html',
+				},
+				options: {
+					replacements: [
+						{
+							pattern: /styles\.[a-f0-9]*\.bundle\.css/g,
+          					replacement: 'gz/concat.min.css'
+        				},
+						{
+							pattern: /inline\.[a-f0-9]*\.bundle\.js/g,
+          					replacement: 'gz/concat.min.js'
+        				},
+						{
+							pattern: /<script type="text\/javascript" src="((main)|(styles))\.[a-f0-9]*\.bundle\.js"><\/script>/g,
+          					replacement: ''
+        				},
+                {
+							pattern: /<link rel="stylesheet" href="libs\/css\/bootstrap\.min\.css">/g,
+          					replacement: ''
+        				},
+                {
+							pattern: /<script async type='text\/javascript' src='libs\/js\/analytics\.min\.js'><\/script>/g,
+          					replacement: ''
+        				},
+                {
+							pattern: /<script type="text\/javascript" src="libs\/js\/mobileticket-1\.0\.1\.js"><\/script>/g,
+          					replacement: ''
+        				}
+                
+					]
+				}
+			}
+		},
+    compress: {
+			main: {
+				options: {
+					mode: 'gzip'
+				},
+				files: [
+					{ expand: true, cwd: 'dist/src/', src: ['concat.min.js'], dest: 'dist/src/gz', ext: '.min.js.gz' },
+					{ expand: true, cwd: 'dist/src/', src: ['concat.min.css'], dest: 'dist/src/gz', ext: '.min.css.gz' }
+				]
+			}
+		},
     replace: {
       dist: {
         options: {
@@ -137,7 +198,71 @@ module.exports = function (grunt) {
             srcBasePath: "dist/"
         }
       }
+    },
+    imagemin: {
+    svg: {
+      options: {
+        optimizationLevel: 7,
+        user: [
+          imageminSvgo({
+            plugins: [{removeViewBox: true}]
+		      }),
+          ]
+      },
+      files: [
+        {
+          expand: true,
+          src: ['dist/src/app/resources/*.svg'],
+          dest: '.',
+          ext: '.svg'
+        }
+      ]
+    },
+    png: {
+      options: {
+        optimizationLevel: 7,
+        user: [
+          imageminOptipng()
+          ]
+      },
+      files: [
+        {
+          expand: true,
+          src: ['dist/src/app/resources/*.png'],
+          dest: '.',
+          ext: '.png'
+        }
+      ]
+    },
+    jpg: {
+      options: {
+        progressive: true,
+        optimizationLevel: 7,
+        user: [
+          imageminJpegtran()
+          ]
+      },
+      files: [
+        {
+          expand: true,
+          src: ['dist/src/app/resources/*.jpg'],
+          dest: '.',
+          ext: '.jpg'
+        }
+      ]
     }
+  },
+  htmlmin: {               
+    dist: {                                    
+      options: {                              
+        removeComments: true,
+        collapseWhitespace: true
+      },
+      files: {                                   
+        'dist/src/index.html': 'dist/src/index.html'
+      }
+    }
+  }
   });
 
   grunt.loadNpmTasks('grunt-shell');
@@ -148,6 +273,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-properties-reader');
   grunt.loadNpmTasks('grunt-zip');
   grunt.loadNpmTasks('grunt-ssh');
+
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-compress');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-string-replace');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-htmlmin');
 
 
   grunt.registerTask('help', function () {
@@ -160,9 +292,9 @@ module.exports = function (grunt) {
     console.log("\t remote_deploy - Build production release and deploy the zip file to specified location/server. \n");
   });
 
-  grunt.registerTask('build_development', ['clean:start', 'shell:ngbuild_development:command', 'copy:common', 'copy:mobileticket_lib', 'clean:end', 'copy:proxy_files']);
-  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'copy:common', 'copy:mobileticket_lib', 'replace','uglify',  'clean:end', 'copy:proxy_files']);
-  grunt.registerTask('extract_for_github', ['clean:git_hub_files', 'copy:git_hub_files', 'clean:other_lang_files']);
-  grunt.registerTask('remote_deploy', ['clean:start', 'shell:ngbuild_production:command',  'copy:common', 'copy:mobileticket_lib', 'replace', 'uglify', 'clean:end', 'clean:zip_file', 'copy:proxy_files','zip', 'sftp:deploy', 'clean:zip_file'])
+  grunt.registerTask('build_development', ['clean:start', 'shell:ngbuild_development:command', 'copy:common', 'clean:end', 'copy:proxy_files']);
+  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'copy:common','uglify', 'concat', 'string-replace','imagemin', 'compress',  'clean:end', 'clean:folder', 'clean:contents', 'htmlmin','copy:proxy_files']);
 
+  grunt.registerTask('extract_for_github', ['clean:git_hub_files', 'copy:git_hub_files', 'clean:other_lang_files']);
+  grunt.registerTask('remote_deploy', ['clean:start', 'shell:ngbuild_production:command',  'copy:common', 'replace', 'uglify', 'clean:end', 'clean:zip_file', 'copy:proxy_files','zip', 'sftp:deploy', 'clean:zip_file'])
 };
