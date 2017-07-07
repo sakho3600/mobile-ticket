@@ -88,7 +88,6 @@ var apiProxy = proxy(host, {									// ip and port off apigateway
 	decorateRequest: function (req) {
 		req.headers['auth-token'] = authToken		// api_token for mobile user
 		req.headers['Content-Type'] = 'application/json'
-		console.log(req.path, req.headers);
 		return req;
 	},
 	https: APIGWHasSSL
@@ -98,8 +97,6 @@ app.use("/geo/branches/*", apiProxy);
 app.use("/MobileTicket/branches/*", apiProxy);
 app.use("/MobileTicket/services/*", apiProxy);
 app.use("/MobileTicket/MyVisit/*", apiProxy);
-app.use("/rest/servicepoint/*", apiProxy);
-app.use("/rest/entrypoint/*", apiProxy);
 
 if (supportSSL) {
 	var httpsServer = https.createServer(credentials, app);
