@@ -9,6 +9,16 @@ var https = require('https');
 var path = require('path');
 var app = express();
 
+var helmet = require('helmet');
+var hidePoweredBy = require('hide-powered-by');
+var csp = require('helmet-csp');
+var hpkp = require('hpkp');
+var hsts = require('hsts');
+var nocache = require('nocache');
+var nosniff = require('dont-sniff-mimetype');
+var frameguard = require('frameguard');
+var xssFilter = require('x-xss-protection');
+
 var configFile = 'proxy-config.json';
 var host = 'localhost:9090';
 var authToken = 'nosecrets';
@@ -36,6 +46,7 @@ if (fs.existsSync('./src/zip')) {
 var configuration = JSON.parse(
 	fs.readFileSync(configFile)
 );
+
 
 host = configuration.apigw_ip_port.value;
 port = configuration.local_webserver_port.value;
