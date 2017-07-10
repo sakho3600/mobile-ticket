@@ -18,7 +18,7 @@ describe('VisitCancelComponent', () => {
   let component: VisitCancelComponent;
   let fixture: ComponentFixture<VisitCancelComponent>;
   let injector: Injector;
-  let backend: MockBackend;
+  let backend: any;
   let translate: TranslateService;
   let connection: MockConnection;
 

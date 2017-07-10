@@ -1,17 +1,17 @@
 @font-face {font-family: "Roboto-Light";
-  src: url("app/resources/Roboto-Light.ttf");
+  src: url("/app/resources/Roboto-Light.ttf");
 }
 
 @font-face {font-family: "Roboto-Bold";
-  src: url("app/resources/Roboto-Bold.ttf");
+  src: url("/app/resources/Roboto-Bold.ttf");
 }
 
 @font-face {font-family: "Roboto-Regular";
-  src: url("app/resources/Roboto-Regular.ttf");
+  src: url("/app/resources/Roboto-Regular.ttf");
 }
 
 #app-bg{
-  background: url(app/resources/background.jpg);
+  background: url(/app/resources/background.jpg);
   background-size: cover !important;
   background-position: center center !important;
   background-repeat: no-repeat;
@@ -51,7 +51,7 @@
   width: 160px;
   max-width: 160px;
   margin: 0 auto;
-  content: url('app/resources/qmLogo.png');
+  content: url('/app/resources/qmLogo.png');
 }
 
 .frame {

@@ -19,7 +19,7 @@ describe('QueueItemComponent', () => {
   let fixture: ComponentFixture<QueueItemComponent>;
   let ticketInfoService;
   let injector: Injector;
-  let backend: MockBackend;
+  let backend: any;
   let translate: TranslateService;
   let connection: MockConnection;
 

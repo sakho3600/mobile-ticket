@@ -18,11 +18,11 @@ declare var MobileTicketAPI: any;
 export class BranchesComponent implements AfterViewInit {
   public branches: Array<BranchEntity>;
   public showBranchList: boolean = true;
-  private showLoader: boolean = true;
-  private networkError = false;
+  public showLoader: boolean = true;
+  public networkError = false;
   public loadingText: string = "Loading...";
   private nmbrOfEnabledBranches: number;
-  private loaderResource: string = "app/resources/loader.svg";
+  public loaderResource: string = "app/resources/loader.svg";
   private isRedirectedFromServices: boolean = false;
 
   @Output() startLoading = new EventEmitter<boolean>();

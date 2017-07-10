@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         command: 'ng build --dev'
       },
       ngbuild_production: {
-        command: 'ng build --prod'
+        command: 'ng build --prod --aot false'
       }
     },
     copy: {
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
     },
     concat: {
 			js: {
-				src: ['dist/src/libs/js/analytics.bundle.min.js', 'dist/src/libs/js/mt.bundle.min.js', 'dist/src/inline.*.bundle.js','dist/src/styles.*.bundle.js', 'dist/src/main.*.bundle.js'],
+				src: ['dist/src/libs/js/analytics.bundle.min.js', 'dist/src/libs/js/mt.bundle.min.js', 'dist/src/inline.*.bundle.js','dist/src/vendor.*.bundle.js', 'dist/src/styles.*.bundle.js', 'dist/src/main.*.bundle.js'],
 				dest: 'dist/src/concat.min.js'
 			},
 			css: {
@@ -94,7 +94,7 @@ module.exports = function (grunt) {
       options: { force: true },
       start: ["dist/"],
       folder: ["dist/src/libs/"],
-      contents: ["dist/src/inline.*.js", "dist/src/inline.*.bundle.map", "dist/src/main.*.bundle.map", "dist/src/main.*.js", "dist/src/styles.*.js", "dist/src/styles.*.bundle.map", "dist/src/styles.*.css", "dist/src/main.*.bundle.js.gz", "dist/src/concat.min.js", "dist/src/concat.min.css"],
+      contents: ["dist/src/inline.*.js", "dist/src/inline.*.bundle.map", "dist/src/main.*.bundle.map", "dist/src/main.*.js", "dist/src/styles.*.js", "dist/src/styles.*.bundle.map", "dist/src/styles.*.css", "dist/src/main.*.bundle.js.gz", "dist/src/concat.min.js", "dist/src/concat.min.css", "dist/src/vendor.*.bundle.js", "dist/src/3rdpartylicenses.txt", "dist/3rdpartylicenses.txt"],
       end: ['dist/*.js', 'dist/*.css', 'dist/*.gz', 'dist/*.map', 'dist/*.html', 'dist/*.ico'],
       git_hub_files: ['<%= build.githubFolder %>/*.*', '!<%= build.githubFolder %>/.git', '!<%= build.githubFolder %>/.gitignore'],
       other_lang_files: ['<%= build.githubFolder %>/src/app/locale/*.json', '!<%= build.githubFolder %>/src/app/locale/en.json'],
@@ -116,7 +116,7 @@ module.exports = function (grunt) {
           					replacement: 'gz/concat.min.js'
         				},
 						{
-							pattern: /<script type="text\/javascript" src="((main)|(styles))\.[a-f0-9]*\.bundle\.js"><\/script>/g,
+							pattern: /<script type="text\/javascript" src="((main)|(styles)|(vendor))\.[a-f0-9]*\.bundle\.js"><\/script>/g,
           					replacement: ''
         				},
                 {
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
           					replacement: ''
         				},
                 {
-							pattern: /<script async type='text\/javascript' src='libs\/js\/analytics\.min\.js'><\/script>/g,
+							pattern: /<script async type="text\/javascript" src="libs\/js\/analytics\.min\.js"><\/script>/g,
           					replacement: ''
         				},
                 {
@@ -293,8 +293,6 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('build_development', ['clean:start', 'shell:ngbuild_development:command', 'copy:common', 'clean:end', 'copy:proxy_files']);
-  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'copy:common','uglify', 'concat', 'string-replace','imagemin', 'compress',  'clean:end', 'clean:folder', 'clean:contents', 'htmlmin','copy:proxy_files']);
-
-  grunt.registerTask('extract_for_github', ['clean:git_hub_files', 'copy:git_hub_files', 'clean:other_lang_files']);
-  grunt.registerTask('remote_deploy', ['clean:start', 'shell:ngbuild_production:command',  'copy:common', 'replace', 'uglify', 'clean:end', 'clean:zip_file', 'copy:proxy_files','zip', 'sftp:deploy', 'clean:zip_file'])
+  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'copy:common','uglify', 'concat', 'string-replace','imagemin', 'compress', 'htmlmin', 'clean:end', 'clean:folder', 'clean:contents','copy:proxy_files']);
+  grunt.registerTask('remote_deploy', ['clean:start', 'shell:ngbuild_production:command', 'copy:common','uglify', 'concat', 'string-replace','imagemin', 'compress',  'clean:end', 'clean:folder', 'clean:contents', 'htmlmin','copy:proxy_files', 'zip', 'sftp:deploy', 'clean:zip_file']);
 };

@@ -17,7 +17,7 @@ describe('VisitNotfoundComponent', () => {
   let component: VisitNotfoundComponent;
   let fixture: ComponentFixture<VisitNotfoundComponent>;
   let injector: Injector;
-  let backend: MockBackend;
+  let backend: any;
   let translate: TranslateService;
   let connection: MockConnection;
 

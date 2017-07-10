@@ -13,7 +13,7 @@ const mockBackendResponse = (connection: MockConnection, response: string) => {
 
 describe('ServiceService', () => {
   let injector: Injector;
-  let backend: MockBackend;
+  let backend: any;
   let translate: TranslateService;
   let connection: MockConnection;
   beforeEach(async(() => {
@@ -29,7 +29,8 @@ describe('ServiceService', () => {
       ],
       providers: [
         { provide: XHRBackend, useClass: MockBackend },
-        TranslateService
+         { provide: TranslateService}
+        
       ]
     })
       .compileComponents();
@@ -44,7 +45,7 @@ describe('ServiceService', () => {
   let serviceListService
 
   beforeEach(() => {
-    serviceListService = new ServiceService(translate);
+    serviceListService = new ServiceService(null, translate);
   });
 
   afterEach(() => {

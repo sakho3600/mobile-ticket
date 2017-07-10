@@ -21,7 +21,7 @@ const mockBackendResponse = (connection: MockConnection, response: string) => {
 describe('ServicesComponent', () => {
    let fixture: ComponentFixture<ServicesComponent>;
    let injector: Injector;
-   let backend: MockBackend;
+   let backend: any;
    let translate: TranslateService;
    let connection: MockConnection;
   beforeEach(() => {

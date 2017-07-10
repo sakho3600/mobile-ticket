@@ -48,7 +48,7 @@
   -ms-flex-align: center;
   align-items: center;
 
-  background: url(app/resources/branchBtn.png);
+  background: url(/app/resources/branchBtn.png);
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;

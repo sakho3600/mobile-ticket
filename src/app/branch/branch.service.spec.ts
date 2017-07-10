@@ -14,7 +14,7 @@ const mockBackendResponse = (connection: MockConnection, response: string) => {
 
 describe('BranchService', () => {
   let injector: Injector;
-  let backend: MockBackend;
+  let backend: any;
   let translate: TranslateService;
   let connection: MockConnection;
   beforeEach(async(() => {
@@ -55,7 +55,7 @@ describe('BranchService', () => {
 
 
   beforeEach(() => {
-    branchListService = new BranchService(null, null, translate)
+    branchListService = new BranchService(null, null, translate, null)
   });
 
   it('Should create a PositionEntity', async(() => {

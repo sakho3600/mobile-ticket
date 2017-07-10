@@ -60,14 +60,14 @@ declare var MobileTicketAPI:any;
     QmRouterModule,
     TranslateModule.forRoot({
       provide: TranslateLoader,
-      useFactory: (http:Http) => new TranslateStaticLoader(http, './app/locale', '.json'),
+      useFactory: translateStaticLoader,
       deps: [Http]
     })
   ],
   providers: [BranchService, ServiceService, TicketInfoService, AuthGuard, ConfirmDialogService, AlertDialogService,
     VisitCancelLeavelineGuard, RetryService, Locale, LocationService, SortPipe,
     Config,
-    {provide: APP_INITIALIZER, useFactory: (config:Config) => () => config.load(), deps: [Config], multi: true}
+    {provide: APP_INITIALIZER, useFactory: configuration, deps: [Config], multi: true}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [RootComponent]
@@ -75,6 +75,10 @@ declare var MobileTicketAPI:any;
 
 export class AppModule {
   constructor() {
+    this.init();
+  }
+
+  init(){
     MobileTicketAPI.init();
     this.setTouchDeviceTag();
   }
@@ -91,3 +95,24 @@ export class AppModule {
     }
   }
 }
+
+export function translateStaticLoader(http:Http) {
+  return new TranslateStaticLoader(http, './app/locale', '.json')
+}
+
+export function configuration (config:Config) { 
+  return () => config.load()
+}
+
+
+// @NgModule({
+//   declarations: [
+//     BranchesComponent
+//   ],
+//   imports: [
+//     BrowserModule
+//   ],
+//   providers: [],
+//   bootstrap: [RootComponent]
+// })
+// export class AppModule { }
