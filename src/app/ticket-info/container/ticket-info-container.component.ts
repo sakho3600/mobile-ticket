@@ -40,6 +40,8 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   public isVisitNotFound: boolean = false;
   private tmpBranchId: number;
   private tmpVisitId: number;
+  public title1: string;
+  public title2: string;
 
   @ViewChild('ticketNumberComponent') ticketNumberComponent;
   @ViewChild('queueComponent') queueComponent;
@@ -79,6 +81,16 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.scrollPageToTop();
     this.loadNotificationSound();
     this.setRtlStyles();
+    this.loadTranslations();
+  }
+
+  loadTranslations() {
+    this.translate.get('ticketInfo.titleYourTurn').subscribe((res: string) => {
+      this.title1 = res;
+      this.translate.get('ticketInfo.ticketReady').subscribe((res: string) => {
+        this.title2 = res;
+      });
+    });
   }
 
   loadNotificationSound() {
@@ -229,10 +241,10 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.isNetworkErr = isNetwrkErr;
   }
 
-  openCustomerFeedback(branchId, visitId){
-    if(this.isTicketEndedOrDeleted == true && this.isAfterCalled){
+  openCustomerFeedback(branchId, visitId) {
+    if (this.isTicketEndedOrDeleted == true && this.isAfterCalled) {
       let customerFeedBackUrl = this.config.getConfig('customer_feedback');
-      if(customerFeedBackUrl && customerFeedBackUrl.length > 0){
+      if (customerFeedBackUrl && customerFeedBackUrl.length > 0) {
         customerFeedBackUrl = customerFeedBackUrl + "?" + "b=" + branchId + "&" + "v=" + visitId;
         window.location.href = customerFeedBackUrl;
       }
@@ -240,20 +252,14 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   }
 
   updateVisitCallMsg(firstName: string, servicePointName: string) {
-
-    this.translate.get('ticketInfo.titleYourTurn').subscribe((res: string) => {
-      var title1 = res;
-      this.translate.get('ticketInfo.ticketReady').subscribe((res: string) => {
-        var title2 = res;
-        this.visitCallMsgOne = title1;
-        this.visitCallMsg = firstName + ' ' + title2;
-        this.visitCallMsgThree = servicePointName;
-
-      });
-    });
-    if (this.ticketNumberComponent && !this.isTicketFlashed) {
-      this.isTicketFlashed = true;
-      this.ticketNumberComponent.startFlashing();
+    if (firstName !== null && firstName !== '' && servicePointName !== '') {
+      this.visitCallMsgOne = this.title1;
+      this.visitCallMsg = firstName + ' ' + this.title2;
+      this.visitCallMsgThree = servicePointName;
+      if (this.ticketNumberComponent && !this.isTicketFlashed) {
+        this.isTicketFlashed = true;
+        this.ticketNumberComponent.startFlashing();
+      }
     }
   }
 
