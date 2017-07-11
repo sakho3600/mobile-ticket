@@ -1,9 +1,9 @@
 <div
-  [ngClass]="{'service-btn': !selected, 'service-btn-active': selected, 'service-btn': true, 'common-btn' : true, 'center-text' : true}"
+  [ngClass]="{'service-btn-active': selected, 'service-btn': true, 'common-btn' : true, 'center-text' : true}"
   (click)='onSelectService(entity)'>
   <div [ngClass]="{'tick-container-rtl': isRtl, 'tick-container': !isRtl}">
     <svg [style.visibility]="getVisibilityOfTick()"
-         [ngClass]="{'tick-rtl': isRtl, 'tick': true, 'custom' : true, 'accent-tick-color': true, 'tick': true}"
+         [ngClass]="{'tick-rtl': isRtl, 'custom' : true, 'accent-tick-color': true, 'tick': true}"
          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44.69 46.89">
       <defs>
         <style>.cls-1 {

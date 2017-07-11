@@ -8,12 +8,21 @@ import { TranslateService } from 'ng2-translate';
 })
 
 export class ConnectivityMessageComponent {
-  private loaderResource: string = "app/resources/loader.svg";
-  private textMsg;
+  private _loaderResource: string = "app/resources/loader.svg";
+  private _textMsg: string;
+
   constructor(private translate: TranslateService) {
     this.translate.get('connection.issue_with_connection').subscribe((res:string) => {
-      this.textMsg = res;
+      this._textMsg = res;
     });
+  }
+
+  get loaderResource(): string { 
+    return this._loaderResource; 
+  }
+
+  get textMsg(): string { 
+    return this._textMsg; 
   }
 
 }

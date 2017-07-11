@@ -31,7 +31,7 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   private isSoundPlay: boolean;
   private isTicketEndPage: boolean;
   public prevVisitState: string;
-  private isAfterCalled: boolean;
+  private _isAfterCalled: boolean;
   public isUrlVisitLoading: boolean;
   public visitCallMsgOne: string;
   public visitCallMsgThree: string;
@@ -54,7 +54,7 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.visitCallMsgOne = undefined;
     this.visitCallMsgThree = undefined;
     this.isSoundPlay = false;
-    this.isAfterCalled = false;
+    this._isAfterCalled = false;
     this.isVisitRecycled = false;
     this.isUrlVisitLoading = true;
     this.visitState = new VisitState();
@@ -79,6 +79,10 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.scrollPageToTop();
     this.loadNotificationSound();
     this.setRtlStyles();
+  }
+
+  get isAfterCalled(): boolean { 
+    return this._isAfterCalled; 
   }
 
   loadNotificationSound() {
@@ -153,7 +157,7 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.ticketNumberComponent.onServiceNameUpdate(serviceNme);
   }
 
-  public onTciketNmbrChange() {
+  public onTciketNmbrChange(event) {
     this.ticketNumberComponent.onTicketIdChange();
   }
 
@@ -189,10 +193,10 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     }
     else if (visitStatus.status === this.visitState.CACHED) {
       if (this.prevVisitState === this.visitState.CALLED) {
-        this.isAfterCalled = true;
+        this._isAfterCalled = true;
       }
       else {
-        this.isAfterCalled = false;
+        this._isAfterCalled = false;
       }
 
       if (!this.isUrlAccessedTicket) {
@@ -207,10 +211,10 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     }
     else if (visitStatus && visitStatus.visitPosition === null) {
       if (this.prevVisitState === this.visitState.CALLED) {
-        this.isAfterCalled = true;
+        this._isAfterCalled = true;
       }
       else {
-        this.isAfterCalled = false;
+        this._isAfterCalled = false;
       }
 
       if (!this.isUrlAccessedTicket) {
@@ -230,7 +234,7 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   }
 
   openCustomerFeedback(branchId, visitId){
-    if(this.isTicketEndedOrDeleted == true && this.isAfterCalled){
+    if(this.isTicketEndedOrDeleted == true && this._isAfterCalled){
       let customerFeedBackUrl = this.config.getConfig('customer_feedback');
       if(customerFeedBackUrl && customerFeedBackUrl.length > 0){
         customerFeedBackUrl = customerFeedBackUrl + "?" + "b=" + branchId + "&" + "v=" + visitId;
@@ -292,7 +296,7 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onBranchUpdate() {
+  public onBranchUpdate(event) {
     this.getSelectedBranch();
   }
 

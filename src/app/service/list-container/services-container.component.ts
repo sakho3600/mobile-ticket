@@ -22,14 +22,14 @@ export class ServicesContainerComponent implements OnInit {
     public subHeadingTwo;
     public showListShadow;
     public selectedServiceId: number;
-    private showNetWorkError = false;
-    private isServiceListLoaded: boolean;
+    private _showNetWorkError = false;
+    private _isServiceListLoaded: boolean;
     private isTakeTicketClickedOnce: boolean;
 
     constructor(private branchService: BranchService, private serviceService: ServiceService, public router: Router,
         private translate: TranslateService, private retryService: RetryService, private alertDialogService: AlertDialogService) {
 
-        this.isServiceListLoaded = false;
+        this._isServiceListLoaded = false;
         serviceService.registerCountDownCompleteCallback(() => {
             this.router.navigate(['branches', { redirect: true }]);
             MobileTicketAPI.setServiceSelection(undefined);
@@ -47,7 +47,14 @@ export class ServicesContainerComponent implements OnInit {
                 this.subHeadingTwo = res + " " + branchService.getSelectedBranch() + ":";
             });
         }
+    }
 
+    get showNetWorkError(): boolean { 
+        return this._showNetWorkError; 
+    }
+
+    get isServiceListLoaded(): boolean { 
+        return this._isServiceListLoaded; 
     }
 
     ngOnInit() {
@@ -60,7 +67,7 @@ export class ServicesContainerComponent implements OnInit {
     }
 
     showHideNetworkError(value: boolean) {
-        this.showNetWorkError = value;
+        this._showNetWorkError = value;
     }
 
     onServiceListHeightUpdate(boolShowListShadow: boolean) {
@@ -144,6 +151,6 @@ export class ServicesContainerComponent implements OnInit {
     }
 
     public onServiceListLoaded() {
-        this.isServiceListLoaded = true;
+        this._isServiceListLoaded = true;
     }
 }

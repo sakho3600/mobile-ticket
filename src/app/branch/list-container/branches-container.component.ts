@@ -6,19 +6,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./branches-container.css']
 })
 export class BranchesContainerComponent implements OnInit {
-  private isLoading = true;
-  private showNetWorkError = false;
+  private _isLoading = true;
+  private _showNetWorkError = false;
+
+  // AOT requires all private properties to be accessible via getters.
+  get isLoading(): boolean { 
+    return this._isLoading; 
+  }
+
+  get showNetWorkError(): boolean { 
+    return this._showNetWorkError; 
+  }
+
 
   ngOnInit() {
     this.scrollPageToTop();
   }
 
   startLoading(value: boolean) {
-    this.isLoading = value;
+    this._isLoading = value;
   }
 
   showHideNetworkError(value: boolean) {
-    this.showNetWorkError = value;
+    this._showNetWorkError = value;
   }
 
   scrollPageToTop() {

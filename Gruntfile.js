@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         command: 'ng build --dev'
       },
       ngbuild_production: {
-        command: 'ng build --prod --aot false'
+        command: 'ng build --prod'
       }
     },
     copy: {
