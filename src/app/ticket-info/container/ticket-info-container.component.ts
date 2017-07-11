@@ -249,8 +249,8 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.isNetworkErr = isNetwrkErr;
   }
 
-  openCustomerFeedback(branchId, visitId) {
-    if (this.isTicketEndedOrDeleted == true && this.isAfterCalled) {
+  openCustomerFeedback(branchId, visitId){
+    if(this.isTicketEndedOrDeleted == true && this._isAfterCalled){
       let customerFeedBackUrl = this.config.getConfig('customer_feedback');
       if (customerFeedBackUrl && customerFeedBackUrl.length > 0) {
         customerFeedBackUrl = customerFeedBackUrl + "?" + "b=" + branchId + "&" + "v=" + visitId;
