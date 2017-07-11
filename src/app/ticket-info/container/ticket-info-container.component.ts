@@ -84,13 +84,8 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.loadTranslations();
   }
 
-  loadTranslations() {
-    this.translate.get('ticketInfo.titleYourTurn').subscribe((res: string) => {
-      this.title1 = res;
-      this.translate.get('ticketInfo.ticketReady').subscribe((res: string) => {
-        this.title2 = res;
-      });
-    });
+  get isAfterCalled(): boolean { 
+    return this._isAfterCalled; 
   }
 
   get isAfterCalled(): boolean { 
@@ -249,8 +244,8 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.isNetworkErr = isNetwrkErr;
   }
 
-  openCustomerFeedback(branchId, visitId) {
-    if (this.isTicketEndedOrDeleted == true && this.isAfterCalled) {
+  openCustomerFeedback(branchId, visitId){
+    if(this.isTicketEndedOrDeleted == true && this._isAfterCalled){
       let customerFeedBackUrl = this.config.getConfig('customer_feedback');
       if (customerFeedBackUrl && customerFeedBackUrl.length > 0) {
         customerFeedBackUrl = customerFeedBackUrl + "?" + "b=" + branchId + "&" + "v=" + visitId;
