@@ -103,16 +103,3 @@ export function translateStaticLoader(http:Http) {
 export function configuration (config:Config) { 
   return () => config.load()
 }
-
-
-// @NgModule({
-//   declarations: [
-//     BranchesComponent
-//   ],
-//   imports: [
-//     BrowserModule
-//   ],
-//   providers: [],
-//   bootstrap: [RootComponent]
-// })
-// export class AppModule { }

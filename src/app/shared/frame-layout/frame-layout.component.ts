@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Util } from './../../util/util'
 
 @Component({
   selector: 'qm-frame-layout',
@@ -19,7 +20,12 @@ export class FrameLayoutComponent implements OnInit {
   }
 
   public doesBrowserSupport() {
-    let browser = require('detect-browser');
+    let util = new Util()
+    var agent
+    if (typeof navigator !== 'undefined' && navigator) {
+      agent = navigator.userAgent;
+    }
+    let browser = util.getDetectBrowser(agent)
     // this.isBrowserSupport = true;
     if(browser.name === 'chrome' || browser.name === 'safari' || browser.name === 'ios' || browser.name === 'opera') {
       this._isBrowserSupport = true;

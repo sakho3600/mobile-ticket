@@ -7,7 +7,13 @@ import { AppModule } from './app/module';
 
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
+    console.log('production mode active');
+}else{
+    console.log('development mode active');
+  platformBrowserDynamic().bootstrapModule(AppModule);
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+
+
+

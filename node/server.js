@@ -21,12 +21,12 @@ var APIGWHasSSL = true;
 // Enable packet compression of each response
 app.use(compression({level: zlib.Z_BEST_COMPRESSION, strategy: zlib.Z_DEFAULT_STRATEGY}));
 // Set route to fetch compressed content
-if (fs.existsSync('./src/gz')) {
-   app.use("/gz", expressStaticGzip(__dirname + '/src/gz', {
+if (fs.existsSync('./src/zip')) {
+   app.use("/zip", expressStaticGzip(__dirname + '/src/zip', {
     enableBrotli: true,
     customCompressions: [{
-        encodingName: "gzip",
-        fileExtension: "gz"
+        encodingName: "brotli",
+        fileExtension: "br"
     }]
 }));
 }
