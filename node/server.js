@@ -23,12 +23,12 @@ app.use(compression({level: zlib.Z_BEST_COMPRESSION, strategy: zlib.Z_DEFAULT_ST
 // Set route to fetch compressed content
 if (fs.existsSync('./src/zip')) {
    app.use("/zip", expressStaticGzip(__dirname + '/src/zip', {
-    enableBrotli: true,
+	   enableBrotli: false,
     customCompressions: [{
-        encodingName: "brotli",
-        fileExtension: "br"
+        encodingName: "gzip",
+        fileExtension: "gz"
     }]
-}));
+   }));
 }
 
 

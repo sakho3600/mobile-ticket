@@ -102,7 +102,8 @@ module.exports = function (grunt) {
       options: { force: true },
       start: ["dist/"],
       folder: ['aot'],
-      contents: ["dist/src/inline.*.js", "dist/src/inline.*.bundle.map", "dist/src/main.*.bundle.map", "dist/src/main.*.js", "dist/src/styles.*.js", "dist/src/styles.*.bundle.map", "dist/src/styles.*.css", "dist/src/main.*.bundle.js.gz", "dist/src/concat.min.js", "dist/src/concat.min.css", "dist/src/vendor.*.bundle.js", "dist/src/3rdpartylicenses.txt", "dist/3rdpartylicenses.txt"],
+      folder_v2: ['dist/src/libs'],
+      contents: ["dist/src/bundle.css", "dist/src/bundle.js", "dist/src/styles.css", "dist/src/3rdpartylicenses.txt", "dist/3rdpartylicenses.txt", "dist/src/bundle.min.css", "dist/src/bundle.min.js"],
       end: ['dist/*.js', 'dist/*.css', 'dist/*.gz', 'dist/*.map', 'dist/*.html', 'dist/*.ico'],
       git_hub_files: ['<%= build.githubFolder %>/*.*', '!<%= build.githubFolder %>/.git', '!<%= build.githubFolder %>/.gitignore'],
       other_lang_files: ['<%= build.githubFolder %>/src/app/locale/*.json', '!<%= build.githubFolder %>/src/app/locale/en.json'],
@@ -129,11 +130,11 @@ module.exports = function (grunt) {
             },
             {
               pattern: /<!-- AOT-TREESHAKE-BUNDLE-JS -->/g,
-              replacement: '<script type=\'text/javascript\' src=\'bundle.min.js\' ></script>'
+              replacement: '<script type=\'text/javascript\' src=\'zip/bundle.min.js\' ></script>'
             },
             {
               pattern: /<!-- AOT-TREESHAKE-BUNDLE-CSS -->/g,
-              replacement: '<link href=\'bundle.min.css\' rel=\'stylesheet\'>'
+              replacement: '<link href=\'zip/bundle.min.css\' rel=\'stylesheet\'>'
             }
           ]
         }
@@ -142,11 +143,11 @@ module.exports = function (grunt) {
     compress: {
       main: {
         options: {
-          mode: 'brotli'
+          mode: 'gzip'
         },
         files: [
-          { expand: true, cwd: 'dist/src/', src: ['bundle.min.js'], dest: 'dist/src/zip', ext: '.min.js.br' },
-          { expand: true, cwd: 'dist/src/', src: ['bundle.min.css'], dest: 'dist/src/zip', ext: '.min.css.br' }
+          { expand: true, cwd: 'dist/src/', src: ['bundle.min.js'], dest: 'dist/src/zip', ext: '.min.js.gz' },
+          { expand: true, cwd: 'dist/src/', src: ['bundle.min.css'], dest: 'dist/src/zip', ext: '.min.css.gz' }
         ]
       }
     },
@@ -291,11 +292,10 @@ module.exports = function (grunt) {
     console.log("Following flags are supported\n");
     console.log("\t build_production - Build project files and copy them to 'dist' folder \n");
     console.log("\t build_development - Build project files and copy them to 'dist' folder without minification \n");
-    console.log("\t extract_for_github - Copy the required files which are intended to go to github repo to 'mobileticket_git_hub' folder  \n");
     console.log("\t remote_deploy - Build production release and deploy the zip file to specified location/server. \n");
   });
 
   grunt.registerTask('build_development', ['clean:start', 'shell:ngbuild_development:command', 'copy:common', 'clean:end', 'clean:folder', 'copy:proxy_files']);
-  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'copy:common', 'copy:prod', 'uglify:pre', 'concat', 'string-replace', 'uglify:post', 'cssmin', 'imagemin', 'compress', 'htmlmin', 'clean:end', 'clean:folder', 'clean:contents', 'copy:proxy_files']);
-  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'copy:common', 'copy:prod', 'uglify:pre', 'concat', 'string-replace', 'uglify:post', 'cssmin', 'imagemin', 'compress', 'htmlmin', 'clean:end', 'clean:folder', 'clean:contents', 'copy:proxy_files', 'zip', 'sftp:deploy']);
+  grunt.registerTask('build_production', ['clean:start', 'shell:ngbuild_production:command', 'copy:common', 'copy:prod', 'uglify:pre', 'concat', 'string-replace', 'uglify:post', 'cssmin', 'imagemin', 'compress', 'htmlmin', 'clean:end', 'clean:folder', 'clean:folder_v2','clean:contents', 'copy:proxy_files']);
+  grunt.registerTask('remote_deploy', ['clean:start', 'shell:ngbuild_production:command', 'copy:common', 'copy:prod', 'uglify:pre', 'concat', 'string-replace', 'uglify:post', 'cssmin', 'imagemin', 'compress', 'htmlmin', 'clean:end', 'clean:folder', 'clean:contents', 'copy:proxy_files', 'zip', 'sftp:deploy']);
 };
