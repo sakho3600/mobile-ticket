@@ -35,8 +35,8 @@ if (fs.existsSync('./src/zip')) {
    app.use("/zip", expressStaticGzip(__dirname + '/src/zip', {
 	   enableBrotli: false,
     customCompressions: [{
-        encodingName: "brotli",
-        fileExtension: "br"
+        encodingName: "gzip",
+        fileExtension: "gz"
     }]
    }));
 }
