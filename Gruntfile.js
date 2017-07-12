@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         }
       },
       ngbuild_development: {
-        command: 'ng build --dev'
+        command: './node_modules/.bin/ngc -p tsconfig-aot.json && ng build --dev'
       },
       ngbuild_production: {
         command: './node_modules/.bin/ngc -p tsconfig-aot.json && ./node_modules/.bin/rollup -c rollup-config.js'
@@ -283,7 +283,6 @@ module.exports = function (grunt) {
         'dist/src/index.html': 'dist/src/index.html'
       }
     }
-  }
   });
 
   grunt.loadNpmTasks('grunt-shell');
