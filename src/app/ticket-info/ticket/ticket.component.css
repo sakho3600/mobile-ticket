@@ -24,6 +24,14 @@
   width: 100%;
 }
 
+.service-text-small {
+  font-size: 15px !important;
+}
+
+.service-text-large {
+  font-size: 20px !important;
+}
+
 .ticket_branch {
   text-align: center;
   padding-bottom: 1em;
@@ -57,7 +65,6 @@
 
 .ticket-service-name {
   color: black !important;
-  font-size: 20px !important;
   width: 133px !important;
   line-height: 24px;
   word-break: break-all !important;
