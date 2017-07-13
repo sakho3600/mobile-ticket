@@ -81,20 +81,13 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.scrollPageToTop();
     this.loadNotificationSound();
     this.setRtlStyles();
-    this.loadTranslations();
+    //this.loadTranslations();
   }
 
   get isAfterCalled(): boolean { 
     return this._isAfterCalled; 
   }
 
-  get isAfterCalled(): boolean { 
-    return this._isAfterCalled; 
-  }
-
-  get isAfterCalled(): boolean { 
-    return this._isAfterCalled; 
-  }
 
   loadNotificationSound() {
     var fileName = this.config.getConfig("notification_sound");
@@ -244,8 +237,8 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.isNetworkErr = isNetwrkErr;
   }
 
-  openCustomerFeedback(branchId, visitId){
-    if(this.isTicketEndedOrDeleted == true && this._isAfterCalled){
+  openCustomerFeedback(branchId, visitId) {
+    if (this.isTicketEndedOrDeleted == true && this.isAfterCalled) {
       let customerFeedBackUrl = this.config.getConfig('customer_feedback');
       if (customerFeedBackUrl && customerFeedBackUrl.length > 0) {
         customerFeedBackUrl = customerFeedBackUrl + "?" + "b=" + branchId + "&" + "v=" + visitId;

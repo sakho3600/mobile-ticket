@@ -272,17 +272,6 @@ module.exports = function (grunt) {
         }
       }
     }
-  },
-  htmlmin: {               
-    dist: {                                    
-      options: {                              
-        removeComments: true,
-        collapseWhitespace: true
-      },
-      files: {                                   
-        'dist/src/index.html': 'dist/src/index.html'
-      }
-    }
   });
 
   grunt.loadNpmTasks('grunt-shell');
