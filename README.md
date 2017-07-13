@@ -5,7 +5,7 @@ This is a web application that has been developed using Angular2 and the develop
 
 <a name="prerequisites">
 ## Prerequisites
-* Angular-cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
+* Angular/cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
 * API Gateway version 1.3.2.0 or higher required. Download from Qmatic portal.
 * Supported Orchestra Versions
   * Orchestra 6.1 HF 4 - build version 3.1.0.508
@@ -25,7 +25,7 @@ BEFORE YOU INSTALL: please read the [prerequisites] ()
 
 Install angular-cli tools via npm
 ```
-npm install -g angular-cli@1.0.0-beta.21
+npm install -g angular/cli
 ```
 Clone the Mobile Ticket Solution
 ```
@@ -215,7 +215,7 @@ project directory
 First, it is required to install openssl and once the solution is built the output folder structure will contain a folder by the name 'sslcert' which contains 
 a bash script by the name create_cert.sh. After the installation of openssl, make sure you create an environment variable by the name OPENSSL_CONF and put the
 path to the openssl config file (e.g. C:\OpenSSL\bin\openssl.cnf ). Then, by running the create_cert.sh file on shell you will be able to create a self-signed certificate and a public key.
-Next, it is required that you edit the proxy-config.json and enable ssl by setting the value of 'support_ssl' to true. Now, by running 'node server.js', you will run 
+Next, it is required that you edit the proxy-config.json and enable ssl by setting the value of 'support_ssl' to true. Now, by running 'npm start', you will run 
 another server instance on port 4443 that is accessible via https in addition to the instance that is accessible via https, in addition to the instance that is accessible via http. The port for HTTPS is specified
 in local_webserver_ssl_port value and can be changed.
 
