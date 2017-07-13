@@ -109,6 +109,8 @@ div.row {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+  position: relative;
+  top: 18px;
 }
 
 @media (max-width: 480px) {

@@ -16,7 +16,9 @@ export class Locale {
             translateLang = deviceLang;
         }
 
-        this.translate.use(translateLang);
+        if (translateLang != 'en') {
+            this.translate.use(translateLang);
+        }
         
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             var availableLangs = this.translate.getLangs();
