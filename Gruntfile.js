@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         }
       },
       ngbuild_development: {
-        command: './node_modules/.bin/ngc -p tsconfig-aot.json && ng build --dev'
+        command: 'ng build --dev'
       },
       ngbuild_production: {
         command: './node_modules/.bin/ngc -p tsconfig-aot.json && ./node_modules/.bin/rollup -c rollup-config.js'
