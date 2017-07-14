@@ -35,6 +35,7 @@ import {TranslateModule, TranslateStaticLoader, TranslateLoader} from 'ng2-trans
 import {ConnectivityMessageComponent} from './shared/connectivity-message/connectivity-message.component';
 
 import  {RetryService} from './shared/retry.service';
+import {BranchNotfoundComponent} from './branch/branch-notfound/branch-notfound.component';
 import {VisitNotfoundComponent} from './ticket-info/visit-notfound/visit-notfound.component';
 import {VisitCancelLeavelineGuard} from './ticket-info/visit-cancel/visit-cancel.leaveline.guard';
 import {ConfirmDialogComponent} from "./shared/confirm-dialog/confirm-dialog.component";
@@ -51,7 +52,7 @@ declare var MobileTicketAPI:any;
     BranchesComponent, BranchComponent, ServicesComponent, ServiceComponent,
     RootComponent, RoutingComponents, FrameLayoutComponent, TicketComponent, NotSupportComponent,
     QueueComponent, VisitCancelComponent, QueueItemComponent, SortPipe,
-    ConnectivityMessageComponent, VisitNotfoundComponent, ConfirmDialogComponent, AlertDialogComponent
+    ConnectivityMessageComponent, VisitNotfoundComponent, BranchNotfoundComponent, ConfirmDialogComponent, AlertDialogComponent
   ],
   imports: [
     BrowserModule,

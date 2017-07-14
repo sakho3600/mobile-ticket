@@ -395,6 +395,33 @@ MobileTicketAPI.getAllBranches(onSuccess, onError)
 ]
 ```
 
+Fetch branch information for the given branch id. 
+
+onSuccess - Success callback.
+
+onError - Error callback.
+```js
+MobileTicketAPI.getBranchInfoById (id, onSuccess, onError) 
+
+//-----OUTPUT------
+
+{
+	"estimatedWaitTime": 0,
+	"id": 1,
+	"name": "Branch 1",
+	"addressLine4": "Colombo",
+	"addressLine5": "Srilanka",
+	"timeZone": "Asia/Colombo",
+	"longitude": 79.85061831798424,
+	"latitude": 6.914182533120211,
+	"openTime": "00:00",
+	"closeTime": "00:00",
+	"branchOpen": true,
+	"queuePassesClosingTime": false,
+	"longitudeE6": 79850618,
+	"latitudeE6": 6914182
+}
+```
 
 Fetch all services for the selected branch.
 NOTE: Branch selection will be cached inside the library, so here it gives the services for the so-called cached branch.

@@ -6,7 +6,7 @@ import { Config } from '../config/config';
 import { LocationService } from '../util/location';
 import { TranslateService } from 'ng2-translate';
 import 'rxjs/add/operator/map';
-import {AlertDialogService} from "../shared/alert-dialog/alert-dialog.service";
+import { AlertDialogService } from "../shared/alert-dialog/alert-dialog.service";
 
 declare var MobileTicketAPI: any;
 
@@ -20,12 +20,20 @@ export class BranchService {
   private singleBranch: boolean = false;
 
 
-  constructor(private config: Config, private currentLocation: LocationService, private translate: TranslateService, private alertDialogService:AlertDialogService) {
+  constructor(private config: Config, private currentLocation: LocationService, private translate: TranslateService, private alertDialogService: AlertDialogService) {
     this.translate.get('branch.btn_text_separator').subscribe((separator: string) => {
       this.btnTextSeparator = separator;
     });
   }
 
+  public convertToBranchEntity(branchRes) {
+    let branchEntity: BranchEntity;
+    branchEntity = new BranchEntity();
+    branchEntity.id = branchRes.id;
+    branchEntity.name = branchRes.name;
+    return branchEntity;
+
+  }
   public convertToBranchEntities(branchList, customerPosition, onUpdateList) {
     let entities: Array<BranchEntity> = [];
     let branchEntity: BranchEntity;
@@ -55,13 +63,21 @@ export class BranchService {
   getBranchesByPosition(customerPosition, radius, onBrancheListFetch) {
     MobileTicketAPI.getBranchesNearBy(customerPosition.latitude, customerPosition.longitude, radius,
       (branchList: any) => {
-        this.convertToBranchEntities(branchList, customerPosition, (modifyBranchList) =>{
+        this.convertToBranchEntities(branchList, customerPosition, (modifyBranchList) => {
           onBrancheListFetch(modifyBranchList);
         });
       },
       () => {
 
       });
+  }
+
+  getBranchById(id, onBranchRecieved): void {
+    MobileTicketAPI.getBranchInfoById(id, (res) => {
+      onBranchRecieved(this.convertToBranchEntity(res), false);
+    }, (error) => {
+      onBranchRecieved(null, true);
+    });
   }
 
   getBranches(onBrancheListReceived): void {
@@ -79,7 +95,7 @@ export class BranchService {
           alertMsg = res;
           this.alertDialogService.activate(alertMsg).then(res => {
             MobileTicketAPI.getAllBranches((branchList) => {
-              this.convertToBranchEntities(branchList, undefined, (modifyBranchList) =>{
+              this.convertToBranchEntities(branchList, undefined, (modifyBranchList) => {
                 onBrancheListReceived(modifyBranchList, false, true);
               });
             }, () => {
@@ -92,7 +108,7 @@ export class BranchService {
     }
     else {
       MobileTicketAPI.getAllBranches((branchList) => {
-        this.convertToBranchEntities(branchList, undefined, (modifyBranchList) =>{
+        this.convertToBranchEntities(branchList, undefined, (modifyBranchList) => {
           onBrancheListReceived(modifyBranchList, false, true);
         });
       }, () => {
@@ -101,9 +117,9 @@ export class BranchService {
     }
   }
 
-  setBranchAddresses(branchList, entities : Array<BranchEntity>, onUpdateList) {
+  setBranchAddresses(branchList, entities: Array<BranchEntity>, onUpdateList) {
     this.translate.get('branch.btn_text_separator').subscribe((separator: string) => {
-      let modifyBranchList : Array<BranchEntity> = [];
+      let modifyBranchList: Array<BranchEntity> = [];
       for (var i = 0; i < branchList.length; i++) {
         let fliterList = entities.filter(
           branch => branch.id === branchList[i].id);
@@ -113,17 +129,17 @@ export class BranchService {
         let emptyAddressLine = "";
         let branchData = branchList[i];
 
-        if(branchData.addressLine1 != undefined && branchData.addressLine1 != null){
+        if (branchData.addressLine1 != undefined && branchData.addressLine1 != null) {
           addressLine1 = branchData.addressLine1;
         }
-        else{
+        else {
           addressLine1 = emptyAddressLine;
         }
 
-        if(branchData.addressLine4 != undefined && branchData.addressLine4 != null){
+        if (branchData.addressLine4 != undefined && branchData.addressLine4 != null) {
           city = branchData.addressLine4;
         }
-        else{
+        else {
           city = emptyAddressLine;
         }
 
@@ -141,7 +157,7 @@ export class BranchService {
 
         branch.address = branchAddress;
         modifyBranchList.push(branch);
-      } 
+      }
 
       onUpdateList(modifyBranchList);
     });

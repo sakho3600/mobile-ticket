@@ -2739,6 +2739,26 @@ var MobileTicketAPI = (function () {
         onError(null, null, e.message);
       }
     },
+    getBranchInfoById: function (id, onSuccess, onError) {
+      try {
+        var SERVICES_REST_API = MOBILE_TICKET + "/" + BRANCHES + "/" + id;
+         $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: SERVICES_REST_API,
+          success: function (data) {
+            if (data != undefined) {
+              onSuccess(data);
+            }
+          },
+          error: function (xhr, status, errorMsg) {
+            onError(xhr, status, errorMsg);
+          }
+        });
+      } catch (e) {
+        onError(null, null, e.message);
+      }
+    },
     getServices: function (onSuccess, onError) {
       try {
         var branch = getSelectedBranch();

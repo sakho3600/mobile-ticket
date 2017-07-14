@@ -6,12 +6,14 @@ import { ServicesContainerComponent } from './service/list-container/services-co
 import { TicketInfoContainerComponent } from './ticket-info/container/ticket-info-container.component';
 import { VisitNotfoundComponent } from './ticket-info/visit-notfound/visit-notfound.component';
 import { VisitCancelLeavelineGuard } from './ticket-info/visit-cancel/visit-cancel.leaveline.guard';
+import { BranchNotfoundComponent } from './branch/branch-notfound/branch-notfound.component';
 import { AuthGuard } from './guard/index';
 
 export const router: Routes = [
     { path: 'branches', component: BranchesContainerComponent, canActivate: [AuthGuard] },
     { path: 'services', component: ServicesContainerComponent, canActivate: [AuthGuard] },
     { path: 'no_visit', component: VisitNotfoundComponent },
+    { path: 'no_branch', component: BranchNotfoundComponent },
     { path: 'ticket', component: TicketInfoContainerComponent, canActivate: [AuthGuard], canDeactivate: [VisitCancelLeavelineGuard]},
     { path: '**', component: TicketInfoContainerComponent, canActivate: [AuthGuard] }
 ];
