@@ -50,32 +50,32 @@ describe('TicketComponent', () => {
         this.connection = undefined;
     });
 
-  it(`Should return a string of length 30 characters if input is a string of more than 20 characters`, async(() => {
+  it(`Should return a string in a single line without triming if input is a string of less than 11 characters`, async(() => {
     let fixture = TestBed.createComponent(TicketComponent);
     let component = fixture.debugElement.componentInstance;
-    let str = component.trimServiceString("1234567890123456789012345678901");
-    expect(str.length).toEqual(30);
+    let str = component.trimServiceString("ABCDEFGHI JKLMN");
+    expect(str).toEqual("ABCDEFGHI<br>JKLMN");
   }));
 
-  it(`Should return true if 27th position on string in . when length of inout string longer than 20`, async(() => {
+  it(`Should return a string in two lines without triming if input is a string of more than 11 characters but less than 22 charaters`, async(() => {
     let fixture = TestBed.createComponent(TicketComponent);
     let component = fixture.debugElement.componentInstance;
-    let str = component.trimServiceString("1234567890123456789012345678901");
-    expect(str[27]).toEqual(".");
+    let str = component.trimServiceString("ABCDEF GHIJKLMN");
+    expect(str).toEqual("ABCDEF<br>GHIJKLMN");
   }));
 
-  it(`Should return true if 28th position on string in . when length of inout string longer than 20`, async(() => {
+  it(`Should return a string in two lines with triming if input is a string of more than 22 characters`, async(() => {
     let fixture = TestBed.createComponent(TicketComponent);
     let component = fixture.debugElement.componentInstance;
-    let str = component.trimServiceString("1234567890123456789012345678901");
-    expect(str[28]).toEqual(".");
+    let str = component.trimServiceString("ABCDE ABCDEFGHIJKLMNOPQRS");
+    expect(str).toEqual("ABCDE<br>ABCDEFGHIJK");
   }));
 
-  it(`Should return true if 29th position on string in . when length of inout string longer than 20`, async(() => {
+  it(`Should return a string in two lines without triming if input is a string of less than 22 characters without space or dash`, async(() => {
     let fixture = TestBed.createComponent(TicketComponent);
     let component = fixture.debugElement.componentInstance;
-    let str = component.trimServiceString("1234567890123456789012345678901");
-    expect(str[29]).toEqual(".");
+    let str = component.trimServiceString("ABCDEFGHIJKLMN");
+    expect(str).toEqual("ABCDEFGHIJK<br>LMN");
   }));
 
 });

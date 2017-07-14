@@ -76,7 +76,7 @@ export class TicketComponent implements OnInit {
             row1 += ' ' + spaceAry[i];
           }
           else if (row2.length + spaceAry[i].length <= 11) {
-            if (row2.length === 0) {
+            if (row2.length === 0 && !boolNoBreak) {
               row2 = spaceAry[i];
             }
             else {
@@ -101,7 +101,7 @@ export class TicketComponent implements OnInit {
             row1 += ' ' + spaceAry[i];
           }
           else if (row2.length + spaceAry[i].length <= 14) {
-            if (row2.length === 0) {
+            if (row2.length === 0 && !boolNoBreak) {
               row2 = spaceAry[i];
             }
             else {
@@ -126,7 +126,7 @@ export class TicketComponent implements OnInit {
             row1 += ' ' + spaceAry[i];
           }
           else if (row2.length + spaceAry[i].length <= 14) {
-            if (row2.length === 0) {
+            if (row2.length === 0 && !boolNoBreak) {
               row2 = spaceAry[i];
             }
             else {
