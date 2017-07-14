@@ -81,11 +81,20 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
     this.scrollPageToTop();
     this.loadNotificationSound();
     this.setRtlStyles();
-    //this.loadTranslations();
+    this.loadTranslations();
   }
 
-  get isAfterCalled(): boolean { 
-    return this._isAfterCalled; 
+  loadTranslations() {
+    this.translate.get('ticketInfo.titleYourTurn').subscribe((res: string) => {
+      this.title1 = res;
+      this.translate.get('ticketInfo.ticketReady').subscribe((res: string) => {
+        this.title2 = res;
+      });
+    });
+  }
+
+  get isAfterCalled(): boolean {
+    return this._isAfterCalled;
   }
 
 
