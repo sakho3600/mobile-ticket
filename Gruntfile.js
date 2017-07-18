@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         command: 'ng build --dev'
       },
       ngbuild_production: {
-        command: './node_modules/.bin/ngc -p tsconfig-aot.json && ./node_modules/.bin/rollup -c rollup-config.js'
+        command: '"./node_modules/.bin/ngc" -p tsconfig-aot.json && "./node_modules/.bin/rollup" -c rollup-config.js'
       }
     },
     copy: {
