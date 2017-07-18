@@ -249,9 +249,11 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   openCustomerFeedback(branchId, visitId) {
     if (this.isTicketEndedOrDeleted == true && this.isAfterCalled) {
       let customerFeedBackUrl = this.config.getConfig('customer_feedback');
-      if (customerFeedBackUrl && customerFeedBackUrl.length > 0) {
-        customerFeedBackUrl = customerFeedBackUrl + "?" + "b=" + branchId + "&" + "v=" + visitId;
-        window.location.href = customerFeedBackUrl;
+      if(new Util().isValidUrl(customerFeedBackUrl)){
+        if (customerFeedBackUrl && customerFeedBackUrl.length > 0) {
+          customerFeedBackUrl = customerFeedBackUrl + "?" + "b=" + branchId + "&" + "v=" + visitId;
+          window.location.href = customerFeedBackUrl;
+        }
       }
     }
   }

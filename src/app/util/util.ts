@@ -98,4 +98,8 @@ export class Util {
   }).filter(Boolean).shift();
 }
 
+public isValidUrl(url): boolean{
+    return /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})$/i.test(url);
+}
+
 }
