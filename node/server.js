@@ -28,6 +28,9 @@ var supportSSL = false;
 var validAPIGWCert = "1";
 var APIGWHasSSL = true;
 
+var google_analytics = 'https://www.google-analytics.com';
+var bootstarp_cdn = 'https://maxcdn.bootstrapcdn.com';
+
 // Enable packet compression of each response
 app.use(compression({level: zlib.Z_BEST_COMPRESSION, strategy: zlib.Z_DEFAULT_STRATEGY}));
 // Set route to fetch compressed content

@@ -401,7 +401,7 @@ onSuccess - Success callback.
 
 onError - Error callback.
 ```js
-MobileTicketAPI.getBranchInfoById (id, onSuccess, onError) 
+MobileTicketAPI.getBranchInfoById(id, onSuccess, onError) 
 
 //-----OUTPUT------
 
