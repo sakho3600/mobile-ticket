@@ -47,6 +47,61 @@ var configuration = JSON.parse(
 	fs.readFileSync(configFile)
 );
 
+//Set well-known web vulnerabilities by setting HTTP headers appropriately
+app.use(helmet());
+
+//Hackers can exploit known vulnerabilities in Express/Node if they see that your site is 
+//powered by Express (or whichever framework you use)
+app.use(hidePoweredBy());
+
+//Abolish all JS client-side caching.
+app.use(nocache());
+
+//Browsers will try to "sniff" mimetypes. For example, if my server serves file.txt with a text/plain content-type, 
+//some browsers can still run that file with <script src="file.txt"></script>
+app.use(nosniff());
+
+//The X-Frame-Options HTTP header restricts who can put your site in a frame
+// action either can be {action:'deny'}, {action:'sameorigin'}, {action: 'allow-from', domain: 'http://example.com'}
+app.use(frameguard({ action: 'deny' }));
+
+//The X-XSS-Protection HTTP header is a basic protection against XSS
+app.use(xssFilter());
+
+//Content Security Policy helps prevent unwanted content being injected into your webpages
+app.use(csp({
+	directives: {
+	defaultSrc: ["'self'"],
+	scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'",google_analytics ],
+	styleSrc: ["'self'", "'unsafe-inline'",bootstarp_cdn],
+	fontSrc: ["'self'", 'data:',bootstarp_cdn],
+	imgSrc: ["'self'", 'data:', google_analytics],
+	sandbox: ['allow-forms', 'allow-scripts', 'allow-same-origin'],
+	reportUri: '/report-violation',
+	objectSrc: ["'none'"]
+	},
+
+	// This module will detect common mistakes in your directives and throw errors
+	// if it finds any. To disable this, enable "loose mode".
+	loose: false,
+
+	// Set to true if you only want browsers to report errors, not block them.
+	// You may also set this to a function(req, res) in order to decide dynamically
+	// whether to use reportOnly mode, e.g., to allow for a dynamic kill switch.
+	reportOnly: false,
+
+	// Set to true if you want to blindly set all headers: Content-Security-Policy,
+	// X-WebKit-CSP, and X-Content-Security-Policy.
+	setAllHeaders: false,
+
+	// Set to true if you want to disable CSP on Android where it can be buggy.
+	disableAndroid: false,
+
+	// Set to false if you want to completely disable any user-agent sniffing.
+	// This may make the headers less compatible but it will be much faster.
+	// This defaults to `true`.
+	browserSniff: true
+}));
 
 host = configuration.apigw_ip_port.value;
 port = configuration.local_webserver_port.value;
