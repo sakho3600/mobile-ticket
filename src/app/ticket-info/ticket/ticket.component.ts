@@ -72,7 +72,7 @@ export class TicketComponent implements OnInit {
               boolNoBreak = true;
             }
           }
-          else if (row1.length + spaceAry[i].length <= 11) {
+          else if (row2.length === 0 && row1.length + spaceAry[i].length <= 11) {
             row1 += ' ' + spaceAry[i];
           }
           else if (row2.length + spaceAry[i].length <= 11) {
@@ -97,7 +97,7 @@ export class TicketComponent implements OnInit {
               boolNoBreak = true;
             }
           }
-          else if (row1.length + spaceAry[i].length <= 14) {
+          else if (row2.length === 0 && row1.length + spaceAry[i].length <= 14) {
             row1 += ' ' + spaceAry[i];
           }
           else if (row2.length + spaceAry[i].length <= 14) {
@@ -122,7 +122,7 @@ export class TicketComponent implements OnInit {
               boolNoBreak = true;
             }
           }
-          else if (row1.length + spaceAry[i].length <= 14) {
+          else if (row2.length === 0 && row1.length + spaceAry[i].length <= 14) {
             row1 += ' ' + spaceAry[i];
           }
           else if (row2.length + spaceAry[i].length <= 14) {
