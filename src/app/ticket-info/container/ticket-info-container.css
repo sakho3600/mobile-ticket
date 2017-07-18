@@ -52,7 +52,6 @@
 
 .placement-layout{
   width: 90%;
-  overflow: hidden;
   text-overflow: ellipsis;
   margin: 0 auto;
 }
