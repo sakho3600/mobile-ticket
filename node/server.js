@@ -129,6 +129,17 @@ if (supportSSL) {
 
 app.use(express.static(__dirname + '/src'));
 
+
+// Redirect no_branch requests to index.html
+app.get('/no_support$', function (req, res) {
+  res.sendFile(path.join(__dirname + '/src', 'index.html'));
+});
+
+// Redirect no_branch requests to index.html
+app.get('/no_branch$', function (req, res) {
+  res.sendFile(path.join(__dirname + '/src', 'index.html'));
+});
+
 // Redirect no_visit requests to index.html
 app.get('/no_visit$', function (req, res) {
   res.sendFile(path.join(__dirname + '/src', 'index.html'));

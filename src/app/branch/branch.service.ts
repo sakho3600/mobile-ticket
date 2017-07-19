@@ -73,6 +73,47 @@ export class BranchService {
   }
 
   getBranchById(id, onBranchRecieved): void {
+    /**
+     * Do not restrict user from showing only nearby branch if match for the given id
+     * when accessing via QR/URL
+     */
+    /** 
+    if (location.protocol === 'https:') {
+      let isBranchFound = false;
+      this.currentLocation.watchCurrentPosition((currentPosition) => {
+        this.currentPosition = new PositionEntity(currentPosition.coords.latitude, currentPosition.coords.longitude)
+        let radius = this.config.getConfig('branch_radius');
+        this.getBranchesByPosition(this.currentPosition, radius, (branchList) => {
+          let branches: Array<BranchEntity> = branchList;
+          for (let i = 0; i < branches.length; i++) {
+            if (branches[i].id === id) {
+              isBranchFound = true;
+              onBranchRecieved(branches[i], false);
+              break;
+            }
+          }
+          if (!isBranchFound) {
+            onBranchRecieved(null, true);
+          }
+
+          this.currentLocation.removeWatcher();
+        })
+      }, (error) => {
+        var alertMsg = "";
+        this.translate.get('branch.positionPermission').subscribe((res: string) => {
+          alertMsg = res;
+          this.alertDialogService.activate(alertMsg).then(res => {
+            MobileTicketAPI.getBranchInfoById(id, (res) => {
+              onBranchRecieved(this.convertToBranchEntity(res), false);
+            }, (error) => {
+              onBranchRecieved(null, true);
+            });
+          });
+        });
+      });
+    }
+    */
+
     MobileTicketAPI.getBranchInfoById(id, (res) => {
       onBranchRecieved(this.convertToBranchEntity(res), false);
     }, (error) => {

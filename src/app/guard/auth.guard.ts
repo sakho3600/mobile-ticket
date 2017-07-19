@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Util } from '../util/util';
+import { ServiceEntity } from '../entities/service.entity';
 import { BranchService } from '../branch/branch.service';
 import { BranchEntity } from '../entities/branch.entity';
 declare var MobileTicketAPI: any;
+declare var ga: Function;
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,6 +16,29 @@ export class AuthGuard implements CanActivate {
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private branchSrvc: BranchService) {
         this.branchService = branchSrvc;
+    }
+
+    createTicket(bEntity: BranchEntity, sEntity: ServiceEntity, resolve) {
+        MobileTicketAPI.setServiceSelection(sEntity);
+        MobileTicketAPI.setBranchSelection(bEntity);
+
+        MobileTicketAPI.createVisit((vstInfo) => {
+            ga('send', {
+                hitType: 'event',
+                eventCategory: 'visit',
+                eventAction: 'create',
+                eventLabel: 'vist-create'
+            });
+            this.router.navigate(['ticket']);
+            resolve(false);
+
+        },
+            (xhr, status, errorMessage) => {
+                MobileTicketAPI.resetAllVars();
+                this.router.navigate(['no_visit']);
+                resolve(false);
+            }
+        );
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
@@ -26,6 +51,10 @@ export class AuthGuard implements CanActivate {
 
 
             if (url.startsWith('/branches')) {
+                /**
+                 * for qr-code format: http://XXXX/branches/{branchId}
+                 * Redirect user to services page for specific branchId
+                 */
                 if (route.url.length === 2 && route.url[1].path) {
                     let id = route.url[1].path;
                     this.branchService.getBranchById(+id, (branchEntity: BranchEntity, isError: boolean) => {
@@ -52,7 +81,40 @@ export class AuthGuard implements CanActivate {
                             let e = 'error';
                             this.router.navigate(['no_branch']);
                             resolve(false);
-                        }                       
+                        }
+                    });
+                }
+                /**
+                 * for qr-code format: http://XXXX/branches/{branchId}/services/{serviceId}
+                 * Redirect user to ticket screen by creating a visit for the given branchId & serviceId
+                 */
+                else if (route.url.length === 4 && route.url[1].path && route.url[3].path) {
+                    let bEntity = new BranchEntity();
+                    bEntity.id = route.url[1].path;
+                    let sEntity = new ServiceEntity();
+                    sEntity.id = +route.url[3].path;
+
+                    this.branchService.getBranchById(+bEntity.id, (branchEntity: BranchEntity, isError: boolean) => {
+                        if (!isError) {
+                            MobileTicketAPI.getVisitStatus(
+                                (visitObj: any) => {
+                                    if (visitObj.status === "CALLED" || visitObj.visitPosition !== null) {
+                                        resolve(true);
+                                    }
+                                    else {
+                                        this.createTicket(bEntity, sEntity, resolve);
+                                    }
+                                },
+                                (xhr, status, msg) => {
+                                    this.createTicket(bEntity, sEntity, resolve);
+                                }
+                            );
+                        }
+                        else {
+                            let e = 'error';
+                            this.router.navigate(['no_branch']);
+                            resolve(false);
+                        }
                     });
                 }
                 else {
@@ -83,6 +145,7 @@ export class AuthGuard implements CanActivate {
                 MobileTicketAPI.getVisitStatus(
                     (visitObj: any) => {
                         if (visitObj.status === "CALLED" || visitObj.visitPosition !== null) {
+                            this.router.navigate(['ticket']);
                             resolve(true);
                         }
                         else {
