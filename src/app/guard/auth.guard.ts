@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { TranslateService } from 'ng2-translate';
 import { Util } from '../util/util';
 import { ServiceEntity } from '../entities/service.entity';
 import { BranchService } from '../branch/branch.service';
 import { BranchEntity } from '../entities/branch.entity';
+import { AlertDialogService } from '../shared/alert-dialog/alert-dialog.service';
 declare var MobileTicketAPI: any;
 declare var ga: Function;
 
@@ -13,8 +15,11 @@ export class AuthGuard implements CanActivate {
 
     private prevUrl: string = '/';
     private branchService: BranchService;
+    private isNoSuchBranch = false;
+    private isNoSuchVisit = false;
 
-    constructor(private router: Router, private activatedRoute: ActivatedRoute, private branchSrvc: BranchService) {
+    constructor(private router: Router, private activatedRoute: ActivatedRoute, private branchSrvc: BranchService,
+        private alertDialogService: AlertDialogService, private translate: TranslateService) {
         this.branchService = branchSrvc;
     }
 
@@ -34,6 +39,7 @@ export class AuthGuard implements CanActivate {
 
         },
             (xhr, status, errorMessage) => {
+                this.isNoSuchVisit = true;
                 MobileTicketAPI.resetAllVars();
                 this.router.navigate(['no_visit']);
                 resolve(false);
@@ -50,7 +56,15 @@ export class AuthGuard implements CanActivate {
             let checksum = route.queryParams['checksum'];
 
 
-            if (url.startsWith('/branches')) {
+            if (this.isNoSuchBranch && url.startsWith('/no_branch')) {
+                this.isNoSuchBranch = false;
+                resolve(true);
+            }
+            else if (this.isNoSuchVisit && url.startsWith('/no_visit')) {
+                this.isNoSuchVisit = false;
+                resolve(true);
+            }
+            else if (url.startsWith('/branches')) {
                 /**
                  * for qr-code format: http://XXXX/branches/{branchId}
                  * Redirect user to services page for specific branchId
@@ -61,8 +75,17 @@ export class AuthGuard implements CanActivate {
                         if (!isError) {
                             MobileTicketAPI.getVisitStatus(
                                 (visitObj: any) => {
-                                    if (visitObj.status === "CALLED" || visitObj.visitPosition !== null) {
-                                        resolve(true);
+                                    if (visitObj.status === 'CALLED' || visitObj.visitPosition !== null) {
+                                        let alertMsg = '';
+                                        this.translate.get('visit.onGoingVisit').subscribe((res: string) => {
+                                            alertMsg = res;
+                                            this.alertDialogService.activate(alertMsg).then(res => {
+                                                resolve(true);
+                                            }, () => {
+
+                                            });
+                                        });
+
                                     }
                                     else {
                                         MobileTicketAPI.setBranchSelection(branchEntity);
@@ -79,8 +102,9 @@ export class AuthGuard implements CanActivate {
                         }
                         else {
                             let e = 'error';
+                            this.isNoSuchBranch = true;
                             this.router.navigate(['no_branch']);
-                            resolve(false);
+                            resolve(true);
                         }
                     });
                 }
@@ -98,8 +122,16 @@ export class AuthGuard implements CanActivate {
                         if (!isError) {
                             MobileTicketAPI.getVisitStatus(
                                 (visitObj: any) => {
-                                    if (visitObj.status === "CALLED" || visitObj.visitPosition !== null) {
-                                        resolve(true);
+                                    if (visitObj.status === 'CALLED' || visitObj.visitPosition !== null) {
+                                       let alertMsg = '';
+                                        this.translate.get('visit.onGoingVisit').subscribe((res: string) => {
+                                            alertMsg = res;
+                                            this.alertDialogService.activate(alertMsg).then(res => {
+                                                resolve(true);
+                                            }, () => {
+
+                                            });
+                                        });
                                     }
                                     else {
                                         this.createTicket(bEntity, sEntity, resolve);
@@ -112,6 +144,7 @@ export class AuthGuard implements CanActivate {
                         }
                         else {
                             let e = 'error';
+                            this.isNoSuchBranch = true;
                             this.router.navigate(['no_branch']);
                             resolve(false);
                         }

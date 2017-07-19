@@ -38,6 +38,7 @@
   },
   "visit": {
     "notFound": "Sorry, visit not found.",
+    "onGoingVisit": "Sorry, There is an ongoing visit. Please close it before proceed",
     "clickHere": "Click here",
     "loadBranches": "to load branches."
   },
