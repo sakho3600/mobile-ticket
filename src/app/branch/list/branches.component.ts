@@ -7,6 +7,7 @@ import { RetryService } from '../../shared/retry.service';
 import { SortPipe } from '../../util/sort.pipe';
 import { PlatformLocation } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
+import { Util } from './../../util/util'
 
 declare var MobileTicketAPI: any;
 
@@ -92,6 +93,7 @@ export class BranchesComponent implements AfterViewInit {
     else {
       this.showBranchList = false;
     }
+    new Util().sortArrayCaseInsensitive(branchList, "name", "asc");
     this.showLoader = false;
     this.startLoading.emit(false);
   }

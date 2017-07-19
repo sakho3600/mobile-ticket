@@ -2,6 +2,7 @@ import { Component, AfterViewInit, Input, HostListener, Output, EventEmitter } f
 import { ServiceService } from '../service.service';
 import { ServiceEntity } from '../../entities/service.entity';
 import { RetryService } from '../../shared/retry.service';
+import { Util } from './../../util/util'
 
 declare var MobileTicketAPI: any;
 
@@ -51,6 +52,7 @@ export class ServicesComponent implements AfterViewInit {
       this.onServiceSelection.emit(serviceList[0].id);
       MobileTicketAPI.setServiceSelection(serviceList[0]);
     }
+    new Util().sortArrayCaseInsensitive(serviceList, "name", "asc");
     this.services = serviceList;
     this.initListShadow();
   }
