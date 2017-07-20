@@ -24,7 +24,7 @@
         "description": "The interval (in seconds) at which service information is refreshed periodically"
     },
      "service_screen_timeout":{
-        "value":"10",
+        "value":"1",
         "description": "The time duration (in minutes) which the app will stay in services screen without creating a ticket"
     }
 }

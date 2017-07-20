@@ -85,9 +85,9 @@ export class BranchesComponent implements AfterViewInit {
       this.showBranchList = true;
       if(branchList.length == 1){
         MobileTicketAPI.setBranchSelection(branchList[0]);
-        if (!this.isRedirectedFromServices){
+        // if (!this.isRedirectedFromServices){
           this.router.navigate(['services']);
-        }
+        // }
       }
     }
     else {
