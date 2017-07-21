@@ -80,6 +80,10 @@
   margin-right: auto;
 }
 
+.tckt-line-height {
+  line-height: 25px;
+}
+
 .expand-view {
   position: absolute;
 

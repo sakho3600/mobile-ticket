@@ -12,10 +12,12 @@ declare var MobileTicketAPI: any;
   styleUrls: ['./ticket.component.css', '../../shared/css/common-styles.css']
 })
 export class TicketComponent implements OnInit {
+  public iHight = 0;
   public branchEntity: BranchEntity;
   public serviceEntity: ServiceEntity;
   public ticketEntity: TicketEntity;
   public serviceName: string;
+  public serviceNameTmp: string;
   public isTicketNumberHidden: boolean = false;
   public isServiceTextSmall: boolean = false;
   public isServiceTextLarge: boolean = true;
@@ -43,7 +45,15 @@ export class TicketComponent implements OnInit {
   }
 
   public onServiceNameUpdate(serviceName: string) {
-    this.serviceName = this.trimServiceString(serviceName);
+    this.serviceNameTmp = this.trimServiceString(serviceName);
+    this.iHight++;
+  }
+
+  public setLate(): boolean {
+    if (this.iHight > 1 && this.serviceNameTmp) {
+      this.serviceName = this.serviceNameTmp;
+    }
+    return this.iHight > 1;
   }
 
   public trimServiceString(str: string) {
