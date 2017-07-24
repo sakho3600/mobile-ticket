@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BranchEntity } from '../../entities/branch.entity';
 import { ServiceEntity } from '../../entities/service.entity';
 import { TicketEntity } from '../../entities/ticket.entity';
-
+import { Util } from './../../util/util'
 
 declare var MobileTicketAPI: any;
 
@@ -25,11 +25,18 @@ export class TicketComponent implements OnInit {
   @Input() isAfterCalled: boolean;
   private flashInterval;
   private flashCount: number = 0;
+  private isIOS;
 
   constructor() {
   }
 
   ngOnInit() {
+    let userAgent;
+    let util = new Util();
+    if (typeof navigator !== 'undefined' && navigator) {
+      userAgent = navigator.userAgent;
+    }
+    this.isIOS = util.isBrowseriOS(userAgent)
     this.ticketEntity = new TicketEntity();
     this.getSelectedBranch();
     this.getTicketInfo();
@@ -45,8 +52,21 @@ export class TicketComponent implements OnInit {
   }
 
   public onServiceNameUpdate(serviceName: string) {
-    this.serviceNameTmp = this.trimServiceString(serviceName);
-    this.iHight++;
+    /**
+     * Related to the issue: service text not display correctly if it has <br>
+     * in iOS rtl mode.
+     * Ex: XXXXX <br> YYYY
+     * YYYY will not be displayed until UI is updated.
+     * fix: programatically update UI with dummy style once service name is loaded
+     * -prasad
+     */
+    if (this.isIOS && document.dir === 'rtl') {
+      this.serviceNameTmp = this.trimServiceString(serviceName);
+      this.iHight++;
+    }
+    else {
+      this.serviceName = this.trimServiceString(serviceName);
+    }
   }
 
   public setLate(): boolean {
