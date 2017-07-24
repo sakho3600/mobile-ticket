@@ -64,7 +64,7 @@ export class AuthGuard implements CanActivate {
                 this.isNoSuchVisit = false;
                 resolve(true);
             }
-            else if (url.startsWith('/branches')) {
+            else if (url.startsWith('/branches/') || url.endsWith('/branches') || url.endsWith('/branches;redirect=true')) {
                 /**
                  * for qr-code format: http://XXXX/branches/{branchId}
                  * Redirect user to services page for specific branchId
@@ -104,7 +104,7 @@ export class AuthGuard implements CanActivate {
                  * for qr-code format: http://XXXX/branches/{branchId}/services/{serviceId}
                  * Redirect user to ticket screen by creating a visit for the given branchId & serviceId
                  */
-                else if (route.url.length === 4 && route.url[1].path && route.url[3].path) {
+                else if (route.url.length === 4 && route.url[1].path && route.url[2].path === ('services') && route.url[3].path) {
                     let bEntity = new BranchEntity();
                     bEntity.id = route.url[1].path;
                     let sEntity = new ServiceEntity();
@@ -135,6 +135,11 @@ export class AuthGuard implements CanActivate {
                             resolve(false);
                         }
                     });
+                }
+                else if (route.url.length >= 3 && route.url[2].path !== ('services')) {
+                    this.isNoSuchVisit = true;
+                    this.router.navigate(['no_visit']);
+                    resolve(false);
                 }
                 else if (visitInfo) {
                     this.router.navigate(['ticket']);
