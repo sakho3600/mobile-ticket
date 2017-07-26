@@ -124,7 +124,7 @@ export class AuthGuard implements CanActivate {
                                 });
                             }
                             else {
-                                this.createTicket(bEntity, sEntity, resolve);
+                                this.createTicket(branchEntity, sEntity, resolve);
                             }
 
                         }
@@ -137,6 +137,11 @@ export class AuthGuard implements CanActivate {
                     });
                 }
                 else if (route.url.length >= 3 && route.url[2].path !== ('services')) {
+                    this.isNoSuchVisit = true;
+                    this.router.navigate(['no_visit']);
+                    resolve(false);
+                }
+                else if (route.url.length === 3 && route.url[2].path === ('services')) {
                     this.isNoSuchVisit = true;
                     this.router.navigate(['no_visit']);
                     resolve(false);

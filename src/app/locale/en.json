@@ -49,6 +49,7 @@
     "issue_with_connection" : "Sorry, there seems to be an issue with the connection."
   },
   "support" : {
+    "this_browser" : "this browser",
     "not_support_p1" : "Mobile Ticket is not compatible with ",
     "not_support_p2" : ", please launch Mobile Ticket in the latest version of either Chrome, Safari or Opera instead."
   },

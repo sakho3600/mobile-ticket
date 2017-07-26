@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Util } from './../../util/util'
+import { Util } from './../../util/util';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'qm-frame-layout',
@@ -10,13 +11,25 @@ import { Util } from './../../util/util'
 export class FrameLayoutComponent implements OnInit {
   public onBrowserNotSupport: string;
   private _isBrowserSupport = false;
+  private thisBrowser;
+
+  constructor(private translate: TranslateService) {
+
+  }
 
   ngOnInit() {
+    this.loadTranslations();
     this.doesBrowserSupport();
   }
 
-  get isBrowserSupport(): boolean { 
-    return this._isBrowserSupport; 
+  loadTranslations() {
+    this.translate.get('support.this_browser').subscribe((res: string) => {
+      this.thisBrowser = res;
+    });
+  }
+
+  get isBrowserSupport(): boolean {
+    return this._isBrowserSupport;
   }
 
   public doesBrowserSupport() {
@@ -30,8 +43,11 @@ export class FrameLayoutComponent implements OnInit {
     if(browser.name === 'chrome' || browser.name === 'safari' || browser.name === 'ios' || browser.name === 'opera') {
       this._isBrowserSupport = true;
     }
-    else {
+    else if (browser.name !== '' && browser.name) {
       this.onBrowserNotSupport = browser.name;
+    }
+    else {
+      this.onBrowserNotSupport = this.thisBrowser;
     }
   }
 }
