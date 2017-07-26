@@ -1,4 +1,4 @@
 <div class="list-container">
    <app-service [name]="service.name" [customersWaiting]="service.customersWaiting" [entity]="service" [selected]="service.selected"
-    (onSelection)='resetSelections($event)' *ngFor="let service of (services | sort : 'name')"></app-service>
+    (onSelection)='resetSelections($event)' *ngFor="let service of services"></app-service>
 </div>
