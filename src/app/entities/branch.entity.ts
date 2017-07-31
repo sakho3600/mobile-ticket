@@ -3,5 +3,6 @@ export class BranchEntity {
    name: string = '';
    address: string;
    distance: string;
+   rawDistance: number;
    enabled: boolean;
 }

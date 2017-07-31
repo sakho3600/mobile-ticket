@@ -43,8 +43,10 @@ export class BranchService {
       branchEntity.id = branchList[i].id;
       branchEntity.name = branchList[i].name;
       let branchPosition = new PositionEntity(branchList[i].latitude, branchList[i].longitude);
-      if (customerPosition !== undefined)
+      if (customerPosition !== undefined){
         branchEntity.distance = this.getBranchDistance(branchPosition, customerPosition) + '';
+        branchEntity.rawDistance = parseInt(branchEntity.distance)
+      }
       entities.push(branchEntity);
     }
 

@@ -93,7 +93,12 @@ export class BranchesComponent implements AfterViewInit {
     else {
       this.showBranchList = false;
     }
-    new Util().sortArrayCaseInsensitive(branchList, "name", "asc");
+    // If there is distance in branch, then stort by distance
+    if(!this.branches[0].distance) {
+      new Util().sortArrayCaseInsensitive(branchList, "name", "asc");
+    }else{
+      new Util().sortArrayCaseInsensitive(branchList, "rawDistance", "asc");
+    }
     this.showLoader = false;
     this.startLoading.emit(false);
   }
