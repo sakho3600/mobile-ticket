@@ -38,16 +38,23 @@ export class FrameLayoutComponent implements OnInit {
     if (typeof navigator !== 'undefined' && navigator) {
       agent = navigator.userAgent;
     }
-    let browser = util.getDetectBrowser(agent)
-    // this.isBrowserSupport = true;
-    if(browser.name === 'chrome' || browser.name === 'safari' || browser.name === 'ios' || browser.name === 'opera') {
-      this._isBrowserSupport = true;
+    try {
+      let browser = util.getDetectBrowser(agent)
+      // this.isBrowserSupport = true;
+      if (browser.name === 'chrome' || browser.name === 'safari' || browser.name === 'ios' || browser.name === 'opera') {
+        this._isBrowserSupport = true;
+      }
+      else if (browser.name !== '' && browser.name) {
+        this.onBrowserNotSupport = browser.name;
+      }
+      else {
+        this.onBrowserNotSupport = this.thisBrowser;
+      }
     }
-    else if (browser.name !== '' && browser.name) {
-      this.onBrowserNotSupport = browser.name;
-    }
-    else {
+    catch (e) {
       this.onBrowserNotSupport = this.thisBrowser;
     }
+
+
   }
 }

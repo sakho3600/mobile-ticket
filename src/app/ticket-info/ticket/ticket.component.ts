@@ -98,7 +98,11 @@ export class TicketComponent implements OnInit {
         if (str.length <= 22) {
           if (i === 0) {
             row1 += spaceAry[i];
-            if (row1.length > 11) {
+            if (this.isAllUpperCase(row1)) {
+              this.isServiceTextSmall = true;
+              this.isServiceTextLarge = false;
+            }
+            else if (row1.length > 15) {
               boolNoBreak = true;
             }
           }
@@ -123,7 +127,12 @@ export class TicketComponent implements OnInit {
           this.isServiceTextLarge = false;
           if (i === 0) {
             row1 += spaceAry[i];
-            if (row1.length > 14) {
+            if (this.isAllUpperCase(row1)) {
+              if (row1.length > 11) {
+                boolNoBreak = true;
+              }
+            }
+            else if (row1.length > 15) {
               boolNoBreak = true;
             }
           }
@@ -201,6 +210,23 @@ export class TicketComponent implements OnInit {
       return output;
     }
     return this.processDash(isDash, row1, row2, dashAry, boolNoBreak);
+  }
+
+  public isAllUpperCase(txt) {
+    let uCntr = 0;
+    for (let i = 0; i <= txt.length; i++) {
+      let character = txt.charAt(i);
+      if (!isNaN(character * 1)) {
+      } else {
+        if (character === character.toUpperCase()) {
+          uCntr++;
+        }
+      }
+    }
+    if (uCntr > 6) {
+      return true;
+    }
+    return false;
   }
 
   public processDash(isDash, row1, row2, dashAry, boolNoBreak) {
