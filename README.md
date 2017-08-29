@@ -8,7 +8,8 @@ This is a web application that has been developed using Angular2 and the develop
 * Angular/cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
 * API Gateway version 1.3.2.0 or higher required. Download from Qmatic portal.
 * Supported Orchestra Versions
-  * Orchestra 6.1 HF 4 - build version 3.1.0.508
+  * Orchestra 6.1 build 3.2.0.259 or later
+  * Orchestra 6.2 build 3.2.0.289 or later
 
 ## Table of contents
 - [Installation] (#installation)
