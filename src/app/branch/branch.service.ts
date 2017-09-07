@@ -45,7 +45,7 @@ export class BranchService {
       let branchPosition = new PositionEntity(branchList[i].latitude, branchList[i].longitude);
       if (customerPosition !== undefined){
         branchEntity.distance = this.getBranchDistance(branchPosition, customerPosition) + '';
-        branchEntity.rawDistance = parseInt(branchEntity.distance)
+        branchEntity.rawDistance = this.getBranchRawDistance(branchPosition, customerPosition);
       }
       entities.push(branchEntity);
     }
@@ -54,6 +54,12 @@ export class BranchService {
   }
 
   public setAdditionalBranchInfo() {
+  }
+
+ public getBranchRawDistance(branchPosition: PositionEntity, customerPosition: PositionEntity): number {
+    let calculator = new GpsPositionCalculator();
+    return calculator.getRawDiatance(customerPosition.latitude,
+      customerPosition.longitude, branchPosition.latitude, branchPosition.longitude);
   }
 
   public getBranchDistance(branchPosition: PositionEntity, customerPosition: PositionEntity): number {
