@@ -6,8 +6,8 @@
     "noBranches": "Sorry, there are no available branches close by.",
     "tryAgain": "Try again",
     "clickHere": "Click here",
-    "loadBranches": "to load all branches.",
-    "notFound": "Sorry, branch not found.",
+    "loadBranches": "to start over",
+    "notFound": "Sorry something went wrong,",
     "diffLocation": "at a different location.",
     "subHeadingOne": "Welcome to Qmatic!",
     "subHeadingTwo": "Do you want to get in line for one of our services? Start by selecting location.",
@@ -37,10 +37,10 @@
     "visitAppRemoved": "No Entry Point of type SW_VISITAPP on branch, cannot create or delete visit"
   },
   "visit": {
-    "notFound": "Sorry, visit not found.",
+    "notFound": "Sorry something went wrong,",
     "onGoingVisit": "Sorry, There is an ongoing visit. Please close it before proceed",
     "clickHere": "Click here",
-    "loadBranches": "to load branches."
+    "loadBranches": "to start over"
   },
   "error_codes": {
     "error_8042": "Line is full. Please try again later."
