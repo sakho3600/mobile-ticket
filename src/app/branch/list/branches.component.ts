@@ -28,6 +28,7 @@ export class BranchesComponent implements AfterViewInit {
 
   @Output() startLoading = new EventEmitter<boolean>();
   @Output() onShowHideRequest = new EventEmitter<boolean>();
+  @Output() isBranchOpen = new EventEmitter<boolean>();
 
   constructor(private branchService: BranchService, private retryService: RetryService, private route: ActivatedRoute,
     public router: Router, private translate: TranslateService, private sort: SortPipe, location: PlatformLocation) {
@@ -45,7 +46,16 @@ export class BranchesComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.loadData(this.branchService, this.retryService);
+    if(this.branchOpenCheck()){
+        this.loadData(this.branchService, this.retryService);
+        this.isBranchOpen.emit(true);
+    }else{
+        this.isBranchOpen.emit(false);
+    }
+  }
+
+  public branchOpenCheck(){
+     return false;
   }
 
   public loadData(branchService: BranchService, retryService: RetryService) {

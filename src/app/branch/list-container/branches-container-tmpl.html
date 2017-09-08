@@ -1,4 +1,4 @@
-<div [hidden]="isLoading" >
+<div [hidden]="isLoading || isBranchOpen" >
   <div class="row sub-heading-text-1-margin">
     <div class="col-xs-1 col-xxs"></div>
     <div class="col-xs-10 col-xxs">
@@ -22,11 +22,15 @@
       <app-network-message></app-network-message>
 </div>
 
+<div class="row" [hidden]="!isBranchOpen">
+      <app-branch-open-hours></app-branch-open-hours>
+</div>
+
 <div class="row">
   <div class="col-xs-0 col-xxs"></div>
   <div class="col-xs-12 col-xxs list-bottom-margin">
     <div>
-      <app-branches (startLoading)="startLoading($event)" (onShowHideRequest)="showHideNetworkError($event)"></app-branches>
+      <app-branches (isBranchOpen)="isBranchOpen($event)" (startLoading)="startLoading($event)" (onShowHideRequest)="showHideNetworkError($event)"></app-branches>
     </div>
   </div>
   <div class="col-xs-0 col-xxs"></div>

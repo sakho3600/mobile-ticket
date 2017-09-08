@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class BranchesContainerComponent implements OnInit {
   private _isLoading = true;
   private _showNetWorkError = false;
+  private _isBranchOpen = true;
 
   // AOT requires all private properties to be accessible via getters.
   get isLoading(): boolean { 
@@ -25,6 +26,10 @@ export class BranchesContainerComponent implements OnInit {
 
   startLoading(value: boolean) {
     this._isLoading = value;
+  }
+
+  isBranchOpen(value: boolean) {
+    this._isBranchOpen = value;
   }
 
   showHideNetworkError(value: boolean) {
