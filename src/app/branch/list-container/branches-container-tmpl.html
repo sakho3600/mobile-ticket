@@ -1,4 +1,4 @@
-<div [hidden]="isLoading || isBranchOpen" >
+<div [hidden]="isLoading || !branchIsOpen" >
   <div class="row sub-heading-text-1-margin">
     <div class="col-xs-1 col-xxs"></div>
     <div class="col-xs-10 col-xxs">
@@ -17,12 +17,11 @@
     </div>
   </div>
 </div>
-
 <div class="row" [hidden]="!showNetWorkError">
       <app-network-message></app-network-message>
 </div>
 
-<div class="row" [hidden]="!isBranchOpen">
+<div class="row" [hidden]="!branchIsOpen">
       <app-branch-open-hours></app-branch-open-hours>
 </div>
 

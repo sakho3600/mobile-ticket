@@ -26,5 +26,17 @@
      "service_screen_timeout":{
         "value":"1",
         "description": "The time duration (in minutes) which the app will stay in services screen without creating a ticket"
+    },
+    "branch_open_hours":{
+        "value" : [
+           { "translation_key":"open_hours.week_day1", "from":"8:00", "to": "14:00" ,"description":"sunday", "display_from":"8:00", "display_to": "14:00" } ,
+           { "translation_key":"open_hours.week_day2", "from":"8:00", "to": "18:00" ,"description":"monday", "display_from":"8:00", "display_to": "14:00" } ,
+           { "translation_key":"open_hours.week_day3", "from":"8:00", "to": "18:00" ,"description":"tuesday", "display_from":"8:00", "display_to": "14:00" } ,
+           { "translation_key":"open_hours.week_day4", "from":"10:00", "to": "18:00" ,"description":"wednesday", "display_from":"8:00", "display_to": "14:00" } ,
+           { "translation_key":"open_hours.week_day5", "from":"8:00", "to": "18:00" ,"description":"thursday", "display_from":"8:00", "display_to": "14:00" } ,
+           { "translation_key":"open_hours.week_day6", "from":"8:00", "to": "12:00" ,"description":"friday", "display_from":"8:00", "display_to": "14:00" } ,
+           { "translation_key":"open_hours.week_day7", "from":"", "to": "" ,"description":"satureday", "display_from":"8:00", "display_to": "14:00" } 
+        ],
+        "description": "Open hours of all branches in general"
     }
 }

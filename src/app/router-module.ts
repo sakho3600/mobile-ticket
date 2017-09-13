@@ -8,10 +8,12 @@ import { VisitNotfoundComponent } from './ticket-info/visit-notfound/visit-notfo
 import { VisitCancelLeavelineGuard } from './ticket-info/visit-cancel/visit-cancel.leaveline.guard';
 import { BranchNotfoundComponent } from './branch/branch-notfound/branch-notfound.component';
 import { NotSupportComponent } from './shared/not-support/not-support.component';
+import {BranchOpenHoursComponent} from './shared/branch-open-hours/branch-open-hours.component'
 
 import { AuthGuard } from './guard/index';
 
 export const router: Routes = [
+    { path: 'open_hours', component: BranchOpenHoursComponent, canActivate: [AuthGuard] },
     { path: 'branches', component: BranchesContainerComponent, canActivate: [AuthGuard] },
     { path: 'services', component: ServicesContainerComponent, canActivate: [AuthGuard] },
     { path: 'no_visit', component: VisitNotfoundComponent, canActivate: [AuthGuard] },

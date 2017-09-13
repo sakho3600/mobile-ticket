@@ -43,6 +43,9 @@ import {ConfirmDialogService} from "./shared/confirm-dialog/confirm-dialog.servi
 import {AlertDialogComponent} from "./shared/alert-dialog/alert-dialog.component";
 import {AlertDialogService} from "./shared/alert-dialog/alert-dialog.service";
 
+import {BranchOpenHoursComponent} from "./shared/branch-open-hours/branch-open-hours.component";
+import {OpenHourItemComponent} from "./shared/branch-open-hours/item/open-hour-item.component";
+
 
 declare var MobileTicketAPI:any;
 
@@ -52,7 +55,8 @@ declare var MobileTicketAPI:any;
     BranchesComponent, BranchComponent, ServicesComponent, ServiceComponent,
     RootComponent, RoutingComponents, FrameLayoutComponent, TicketComponent, NotSupportComponent,
     QueueComponent, VisitCancelComponent, QueueItemComponent, SortPipe,
-    ConnectivityMessageComponent, VisitNotfoundComponent, BranchNotfoundComponent, ConfirmDialogComponent, AlertDialogComponent
+    ConnectivityMessageComponent, VisitNotfoundComponent, BranchNotfoundComponent, ConfirmDialogComponent, AlertDialogComponent,
+    BranchOpenHoursComponent, OpenHourItemComponent
   ],
   imports: [
     BrowserModule,

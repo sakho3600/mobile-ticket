@@ -8,6 +8,8 @@ import { RetryService } from '../../shared/retry.service';
 import { Util } from '../../util/util';
 import { NavigationExtras } from '@angular/router';
 import { AlertDialogService } from "../../shared/alert-dialog/alert-dialog.service";
+import { Config} from '../../config/config';
+import {BranchOpenHoursValidator} from '../../util/branch-open-hours-validator'
 
 declare var MobileTicketAPI: any;
 declare var ga: Function;
@@ -27,7 +29,8 @@ export class ServicesContainerComponent implements OnInit {
     private isTakeTicketClickedOnce: boolean;
 
     constructor(private branchService: BranchService, private serviceService: ServiceService, public router: Router,
-        private translate: TranslateService, private retryService: RetryService, private alertDialogService: AlertDialogService) {
+        private translate: TranslateService, private retryService: RetryService, private alertDialogService: AlertDialogService,
+        private config: Config) {
 
         this._isServiceListLoaded = false;
         serviceService.registerCountDownCompleteCallback(() => {
@@ -78,11 +81,17 @@ export class ServicesContainerComponent implements OnInit {
         this.selectedServiceId = selectedServiceId;
     }
 
-    onTakeTicket() {
-        this.takeTicket();
+    onTakeTicket() {        
+        if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
+            this.router.navigate(['open_hours']);
+        }
+        else{
+            this.takeTicket();
+        }
     }
 
-    private takeTicket(): void {
+    private takeTicket(): void {       
+
         if (!this.isTakeTicketClickedOnce) {
             if (MobileTicketAPI.getCurrentVisit()) {
                 this.serviceService.stopBranchRedirectionCountDown();

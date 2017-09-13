@@ -7,7 +7,9 @@ import { RetryService } from '../../shared/retry.service';
 import { SortPipe } from '../../util/sort.pipe';
 import { PlatformLocation } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
-import { Util } from './../../util/util'
+import { Util } from './../../util/util';
+import {BranchOpenHoursValidator} from '../../util/branch-open-hours-validator';
+import {Config} from '../../config/config'
 
 declare var MobileTicketAPI: any;
 
@@ -31,7 +33,7 @@ export class BranchesComponent implements AfterViewInit {
   @Output() isBranchOpen = new EventEmitter<boolean>();
 
   constructor(private branchService: BranchService, private retryService: RetryService, private route: ActivatedRoute,
-    public router: Router, private translate: TranslateService, private sort: SortPipe, location: PlatformLocation) {
+    public router: Router, private translate: TranslateService, private sort: SortPipe, location: PlatformLocation, private config: Config) {
     this.translate.get('branch.defaultTitle').subscribe((res: string) => {
       document.title = res;
     });
@@ -47,15 +49,19 @@ export class BranchesComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if(this.branchOpenCheck()){
-        this.loadData(this.branchService, this.retryService);
-        this.isBranchOpen.emit(true);
-    }else{
-        this.isBranchOpen.emit(false);
-    }
+          this.loadData(this.branchService, this.retryService);
+          this.isBranchOpen.emit(true);
+      }else{
+          this.router.navigate(['open_hours']);
+      }
+  }
+
+  ngAfterViewChecked(){
+      
   }
 
   public branchOpenCheck(){
-     return false;
+     return (new BranchOpenHoursValidator(this.config)).openHoursValid();
   }
 
   public loadData(branchService: BranchService, retryService: RetryService) {

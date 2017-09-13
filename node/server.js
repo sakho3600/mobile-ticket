@@ -160,6 +160,11 @@ app.get('/ticket$', function (req, res) {
   res.sendFile(path.join(__dirname + '/src', 'index.html'));
 });
 
+// Redirect all requests that start with branches and end, to index.html
+app.get('/open_hours$', function (req, res) {
+  res.sendFile(path.join(__dirname + '/src', 'index.html'));
+});
+
 // Proxy mobile example to API gateway
 var apiProxy = proxy(host, {									// ip and port off apigateway
 	forwardPath: function (req, res) {

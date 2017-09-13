@@ -1,0 +1,48 @@
+.open-hours{
+   width: 100%;
+   color:#ffffff;
+}
+
+.heading1{
+   display: table;
+   margin: 0 auto;
+   text-align: center;
+   font-size: 25px;
+}
+
+ .heading2{
+   display: table;
+   margin: 0 auto;
+   text-align: center;
+   font-size: 21px;
+ }
+
+ .content{
+   padding:48px;
+   margin: 0 auto;
+   display:table;
+ }
+
+ .row{
+   display: table-row;
+ }
+
+ .cell_day{
+   display: table-cell;
+   min-width:220px;
+ }
+
+ .seperator{
+     display:table-cell;
+     width:16px
+ }
+
+ .cell_hours{
+   display: table-cell;
+   text-align: right;
+   min-width:220px;
+ }
+
+ .cell_hours-rtl cell_hours{
+   text-align: left !important;
+ }

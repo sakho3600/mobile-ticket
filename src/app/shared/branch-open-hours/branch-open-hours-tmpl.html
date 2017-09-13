@@ -1,8 +1,11 @@
-<div class="row width-control">
-  <div class="loader-container">
-    <div class="inline-block-elem left-cell">
-      OPENENENENENENENE NENENENE
-         </div>
-    
-  </div>
+<div class="open-hours">
+<div class="heading1">
+  {{ 'open_hours.heading1' | translate }}
+</div>
+<div class="heading2">
+  {{ 'open_hours.heading2' | translate }}
+</div>
+<div class="content">
+  <open-hour-item class="row" [day]="item.day" [fromAndTo]="item.fromAndTo" *ngFor="let item of openHours"></open-hour-item>
+</div>
 </div>

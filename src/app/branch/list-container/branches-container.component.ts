@@ -19,6 +19,9 @@ export class BranchesContainerComponent implements OnInit {
     return this._showNetWorkError; 
   }
 
+  get branchIsOpen(): boolean { 
+    return this._showNetWorkError; 
+  }
 
   ngOnInit() {
     this.scrollPageToTop();

@@ -63,5 +63,17 @@
       "ok" : "Ok",
       "title" : "This is an Alert"
     }
-  }
+  },
+  "open_hours" : {
+      "heading1" : "The service is not currently available.",
+      "heading2" : "Our openning hours are:" ,
+      "week_day1" : "Sunday",
+      "week_day2" : "Monday",
+      "week_day3" : "Tuesday",
+      "week_day4" : "Wednesday",
+      "week_day5" : "Thursday",
+      "week_day6" : "Friday",
+      "week_day7" : "Satureday",
+      "closed" : "Closed"
+   }
 }

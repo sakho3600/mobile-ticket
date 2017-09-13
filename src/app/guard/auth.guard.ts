@@ -60,6 +60,9 @@ export class AuthGuard implements CanActivate {
                 this.isNoSuchBranch = false;
                 resolve(true);
             }
+            else if( url.startsWith('/open_hours')){
+                resolve(true);
+            }
             else if (this.isNoSuchVisit && url.startsWith('/no_visit')) {
                 this.isNoSuchVisit = false;
                 resolve(true);
