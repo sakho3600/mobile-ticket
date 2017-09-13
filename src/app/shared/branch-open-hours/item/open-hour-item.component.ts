@@ -11,7 +11,22 @@ export class OpenHourItemComponent {
   @Input() public day: string
   @Input() public fromAndTo: string
 
+  public isRtl: boolean;
+
   constructor(private translate: TranslateService) {
+    
  
   } 
+
+  ngOnInit() {
+     this.setRtlStyles();
+  }
+  
+  setRtlStyles(){
+    if(document.dir == "rtl"){
+      this.isRtl = true;
+    }else{
+      this.isRtl = false;
+    }
+  }
 }

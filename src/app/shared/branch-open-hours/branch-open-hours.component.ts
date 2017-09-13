@@ -10,7 +10,6 @@ import { Config } from '../../config/config';
 
 export class BranchOpenHoursComponent {
 
-  private isRtl: boolean;
   public openHours;
 
   constructor(private config: Config, private translate: TranslateService) {
@@ -18,7 +17,6 @@ export class BranchOpenHoursComponent {
   }
  
   ngOnInit() {
-     this.setRtlStyles();
      this.openHours = [];
     let config =  this.config.getConfig("branch_open_hours");
 
@@ -45,11 +43,4 @@ export class BranchOpenHoursComponent {
        };
   }
 
-  setRtlStyles(){
-    if(document.dir == "rtl"){
-      this.isRtl = true;
-    }else{
-      this.isRtl = false;
-    }
-  }
 }
