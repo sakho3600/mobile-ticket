@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     private isNoSuchVisit = false;
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private branchSrvc: BranchService,
-        private alertDialogService: AlertDialogService, private translate: TranslateService, private config: Config) {
+        private alertDialogService: AlertDialogService, private translate: TranslateService, private config : Config) {
         this.branchService = branchSrvc;
     }
 
@@ -71,6 +71,11 @@ export class AuthGuard implements CanActivate {
                 resolve(true);
             }
             else if (url.startsWith('/branches/') || url.endsWith('/branches') || url.endsWith('/branches;redirect=true')) {
+                 if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
+                        this.router.navigate(['open_hours']);
+                        resolve(false);
+                        return;
+                 }
                 /**
                  * for qr-code format: http://XXXX/branches/{branchId}
                  * Redirect user to services page for specific branchId
@@ -181,10 +186,11 @@ export class AuthGuard implements CanActivate {
                 ((visitInfo !== null && visitInfo) && visitInfo.branchId && visitInfo.visitId && visitInfo.checksum)))) {
                     if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
                         this.router.navigate(['open_hours']);
-                        resolve(false);
-                    }else
-                        resolve(true);
-                    }
+                         resolve(false);
+                 }else{
+                    resolve(true);
+                 }
+            }
             else if (visitInfo) {
                 MobileTicketAPI.getVisitStatus(
                     (visitObj: any) => {
