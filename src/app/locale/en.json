@@ -65,7 +65,7 @@
     }
   },
   "open_hours" : {
-      "heading1" : "This service is not currently available.",
+      "heading1" : "This service is currently not available.",
       "heading2" : "Our opening hours are:" ,
       "week_day1" : "Sunday",
       "week_day2" : "Monday",

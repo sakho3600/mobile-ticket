@@ -32,7 +32,7 @@ export class BranchOpenHoursValidator {
            openTo.setHours(to[0]);
            openTo.setMinutes(to[1]);
            
-           return (now <= openFrom  && openTo > now);           
+           return (now >= openFrom  && openTo >= now);           
        }
    }
 }
