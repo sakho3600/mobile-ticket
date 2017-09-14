@@ -1,10 +1,10 @@
 {
   "/MobileTicket/*": {
-    "target": "https://10.2.3.149:9090",
+    "target": "https://10.2.2.102:9090",
     "secure": true
   },
   "/geo/*": {
-    "target": "https://10.2.3.149:9090",
+    "target": "https://10.2.2.102:9090",
     "secure": true
   }
 }

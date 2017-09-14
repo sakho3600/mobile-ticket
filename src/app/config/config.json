@@ -32,7 +32,7 @@
            { "translation_key":"open_hours.week_day2", "from":"8:00", "to": "18:00" ,"description":"monday", "display_from":"8:00", "display_to": "14:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day3", "from":"8:00", "to": "18:00" ,"description":"tuesday", "display_from":"8:00", "display_to": "14:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day4", "from":"10:00", "to": "18:00" ,"description":"wednesday", "display_from":"8:00", "display_to": "14:00", "show":"true" } ,
-           { "translation_key":"open_hours.week_day5", "from":"8:00", "to": "18:00" ,"description":"thursday", "display_from":"8:00", "display_to": "14:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day5", "from":"18:00", "to": "18:00" ,"description":"thursday", "display_from":"8:00", "display_to": "14:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day6", "from":"8:00", "to": "12:00" ,"description":"friday", "display_from":"8:00", "display_to": "14:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day7", "from":"", "to": "" ,"description":"saturday", "display_from":"8:00", "display_to": "14:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day1", "from":"8:00", "to": "14:00" ,"description":"sunday", "display_from":"8:00", "display_to": "14:00", "show":"true" } 

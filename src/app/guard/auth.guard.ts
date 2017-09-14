@@ -20,6 +20,9 @@ export class AuthGuard implements CanActivate {
     private branchService: BranchService;
     private isNoSuchBranch = false;
     private isNoSuchVisit = false;
+    private isNoSuchVisitDirectToBranch = false;
+    private branchId = 0;
+    private directedBranch:BranchEntity = null;
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private branchSrvc: BranchService,
         private alertDialogService: AlertDialogService, private translate: TranslateService, private config : Config) {
@@ -42,6 +45,8 @@ export class AuthGuard implements CanActivate {
 
         },
             (xhr, status, errorMessage) => {
+                this.isNoSuchVisitDirectToBranch = true;
+                this.directedBranch = bEntity;
                 this.isNoSuchVisit = true;
                 MobileTicketAPI.resetAllVars();
                 this.router.navigate(['no_visit']);
@@ -58,7 +63,7 @@ export class AuthGuard implements CanActivate {
             let visitId = route.queryParams['visit'];
             let checksum = route.queryParams['checksum'];
 
-
+            
             if (this.isNoSuchBranch && url.startsWith('/no_branch')) {
                 this.isNoSuchBranch = false;
                 resolve(true);
@@ -80,7 +85,13 @@ export class AuthGuard implements CanActivate {
                  * for qr-code format: http://XXXX/branches/{branchId}
                  * Redirect user to services page for specific branchId
                  */
-                if (route.url.length === 2 && route.url[1].path) {
+                if (this.isNoSuchVisitDirectToBranch) {
+                    this.isNoSuchVisitDirectToBranch = false;
+                     MobileTicketAPI.setBranchSelection(this.directedBranch);
+                                this.router.navigate(['services']);
+                                resolve(false);
+                }
+                else if (route.url.length === 2 && route.url[1].path) {
                     let id = route.url[1].path;
                     this.branchService.getBranchById(+id, (branchEntity: BranchEntity, isError: boolean) => {
                         if (!isError) {
