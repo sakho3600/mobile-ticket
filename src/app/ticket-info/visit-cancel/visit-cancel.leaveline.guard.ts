@@ -5,11 +5,13 @@ import { TranslateService } from 'ng2-translate';
 import { TicketInfoContainerComponent } from '../container/ticket-info-container.component';
 import { ConfirmDialogService } from "../../shared/confirm-dialog/confirm-dialog.service";
 
+
 @Injectable()
 export class VisitCancelLeavelineGuard implements CanDeactivate<TicketInfoContainerComponent> {
 
     public confirmMsg: string;
     constructor(private confirmDialogService: ConfirmDialogService, private translate: TranslateService) {
+        
         this.translate.get('ticketInfo.leaveVisitConfirmMsg').subscribe((res: string) => {
             this.confirmMsg = res;
         });

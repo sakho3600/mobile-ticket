@@ -8,6 +8,7 @@ import { TranslateService } from 'ng2-translate';
 import { Config } from '../../config/config';
 import { TicketInfoService } from '../ticket-info.service';
 import { VisitState } from '../../util/visit.state';
+import {BranchOpenHoursValidator} from '../../util/branch-open-hours-validator'
 
 declare var MobileTicketAPI: any;
 
@@ -78,10 +79,15 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+      if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
+            this.router.navigate(['open_hours']);
+        }
+        
     this.scrollPageToTop();
     this.loadNotificationSound();
     this.setRtlStyles();
     this.loadTranslations();
+    
   }
 
   loadTranslations() {

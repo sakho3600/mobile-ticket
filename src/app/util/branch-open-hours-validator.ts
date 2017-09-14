@@ -28,7 +28,7 @@ export class BranchOpenHoursValidator {
            openTo.setHours(to[0]);
            openTo.setMinutes(to[1]);
            
-           return openFrom < now && openTo > now || openFrom == now ||  openTo == now;           
+           return (openFrom <= now && openTo > now);           
        }
    }
 }

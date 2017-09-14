@@ -1,8 +1,11 @@
 import { Component, AfterViewInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { ServiceService } from '../service.service';
 import { ServiceEntity } from '../../entities/service.entity';
 import { RetryService } from '../../shared/retry.service';
 import { Util } from './../../util/util'
+import { Config} from '../../config/config';
+import { BranchOpenHoursValidator} from '../../util/branch-open-hours-validator'
 
 declare var MobileTicketAPI: any;
 
@@ -19,7 +22,8 @@ export class ServicesComponent implements AfterViewInit {
   @Output() onShowHideServiceFetchError = new EventEmitter<boolean>();
   @Output() onServiceListLoaded = new EventEmitter<boolean>();
 
-  constructor(private serviceService: ServiceService, private retryService: RetryService) {
+  constructor(private serviceService: ServiceService, private retryService: RetryService, private router: Router,
+              private config: Config) {
     this.onShowHideServiceFetchError.emit(false);
     serviceService.getServices((serviceList: Array<ServiceEntity>, error: boolean) => {
       if (error) {
@@ -58,6 +62,9 @@ export class ServicesComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
+            this.router.navigate(['open_hours']);
+    }
     window.addEventListener('orientationchange', this.setListShadow, true);
     window.addEventListener('resize', this.setListShadow, true);
     window.addEventListener('scroll', this.setListShadow, true);

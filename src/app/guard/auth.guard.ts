@@ -7,6 +7,9 @@ import { ServiceEntity } from '../entities/service.entity';
 import { BranchService } from '../branch/branch.service';
 import { BranchEntity } from '../entities/branch.entity';
 import { AlertDialogService } from '../shared/alert-dialog/alert-dialog.service';
+import { Config } from '../config/config';
+import {BranchOpenHoursValidator} from '../util/branch-open-hours-validator'
+
 declare var MobileTicketAPI: any;
 declare var ga: Function;
 
@@ -19,7 +22,7 @@ export class AuthGuard implements CanActivate {
     private isNoSuchVisit = false;
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private branchSrvc: BranchService,
-        private alertDialogService: AlertDialogService, private translate: TranslateService) {
+        private alertDialogService: AlertDialogService, private translate: TranslateService, private config: Config) {
         this.branchService = branchSrvc;
     }
 
@@ -176,8 +179,12 @@ export class AuthGuard implements CanActivate {
 
             else if ((url.startsWith('/ticket') && ((branchId && visitId && checksum) ||
                 ((visitInfo !== null && visitInfo) && visitInfo.branchId && visitInfo.visitId && visitInfo.checksum)))) {
-                resolve(true);
-            }
+                    if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
+                        this.router.navigate(['open_hours']);
+                        resolve(false);
+                    }else
+                        resolve(true);
+                    }
             else if (visitInfo) {
                 MobileTicketAPI.getVisitStatus(
                     (visitObj: any) => {
