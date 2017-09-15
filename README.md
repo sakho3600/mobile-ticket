@@ -207,9 +207,70 @@ project directory
      "service_screen_timeout":{
         "value":"10",
         "description": "The time duration (in minutes) which the app will stay in services screen without creating a ticket"
+    },
+    ,
+    "branch_open_hours":{
+        "value" : [     
+           { "translation_key":"open_hours.week_day2", "from":"8:00", "to": "18:00" ,"description":"monday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day3", "from":"8:00", "to": "18:00" ,"description":"tuesday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day4", "from":"10:00", "to": "18:00" ,"description":"wednesday", "display_from":"8:00", 			"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day5", "from":"8:00", "to": "18:00" ,"description":"thursday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day6", "from":"8:00", "to": "18:00" ,"description":"friday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day7", "from":"8:00", "to": "18:00" ,"description":"saturday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day1", "from":"8:00", "to": "18:00" ,"description":"sunday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } 
+        ],
+        "description": "Open hours of all branches in general"
     }
 }
 ```
+###### Configuring the branch open hours
+
+Branch open hours configuration consists of entries representing seven days starting from Monday to Sunday. Given and item contains follwoing attributes
+
+translation_key - In general this contains the corresponding translation key of the entry
+
+from - The actual branch opening time against which access time is validated
+
+to - The actual branch closing time against which access time is validated
+
+display_from - The branch opening time which will be shown in the open hours message
+
+display_to - The branch closing time which will be shown in the open hours message
+
+show - Setting this to false make the entry dissapear from the open hours message
+
+description - This is for internal references and SHOULD NOT BE CHANGED 
+
+NOTE: If the branch is closed on any particular day, please make "from","to","display_from" and "display_to" values empty.
+
+E.g. If the branches are closed on Sunday
+
+```JSON
+
+ { "translation_key":"open_hours.week_day1", "from":"", "to": "" ,"description":"sunday", "display_from":"", 				"display_to": "", "show":"true" } 
+ 
+```
+
+In order to change the branch open hours message headings and day name please look for the section "open_hours" in the relevent translations file
+
+E.g. Branch open hours message translations in the English translations file
+
+```js
+    "open_hours" : {
+      "heading1" : "This service is currently not available.",
+      "heading2" : "Our opening hours are:" ,
+      "week_day1" : "Sunday",
+      "week_day2" : "Monday",
+      "week_day3" : "Tuesday",
+      "week_day4" : "Wednesday",
+      "week_day5" : "Thursday",
+      "week_day6" : "Friday",
+      "week_day7" : "Saturday",
+      "closed" : "Closed"
+   }
+```
+
+NOTE : Branch open hours validation functionality is implemented assuming all the branches are in same timezone
 
 ###### Configuring the Proxy for Production Environment with HTTPS
 
