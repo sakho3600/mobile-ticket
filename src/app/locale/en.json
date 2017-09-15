@@ -66,14 +66,14 @@
   },
   "open_hours" : {
       "heading1" : "This service is currently not available.",
-      "heading2" : "Our opening hours are:" ,
-      "week_day1" : "Sunday",
-      "week_day2" : "Monday",
-      "week_day3" : "Tuesday",
-      "week_day4" : "Wednesday",
-      "week_day5" : "Thursday",
-      "week_day6" : "Friday",
-      "week_day7" : "Saturday",
+      "heading2" : "Our opening hours are:" ,     
+      "week_day1" : "Monday",
+      "week_day2" : "Tuesday",
+      "week_day3" : "Wednesday",
+      "week_day4" : "Thursday",
+      "week_day5" : "Friday",
+      "week_day6" : "Saturday",
+      "week_day7" : "Sunday",
       "closed" : "Closed"
    }
 }
