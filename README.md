@@ -211,13 +211,13 @@ project directory
     ,
     "branch_open_hours":{
         "value" : [     
-           { "translation_key":"open_hours.week_day2", "from":"8:00", "to": "18:00" ,"description":"monday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
-           { "translation_key":"open_hours.week_day3", "from":"8:00", "to": "18:00" ,"description":"tuesday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
-           { "translation_key":"open_hours.week_day4", "from":"10:00", "to": "18:00" ,"description":"wednesday", "display_from":"8:00", 			"display_to": "18:00", "show":"true" } ,
-           { "translation_key":"open_hours.week_day5", "from":"8:00", "to": "18:00" ,"description":"thursday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
-           { "translation_key":"open_hours.week_day6", "from":"8:00", "to": "18:00" ,"description":"friday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
-           { "translation_key":"open_hours.week_day7", "from":"8:00", "to": "18:00" ,"description":"saturday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } ,
-           { "translation_key":"open_hours.week_day1", "from":"8:00", "to": "18:00" ,"description":"sunday", "display_from":"8:00", 				"display_to": "18:00", "show":"true" } 
+           { "translation_key":"open_hours.week_day2", "from":"8:00", "to": "18:00" ,"description":"monday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day3", "from":"8:00", "to": "18:00" ,"description":"tuesday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day4", "from":"10:00", "to": "18:00" ,"description":"wednesday", "display_from":"8:00", "display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day5", "from":"8:00", "to": "18:00" ,"description":"thursday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day6", "from":"8:00", "to": "18:00" ,"description":"friday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day7", "from":"8:00", "to": "18:00" ,"description":"saturday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day1", "from":"8:00", "to": "18:00" ,"description":"sunday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } 
         ],
         "description": "Open hours of all branches in general"
     }
