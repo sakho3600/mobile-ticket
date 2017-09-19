@@ -8,6 +8,8 @@
    margin: 0 auto;
    text-align: center;
    font-size: 25px;
+   margin-top: 15%;
+   margin-bottom: 5%;
 }
 
  .heading2{
@@ -25,24 +27,4 @@
 
  .row{
    display: table-row;
- }
-
- .cell_day{
-   display: table-cell;
-   min-width:220px;
- }
-
- .seperator{
-     display:table-cell;
-     width:16px
- }
-
- .cell_hours{
-   display: table-cell;
-   text-align: right;
-   min-width:220px;
- }
-
- .cell_hours-rtl cell_hours{
-   text-align: left !important;
  }

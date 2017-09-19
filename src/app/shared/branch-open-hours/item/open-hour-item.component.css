@@ -20,3 +20,20 @@
    text-align: left !important;
    color:#ffffff;
  }
+
+ /* Media Queries */
+/* Small phones */
+@media (max-width: 450px), (max-height: 450px){
+ .cell_hours{
+   display: table-cell;
+   text-align: right;
+   min-width:100px;
+   color:#ffffff;
+ }
+
+  .cell_day{
+   display: table-cell;
+   min-width:100px;
+   color:#ffffff;
+ }
+}

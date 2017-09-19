@@ -55,6 +55,17 @@ export class AuthGuard implements CanActivate {
         );
     }
 
+    checkOpenHours(resolve){
+         if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
+                                    this.router.navigate(['open_hours']);
+                                    resolve(false);
+                                    return true;
+        }else{
+            return false;
+        }
+    }
+    
+
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         return new Promise((resolve, reject) => {
             let visitInfo = MobileTicketAPI.getCurrentVisit();
@@ -76,16 +87,15 @@ export class AuthGuard implements CanActivate {
                 resolve(true);
             }
             else if (url.startsWith('/branches/') || url.endsWith('/branches') || url.endsWith('/branches;redirect=true')) {
-                 if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
-                        this.router.navigate(['open_hours']);
-                        resolve(false);
-                        return;
-                 }
+                
                 /**
                  * for qr-code format: http://XXXX/branches/{branchId}
                  * Redirect user to services page for specific branchId
                  */
                 if (this.isNoSuchVisitDirectToBranch) {
+                    if(this.checkOpenHours(resolve)){
+                        return;
+                    }
                     this.isNoSuchVisitDirectToBranch = false;
                      MobileTicketAPI.setBranchSelection(this.directedBranch);
                                 this.router.navigate(['services']);
@@ -108,6 +118,9 @@ export class AuthGuard implements CanActivate {
 
                             }
                             else {
+                                if(this.checkOpenHours(resolve)){
+                                    return;
+                                }
                                 MobileTicketAPI.setBranchSelection(branchEntity);
                                 this.router.navigate(['services']);
                                 resolve(false);
@@ -115,6 +128,9 @@ export class AuthGuard implements CanActivate {
 
                         }
                         else {
+                            if(this.checkOpenHours(resolve)){
+                                return;
+                            }
                             let e = 'error';
                             this.isNoSuchBranch = true;
                             this.router.navigate(['no_branch']);
@@ -146,11 +162,17 @@ export class AuthGuard implements CanActivate {
                                 });
                             }
                             else {
+                                if(this.checkOpenHours(resolve)){
+                                    return;
+                                }
                                 this.createTicket(branchEntity, sEntity, resolve);
                             }
 
                         }
                         else {
+                            if(this.checkOpenHours(resolve)){
+                                return;
+                            }
                             let e = 'error';
                             this.isNoSuchBranch = true;
                             this.router.navigate(['no_branch']);
@@ -185,11 +207,21 @@ export class AuthGuard implements CanActivate {
                 }
                 else if ((this.prevUrl.startsWith('/branches') ||
                     this.prevUrl === '/')) {
-                    resolve(true);
+                    if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
+                        this.router.navigate(['open_hours']);
+                        resolve(false);
+                    }else{
+                        resolve(true);
+                    }
                 }
                 else if (this.prevUrl.startsWith('/ticket') &&
                     (!visitInfo || visitInfo === null)) {
-                    resolve(true);
+                    if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
+                        this.router.navigate(['open_hours']);
+                        resolve(false);
+                    }else{
+                        resolve(true);
+                    }
                 }
             }
 
