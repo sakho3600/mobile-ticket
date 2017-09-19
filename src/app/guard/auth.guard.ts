@@ -194,13 +194,8 @@ export class AuthGuard implements CanActivate {
             }
 
             else if ((url.startsWith('/ticket') && ((branchId && visitId && checksum) ||
-                ((visitInfo !== null && visitInfo) && visitInfo.branchId && visitInfo.visitId && visitInfo.checksum)))) {
-                    if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
-                        this.router.navigate(['open_hours']);
-                         resolve(false);
-                 }else{
+                ((visitInfo !== null && visitInfo) && visitInfo.branchId && visitInfo.visitId && visitInfo.checksum)))) {               
                     resolve(true);
-                 }
             }
             else if (visitInfo) {
                 MobileTicketAPI.getVisitStatus(

@@ -79,9 +79,6 @@ export class TicketInfoContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-      if(!(new BranchOpenHoursValidator(this.config)).openHoursValid()) {
-            this.router.navigate(['open_hours']);
-        }
         
     this.scrollPageToTop();
     this.loadNotificationSound();
