@@ -110,13 +110,13 @@ export class Util {
         return /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})$/i.test(url);
     }
 
-    public sortArrayCaseInsensitive(array, property, sortOrder) {
+    public sortArrayCaseInsensitive(array, property, sortOrder, multiplier=0) {
         // Default Sort is Asc
         array.sort(function (a, b) {
             var ax = [], bx = [];
 
-            var a = a[property].toString();
-            var b = b[property].toString();
+            var a = multiplier ? (parseFloat(a[property]) * multiplier).toString() : a[property].toString();
+            var b = multiplier ? (parseFloat(b[property]) * multiplier).toString() : b[property].toString();
 
             a.replace(/(\d+)|(\D+)/g, function (_, $1, $2) { ax.push([$1 || Infinity, $2 || ""]) });
             b.replace(/(\d+)|(\D+)/g, function (_, $1, $2) { bx.push([$1 || Infinity, $2 || ""]) });

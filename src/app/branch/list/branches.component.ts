@@ -57,7 +57,7 @@ export class BranchesComponent implements AfterViewInit {
   }
 
   ngAfterViewChecked(){
-      
+
   }
 
   public branchOpenCheck(){
@@ -113,7 +113,7 @@ export class BranchesComponent implements AfterViewInit {
     if(!this.branches[0].distance) {
       new Util().sortArrayCaseInsensitive(branchList, "name", "asc");
     }else{
-      new Util().sortArrayCaseInsensitive(branchList, "rawDistance", "asc");
+      new Util().sortArrayCaseInsensitive(branchList, "rawDistance", "asc", 1000);
     }
     this.showLoader = false;
     this.startLoading.emit(false);
