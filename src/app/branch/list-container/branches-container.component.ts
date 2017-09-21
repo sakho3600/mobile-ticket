@@ -20,7 +20,7 @@ export class BranchesContainerComponent implements OnInit {
   }
 
   get branchIsOpen(): boolean { 
-    return this._showNetWorkError; 
+    return this._isBranchOpen; 
   }
 
   ngOnInit() {
