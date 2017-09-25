@@ -8,7 +8,7 @@ This is a web application that has been developed using Angular2 and the develop
 * Angular/cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
 * API Gateway version 1.3.2.0 or higher required. Download from Qmatic portal.
 * Supported Orchestra Versions
-  * Orchestra 6.1 build 3.2.0.259 or later
+  * Orchestra 6.1 build 3.1.0.646 or later
   * Orchestra 6.2 build 3.2.0.289 or later
 
 ## Table of contents
@@ -213,7 +213,7 @@ project directory
         "value" : [     
            { "translation_key":"open_hours.week_day2", "from":"8:00", "to": "18:00" ,"description":"monday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day3", "from":"8:00", "to": "18:00" ,"description":"tuesday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
-           { "translation_key":"open_hours.week_day4", "from":"10:00", "to": "18:00" ,"description":"wednesday", "display_from":"8:00", "display_to": "18:00", "show":"true" } ,
+           { "translation_key":"open_hours.week_day4", "from":"8:00", "to": "18:00" ,"description":"wednesday", "display_from":"8:00", "display_to": "18:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day5", "from":"8:00", "to": "18:00" ,"description":"thursday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day6", "from":"8:00", "to": "18:00" ,"description":"friday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
            { "translation_key":"open_hours.week_day7", "from":"8:00", "to": "18:00" ,"description":"saturday", "display_from":"8:00", 	"display_to": "18:00", "show":"true" } ,
