@@ -3,7 +3,6 @@ Qmatic mobile ticket solution is intended to issue e-tickets to the customers wh
 This is a web application that has been developed using Angular2 and the development environment of the project uses Angular-cli tools 
 (https://github.com/angular/angular-cli).
 
-<a name="prerequisites">
 ## Prerequisites
 * Angular/cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
 * API Gateway version 1.3.2.0 or higher required. Download from Qmatic portal.
@@ -12,15 +11,14 @@ This is a web application that has been developed using Angular2 and the develop
   * Orchestra 6.2 build 3.2.0.289 or later
 
 ## Table of contents
-- [Installation] (#installation)
-- [Setting up auth-token] (#authtoken)
-- [Proxy to Backend] (#proxy)
-- [Running Unit Tests] (#unittest)
-- [Mobileticket.js library] (#mobileticketlib)
-- [Creating a Build] (#build)
-- [Branding & Customization] (#branding)
+- [Installation](#installation)
+- [Setting up auth-token](#setting-up-auth-token)
+- [Proxy to Backend](#proxy-to-backend)
+- [Running Unit Tests](#running-unit-tests)
+- [Mobileticket.js library](#mobileticketjs-library)
+- [Creating a Build](#creating-a-build)
+- [Branding & Customization](#branding-customization)
 
-<a name="installation"/>
 ## Installation
 BEFORE YOU INSTALL: please read the [prerequisites] ()
 
@@ -37,11 +35,11 @@ When the cloning is complete, install the required node modules by running the f
 npm install
 ```
 We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
-<a name="authtoken"/>
+
 ## Setting up auth-token
 
 It is required to change the auth token specified in the MobileTicket.js with the one you have generated as shown in the code snippet below. This is necessary only for the development, 
-but in the production environment the auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment] (#proxyproduction) to get more information 
+but in the production environment the auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment](#configuring-the-proxy-for-production-environment) to get more information 
 on setting up auth-token for the production environment.
 
 ```js
@@ -52,8 +50,8 @@ on setting up auth-token for the production environment.
     }
   });
 ```
-<a name="proxy"/>
-## Proxy to Back end
+
+## Proxy to Backend
 
 Mobile Ticket solution is intended to work with QMATIC API Gateway service, which provides anonymous access to Orchestra REST API. The Mobile Ticket solution
 is required to be hosted separately and all the REST API calls are proxied to avoid cross domain access violations. 
@@ -121,7 +119,7 @@ As an alternative, ng serve command also can be used with proxy configuration
 ```
 ng serve --proxy-config proxy.conf.json
 ```
-<a name="proxyproduction">
+
 ###### Configuring the Proxy for Production Environment
 
 Once the solution is built, the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
@@ -294,7 +292,7 @@ NOTE: Any valid certificate and a public key from a valid certificate authority 
       Otherwise, it will list all the branches instead of nearby branches.
       
 Also, we have already included a valid ssl certificate and should only be used for development purposes. Please do not use this in a production environment.
-<a name="unittest"/>
+
 ## Running Unit Tests
 
 ```
@@ -307,7 +305,7 @@ ng test
 For visual code IDE, open up a console window inside the IDE and run either npm start or ng test. This will run all 
 the unit tests and from there onwards the unit test will be auto-run on the console window whenever the changes are saved.
 In general, these commands can be run on any console window (bash, windows cli etc) 
-<a name="mobileticketlib">
+
 ## Mobileticket.js library
 
 Mobileticket.js library facilitates the communication functionality. This contains an API that covers all the Mobile Ticket related
@@ -614,8 +612,8 @@ MobileTicketAPI.getCurrentVisit()
 ```js
 MobileTicketAPI.getCurrentVisitEvent()
 ```
-<a name="build">      
-##Creating a Build
+     
+## Creating a Build
 BEFORE YOU BUILD: Run setup_grunt.sh to install required npm grunt modules for the build process.
 
 Run grunt help to list build commands.
@@ -645,8 +643,8 @@ For development build version
 ```
 grunt build_development
 ```
-<a name="branding">
-##Branding & Customization
+
+## Branding & Customization
 
 Customizations can be done on the fly, after building your application ([Creating a Build] ()).
 
