@@ -12,7 +12,7 @@ This is a web application that has been developed using Angular2 and the develop
 
 ## Table of contents
 - [Installation](#installation)
-- [Setting up auth-token](#setting-up-auth-token)
+- [Setting up api gateway](#setting-up-api-gateway)
 - [Proxy to Backend](#proxy-to-backend)
 - [Running Unit Tests](#running-unit-tests)
 - [Mobileticket.js library](#mobileticketjs-library)
@@ -36,9 +36,9 @@ npm install
 ```
 We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
 
-## Setting up auth-token
-
-It is required to change the auth token specified in the MobileTicket.js with the one you have generated as shown in the code snippet below. This is necessary only for the development, 
+## Setting up api gateway
+Mobile ticket application uses Qmatic API gateway service as a proxy to talk to Orchestra. You have to download and install Qmatic API gate way service from [here](#https://m01-qmaticworld.portal.qmatic.com/en/products/software/orchestra/api-gateway/software/#tabs)
+It is required to change the auth token specified in the [project-root]/src/libs/js/mobileticket-{version}.js with the one you have generated as shown in the code snippet below. This is necessary only for the development, 
 but in the production environment the auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment](#configuring-the-proxy-for-production-environment) to get more information 
 on setting up auth-token for the production environment.
 
