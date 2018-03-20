@@ -74,6 +74,10 @@ project directory
   "/MobileTicket/*": {
     "target": "http://192.168.1.35:9090",
     "secure": false
+  },
+  "/geo/*": {
+    "target": "http://192.168.1.35:9090",
+    "secure": false
   }
 }
 ```
@@ -87,6 +91,10 @@ with a valid certificate will be as below.
 ```js
 {
   "/MobileTicket/*": {
+    "target": "https://192.168.1.35:9090",
+    "secure": true
+  },
+  "/geo/*": {
     "target": "https://192.168.1.35:9090",
     "secure": true
   }
