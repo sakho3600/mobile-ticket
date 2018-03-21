@@ -231,7 +231,7 @@ project directory
 ```
 ###### Configuring the branch open hours
 
-Branch open hours configuration consists of entries representing seven days starting from Monday to Sunday. Given and item contains follwoing attributes
+Branch open hours configuration consists of entries representing seven days starting from Monday to Sunday. Given and item contains following attributes
 
 translation_key - In general this contains the corresponding translation key of the entry
 
@@ -243,7 +243,7 @@ display_from - The branch opening time which will be shown in the open hours mes
 
 display_to - The branch closing time which will be shown in the open hours message
 
-show - Setting this to false make the entry dissapear from the open hours message
+show - Setting this to false make the entry disappear from the open hours message
 
 description - This is for internal references and SHOULD NOT BE CHANGED 
 
@@ -257,7 +257,7 @@ E.g. If the branches are closed on Sunday
  
 ```
 
-In order to change the branch open hours message headings and day name please look for the section "open_hours" in the relevent translations file
+In order to change the branch open hours message headings and day name please look for the section "open_hours" in the relevant translations file
 
 E.g. Branch open hours message translations in the English translations file
 
