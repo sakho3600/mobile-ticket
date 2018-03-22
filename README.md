@@ -35,8 +35,8 @@ We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE sinc
 NOTE: Earlier globally installed angular cli tools were necessary to run the project but it is no longer necessary.
 
 ## Setting up api gateway
-Mobile ticket application uses Qmatic API gateway service as a proxy to talk to Orchestra. You have to download and install Qmatic API gate way service from [here](#https://m01-qmaticworld.portal.qmatic.com/en/products/software/orchestra/api-gateway/software/#tabs)
-Create a mobile user and generate a token by referring [API gateway manual](#https://m01-qmaticworld.portal.qmatic.com/en/products/software/orchestra/api-gateway/documents-media/#tabs). Copy the generated token to 'api_tokens' section in [service root folder]/conf/application.yml file.
+Mobile ticket application uses Qmatic API gateway service as a proxy to talk to Orchestra. You have to download and install Qmatic API gate way service from [here](https://m01-qmaticworld.portal.qmatic.com/en/products/software/orchestra/api-gateway/software/#tabs)
+Create a mobile user and generate a token by referring [API gateway manual](https://m01-qmaticworld.portal.qmatic.com/Documents/Qmatic%20World/Products/Software/Mobile%20Ticket/Manuals/224_03_F_MobileTicket.pdf). Copy the generated token to 'api_tokens' section in [service root folder]/conf/application.yml file.
 
 It is required to change the API accesss token specified in the [project-root]/src/libs/js/mobileticket-{version}.js with the one you have generated as shown in the code snippet below. This is necessary only for the development, 
 but in the production environment the auth token is read from the config file. So please refer to [Configuring the Proxy for Production Environment](#configuring-the-proxy-for-production-environment) to get more information 
@@ -57,7 +57,7 @@ Mobile Ticket solution is intended to work with QMATIC API Gateway service, whic
 is required to be hosted separately and all the REST API calls are proxied to avoid cross domain access violations. 
 The current implementation is intended to be hosted on node.js and proxying is provided via express-http-proxy (https://www.npmjs.com/package/express-http-proxy).
 
-###### Configuring the Proxy for Development Environment
+#### Configuring the Proxy for Development Environment
 
 Edit proxy-config.json and set target to the IP and port of the QMATIC API Gateway service
 
@@ -120,7 +120,7 @@ As an alternative, ng serve command also can be used with proxy configuration
 ng serve --proxy-config proxy.conf.json
 ```
 
-###### Configuring the Proxy for Production Environment
+#### Configuring the Proxy for Production Environment
 
 Once the solution is built, the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
 to "value" in "apigw_ip_port". Then set a valid auth token to "value" in "auth_token".
@@ -172,7 +172,7 @@ project directory
     }
 }
 ```
-###### Changing the default configurations of the application in  Development/Production Environment
+#### Changing the default configurations of the application in  Development/Production Environment
 Application configuration file called 'config.json' contains the application specific parameters.
 
 File location
@@ -229,7 +229,7 @@ project directory
     }
 }
 ```
-###### Configuring the branch open hours
+#### Configuring the branch open hours
 
 Branch open hours configuration consists of entries representing seven days starting from Monday to Sunday. Given and item contains following attributes
 
@@ -262,7 +262,7 @@ In order to change the branch open hours message headings and day name please lo
 E.g. Branch open hours message translations in the English translations file
 
 ```js
-    "open_hours" : {
+    "open_hours" : {3
       "heading1" : "This service is currently not available.",
       "heading2" : "Our opening hours are:" ,
       "week_day1" : "Sunday",
@@ -278,7 +278,7 @@ E.g. Branch open hours message translations in the English translations file
 
 NOTE : Branch open hours validation functionality is implemented assuming all the branches are in same timezone
 
-###### Configuring the Proxy for Production Environment with HTTPS
+#### Configuring the Proxy for Production Environment with HTTPS
 
 First, it is required to install openssl and once the solution is built the output folder structure will contain a folder by the name 'sslcert' which contains 
 a bash script by the name create_cert.sh. After the installation of openssl, make sure you create an environment variable by the name OPENSSL_CONF and put the
@@ -311,7 +311,7 @@ In general, these commands can be run on any console window (bash, windows cli e
 Mobileticket.js library facilitates the communication functionality. This contains an API that covers all the Mobile Ticket related
 REST API calls to QMATIC API Gateway service. This library file is fully independent and can be hosted separately.
 
-###### MobileTicketAPI
+#### MobileTicketAPI
 
 Initializes the library
 ```js
