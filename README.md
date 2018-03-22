@@ -1,10 +1,10 @@
 # QMATIC Mobile Ticket
 Qmatic mobile ticket solution is intended to issue e-tickets to the customers who are willing to go through the queue management solution by QMATIC. 
-This is a web application that has been developed using Angular2 and the development environment of the project uses Angular-cli tools 
+This is a web application that has been developed using Angular4 and the development environment of the project uses Angular-cli tools 
 (https://github.com/angular/angular-cli).
 
 ## Prerequisites
-* Angular/cli tools requires Node.js 4, or higher, together with NPM 3, or higher.
+* Angular/cli tools requires Node.js 8, or higher, together with NPM 3, or higher.
 * API Gateway version 1.3.2.0 or higher required. Download from Qmatic portal.
 * Supported Orchestra Versions
   * Orchestra 6.1 build 3.1.0.646 or later
@@ -262,7 +262,7 @@ In order to change the branch open hours message headings and day name please lo
 E.g. Branch open hours message translations in the English translations file
 
 ```js
-    "open_hours" : {3
+    "open_hours" : {
       "heading1" : "This service is currently not available.",
       "heading2" : "Our opening hours are:" ,
       "week_day1" : "Sunday",
@@ -614,8 +614,6 @@ MobileTicketAPI.getCurrentVisitEvent()
 ```
      
 ## Creating a Build
-BEFORE YOU BUILD: Run setup_grunt.sh to install required npm grunt modules for the build process.
-
 Run grunt help to list build commands.
 ```
 grunt help
