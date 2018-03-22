@@ -35,7 +35,7 @@ We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE sinc
 NOTE: Earlier globally installed angular cli tools were necessary to run the project but it is no longer necessary.
 
 ## Setting up api gateway
-Mobile ticket application uses Qmatic API gateway service as a proxy to talk to Orchestra. You have to download and install Qmatic API gate way service from [here](https://m01-qmaticworld.portal.qmatic.com/en/products/software/orchestra/api-gateway/software/#tabs)
+Mobile ticket application uses Qmatic API gateway service as a proxy to talk to Orchestra. You have to download and install Qmatic API gate way service from [here].(https://m01-qmaticworld.portal.qmatic.com/en/products/software/orchestra/api-gateway/software/#tabs)
 Create a mobile user and generate a token by referring [API gateway manual](https://m01-qmaticworld.portal.qmatic.com/Documents/Qmatic%20World/Products/Software/Mobile%20Ticket/Manuals/224_03_F_MobileTicket.pdf). Copy the generated token to 'api_tokens' section in [service root folder]/conf/application.yml file.
 
 It is required to change the API accesss token specified in the [project-root]/src/libs/js/mobileticket-{version}.js with the one you have generated as shown in the code snippet below. This is necessary only for the development, 
