@@ -17,7 +17,7 @@ This is a web application that has been developed using Angular4 and the develop
 - [Running Unit Tests](#running-unit-tests)
 - [Mobileticket.js library](#mobileticketjs-library)
 - [Creating a Build](#creating-a-build)
-- [Branding & Customization](#branding-customization)
+- [Branding & Customization](#branding--customization)
 
 ## Installation
 BEFORE YOU INSTALL: please read the [prerequisites](#prerequisites)
