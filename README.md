@@ -115,11 +115,6 @@ NOTE : npm start will run the command configured for "start" in package.json
   }
 ```
 
-As an alternative, ng serve command also can be used with proxy configuration
-```
-ng serve --proxy-config proxy.conf.json
-```
-
 #### Configuring the Proxy for Production Environment
 
 Once the solution is built, the output folder structure contains the configuration file by the name proxy-config.json. Set the IP and port of QMATIC API Gateway service
