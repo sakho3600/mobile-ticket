@@ -614,6 +614,12 @@ MobileTicketAPI.getCurrentVisitEvent()
 ```
      
 ## Creating a Build
+Install grunt command line interpreter by running following command.
+```
+npm install -g grunt
+
+```
+
 Run grunt help to list build commands.
 ```
 grunt help
